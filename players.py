@@ -36,9 +36,9 @@ class PlayerSearchInfo():
 	#Parse out json info from the API response
 	def ParseJson(self, jsonData, index):
 		self.jsonString = str(jsonData)
-		self.totalSize = jsonData['search_player_all']['queryResults']['totalSize']
+		self.totalSize = int(jsonData['search_player_all']['queryResults']['totalSize'])
 		#If there is only one player in the data
-		if int(self.totalSize) == 1:
+		if self.totalSize == 1:
 			self.position = jsonData['search_player_all']['queryResults']['row']['position']
 			self.birth_country = jsonData['search_player_all']['queryResults']['row']['birth_country']
 			self.weight = jsonData['search_player_all']['queryResults']['row']['weight']
@@ -69,7 +69,7 @@ class PlayerSearchInfo():
 			self.service_years = jsonData['search_player_all']['queryResults']['row']['service_years']
 			self.active_sw = jsonData['search_player_all']['queryResults']['row']['active_sw']
 		#If there are multiple players in the data then reference the correct index
-		elif int(self.totalSize) > 1:
+		elif self.totalSize > 1:
 			self.position = jsonData['search_player_all']['queryResults']['row'][int(index)]['position']
 			self.birth_country = jsonData['search_player_all']['queryResults']['row'][int(index)]['birth_country']
 			self.weight = jsonData['search_player_all']['queryResults']['row'][int(index)]['weight']
@@ -188,9 +188,9 @@ class PlayerInfo():
 	#Parse out json info from the API response
 	def ParseJson(self, jsonData):
 		self.jsonString = str(jsonData)
-		self.totalSize = jsonData['player_info']['queryResults']['totalSize']
+		self.totalSize = int(jsonData['player_info']['queryResults']['totalSize'])
 		#If there is only one player in the data
-		if int(self.totalSize) == 1:
+		if self.totalSize == 1:
 			self.birth_country = jsonData['player_info']['queryResults']['row']['birth_country']
 			self.name_prefix = jsonData['player_info']['queryResults']['row']['name_prefix']
 			self.name_display_first_last = jsonData['player_info']['queryResults']['row']['name_display_first_last']
@@ -354,9 +354,9 @@ class SeasonBattingStats():
 	#Parse out json info from the API response
 	def ParseJson(self, jsonData):
 		self.jsonString = str(jsonData)
-		self.totalSize = jsonData['sport_hitting_tm']['queryResults']['totalSize']
+		self.totalSize = int(jsonData['sport_hitting_tm']['queryResults']['totalSize'])
 		#If there is only one player in the data
-		if int(self.totalSize) == 1:
+		if self.totalSize == 1:
 			self.gidp = jsonData['sport_hitting_tm']['queryResults']['row']['gidp']
 			self.sac = jsonData['sport_hitting_tm']['queryResults']['row']['sac']
 			self.np = jsonData['sport_hitting_tm']['queryResults']['row']['np']
@@ -547,9 +547,9 @@ class SeasonPitchingStats():
 	#Parse out json info from the API response
 	def ParseJson(self, jsonData):
 		self.jsonString = str(jsonData)
-		self.totalSize = jsonData['sport_pitching_tm']['queryResults']['totalSize']
+		self.totalSize = int(jsonData['sport_pitching_tm']['queryResults']['totalSize'])
 		#If there is only one player in the data
-		if int(self.totalSize) == 1:
+		if self.totalSize == 1:
 			self.gidp = jsonData['sport_pitching_tm']['queryResults']['row']['gidp']
 			self.h9 = jsonData['sport_pitching_tm']['queryResults']['row']['h9']
 			self.np = jsonData['sport_pitching_tm']['queryResults']['row']['np']
