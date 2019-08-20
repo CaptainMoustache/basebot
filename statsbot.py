@@ -122,23 +122,43 @@ class MyClient(discord.Client):
 						playerSearchHeaders = {'Content-Type': 'application/json'}
 						#Send the get request
 						playerSearch = requests.get(activePlayerSearchURL, playerSearchHeaders)
-						
 						#parse the json response
 						playerSearchJson = json.loads(playerSearch.text)
+						
 						#get the number of players found
 						playersFoundCount = playerSearchJson['search_player_all']['queryResults']['totalSize']
 						
+						#Create a list of PlayerSearchInfo objects
+						playerSearchResultsList = []
+						
+						#Populate the list of PlayerSearchInfo objects with all players returned
+						for searchIndex in range(int(playersFoundCount)):
+							foundPlayer = players.PlayerSearchInfo()
+							foundPlayer.ParseJson(playerSearchJson, searchIndex)
+							playerSearchResults.append(foundPlayer)
+						
 						#We have multiple matches, list them and prompt for number
-						if int(playersFoundCount) > 1:
+						if len(playerSearchResultsList) > 1:
 							#Make sure the list isn't too big
-							if int(playersFoundCount) > 50:
+							if len(playerSearchResultsList) > 50:
 								await message.channel.send('I found over 50 matches for ' + displayNameToSearch + '. \n Try being a little more specific')
 								return
-								
-							#Create a list of PlayerSearchInfo objects
-							playerSearchResultsList = []
 							
 							#TODO make this dynamically list the team and position based on year
+							playerGenInfoList = []
+							
+							for player in playerSearchResultsList:
+								playerGenInfo = players.PlayerInfo()
+								#Send GET to download player info
+								# http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='493316'
+								playerInfoURL = 'http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code=\'mlb\'&player_id=\'' + player.player_id + '\''
+								playerInfoHeader = {'Content-Type': 'application/json'}
+								playerInfoRequest = requests.get(playerInfoURL, playerInfoHeader)
+								playerInfoJson = json.loads(playerInfoRequest.text)
+								playerGenInfo.ParseJson(playerInfoJson)
+								playerGenInfoList.append(playerGenInfo)
+							
+							#TODO Update to use new lists
 							
 							#populate the list with all returned players
 							for playerIndex in range(0, int(playersFoundCount)):
@@ -209,12 +229,12 @@ class MyClient(discord.Client):
 							playerGenInfo.ParseJson(playerSearchJson, playerSelected - 1)
 							
 						#Only one player was returned from the search
-						elif int(playersFoundCount) == 1:
+						elif len(playerSearchResults) == 1:
 							#Initialize a new PlayerSearchInfo object
 							playerGenInfo = players.PlayerSearchInfo()
 							#Parse the json info and populate all the properties
 							playerGenInfo.ParseJson(playerSearchJson, 0)
-						elif int(playersFoundCount) == 0:
+						elif len(playerSearchResults) == 0:
 							await message.channel.send('I couldn\'t find any players with the name %s ' % displayNameToSearch)
 							return
 						
