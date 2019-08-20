@@ -146,7 +146,7 @@ class MyClient(discord.Client):
 								playerGenInfo.ParseJson(playerSearchJson, playerIndex)
 								playerSearchResultsList.append(playerGenInfo)
 								
-							discordFormattedString = '>>> I found ' + playersFoundCount + ' players matching **' + displayNameToSearch + '** in ' + statYear + '\n Which one do you want? \n\n'
+							discordFormattedString = '>>> I found ' + playersFoundCount + ' players matching **' + displayNameToSearch + '** in ' + str(statYear) + '\n Which one do you want? \n\n'
 							
 							
 							
