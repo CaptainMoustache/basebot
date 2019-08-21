@@ -135,7 +135,7 @@ class MyClient(discord.Client):
 						for searchIndex in range(int(playersFoundCount)):
 							foundPlayer = players.PlayerSearchInfo()
 							foundPlayer.ParseJson(playerSearchJson, searchIndex)
-							playerSearchResults.append(foundPlayer)
+							playerSearchResultsList.append(foundPlayer)
 						
 						#We have multiple matches, list them and prompt for number
 						if len(playerSearchResultsList) > 1:
@@ -148,34 +148,29 @@ class MyClient(discord.Client):
 							playerGenInfoList = []
 							
 							for player in playerSearchResultsList:
-								playerGenInfo = players.PlayerInfo()
+								playerGenInfoLoop = players.PlayerInfo()
 								#Send GET to download player info
 								# http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='493316'
 								playerInfoURL = 'http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code=\'mlb\'&player_id=\'' + player.player_id + '\''
 								playerInfoHeader = {'Content-Type': 'application/json'}
 								playerInfoRequest = requests.get(playerInfoURL, playerInfoHeader)
 								playerInfoJson = json.loads(playerInfoRequest.text)
-								playerGenInfo.ParseJson(playerInfoJson)
-								playerGenInfoList.append(playerGenInfo)
+								playerGenInfoLoop.ParseJson(playerInfoJson)
+								#Append the playerInfo to the list
+								playerGenInfoList.append(playerGenInfoLoop)
 							
-							#TODO Update to use new lists
-							
-							#populate the list with all returned players
-							for playerIndex in range(0, int(playersFoundCount)):
-								playerGenInfo = players.PlayerSearchInfo()
-								playerGenInfo.ParseJson(playerSearchJson, playerIndex)
-								playerSearchResultsList.append(playerGenInfo)
-								
-							discordFormattedString = '>>> I found ' + playersFoundCount + ' players matching **' + displayNameToSearch + '** in ' + str(statYear) + '\n Which one do you want? \n\n'
+
+							#Build the display string
+							discordFormattedString = '>>> I found ' + str(len(playerSearchResultsList)) + ' players matching **' + displayNameToSearch + '** in ' + str(statYear) + '\n Which one do you want? \n\n'
 							
 							
-							
+							#Build the string to display the found players
 							for index in range(len(playerSearchResultsList)):
 								#Add a newline for the next list item
 								if index < len(playerSearchResultsList):
-									appendString = ' ' + str(index + 1) + ': ' + playerSearchResultsList[index].name_display_first_last + ' - ' + playerSearchResultsList[index].team_full + ' (' + playerSearchResultsList[index].position + ')' + '\n'
+									appendString = ' ' + str(index + 1) + ': ' + playerGenInfoList[index].name_display_first_last + ' - ' + playerGenInfoList[index].team_name + ' (' + playerGenInfoList[index].primary_position_txt + ')' + '\n'
 								else:
-									appendString = ' ' + str(index + 1) + ': ' + playerSearchResultsList[index].name_display_first_last + ' - ' + playerSearchResultsList[index].team_full + ' (' + playerSearchResultsList[index].position + ')'
+									appendString = ' ' + str(index + 1) + ': ' + playerGenInfoList[index].name_display_first_last + ' - ' + playerGenInfoList[index].team_name + ' (' + playerGenInfoList[index].primary_position_txt + ')'
 								discordFormattedString = discordFormattedString + appendString
 						
 							#Send the message to the channel
@@ -183,16 +178,20 @@ class MyClient(discord.Client):
 							messageTime = datetime.datetime.utcnow()
 							time.sleep(2)
 							
-							selectedNameToSearch = ''
+							#Initialize a new PlayerInfo object
+							playerGenInfo = players.PlayerInfo()
 							
 							#Wait 10 seconds to get an answer
 							for wait in range(1, 10):
+								if playerGenInfo.player_id != '':
+									break;
+							
 								time.sleep(1)
 								#Get the last ten messages
 								messageList = await message.channel.history(limit=2).flatten()
 								
 								#if the name hasn't been selected yet
-								if selectedNameToSearch == '':
+								if playerGenInfo.player_id == '':
 									#loop through the past 2 messages
 									for history in range (0, len(messageList)):
 										#The user who requested the list responded
@@ -204,10 +203,9 @@ class MyClient(discord.Client):
 													#The number is valid
 													if int(messageList[history].content) <= len(playerSearchResultsList) and int(messageList[history].content) != 0:
 														playerSelected = int(messageList[history].content)
-														#Split the list and select the name to search
-														#newNameList = foundAllPlayers[playerSelected - 1].split()
-														#print('DEBUG: nameToSearch = %s' % playerSearchResultsList[playerSelected - 1].name_display_first_last)
-														selectedNameToSearch = playerSearchResultsList[playerSelected - 1].name_display_first_last
+														playerGenInfo = playerGenInfoList[playerSelected - 1]
+														
+														#selectedNameToSearch = playerGenInfoList[playerSelected - 1].name_display_first_last
 														break
 													else:
 														await message.channel.send('%s is not a valid number, start over' % str(messageList[history].content))
@@ -215,33 +213,31 @@ class MyClient(discord.Client):
 												else:
 													await message.channel.send('%s is not a number, start over' % messageList[history].content)
 													return
-								else:
-									nameToSearch = selectedNameToSearch
-									break
 							#if the loop completes without a selection inform the user
-							if 	selectedNameToSearch == '':
+							if 	playerGenInfo.player_id == '':
 									await message.channel.send('I\'m getting bored waiting for you, start over when you\'re ready.')
 									return
 							
-							#Initialize a new PlayerSearchInfo object
-							playerGenInfo = players.PlayerSearchInfo()
-							#Parse the json info and populate all the properties
-							playerGenInfo.ParseJson(playerSearchJson, playerSelected - 1)
-							
 						#Only one player was returned from the search
-						elif len(playerSearchResults) == 1:
+						elif len(playerSearchResultsList) == 1:
 							#Initialize a new PlayerSearchInfo object
-							playerGenInfo = players.PlayerSearchInfo()
+							playerGenInfo = players.PlayerInfo()
+							
+							playerInfoURL = 'http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code=\'mlb\'&player_id=\'' + playerSearchResultsList[0].player_id + '\''
+							playerInfoHeader = {'Content-Type': 'application/json'}
+							playerInfoRequest = requests.get(playerInfoURL, playerInfoHeader)
+							playerInfoJson = json.loads(playerInfoRequest.text)
+							
 							#Parse the json info and populate all the properties
-							playerGenInfo.ParseJson(playerSearchJson, 0)
-						elif len(playerSearchResults) == 0:
+							playerGenInfo.ParseJson(playerInfoJson)
+						elif len(playerSearchResultsList) == 0:
 							await message.channel.send('I couldn\'t find any players with the name %s ' % displayNameToSearch)
 							return
 						
 						#print('DEBUG: PlayerID = %s' % playerGenInfo.player_id)
 						
 						#player is NOT a pitcher
-						if playerGenInfo.position != 'P':
+						if playerGenInfo.primary_position_txt != 'P':
 							#Get their stats
 							#Right now this is hardcoded for the regular season
 							playerStatsURL = 'http://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id=\'mlb\'&game_type=\'R\'&season=\'' + str(statYear) + '\'&player_id=\'' + playerGenInfo.player_id + '\''
@@ -295,7 +291,7 @@ class MyClient(discord.Client):
 					else:
 						await message.channel.send('Sorry all I support right now is player stats.')
 				#Bot was called without enough arguments
-				elif messageArray[0].upper() == 'STATSBOT' and len(messageArray) <= 1:
+				elif messageArray[0].upper() == 'STATSBOT' and len(messageArray) < 1:
 					await message.channel.send('I like it when you say my name, but I need more instructions.')
 				else:
 					return
