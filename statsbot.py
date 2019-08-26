@@ -73,7 +73,6 @@ class MyClient(discord.Client):
 				await message.channel.send('I\'m getting bored waiting for you, start over when you\'re ready.')
 				return
 			else:
-				print (teamSelected)
 				return teamSelected
 	
 	async def on_message(self, message):
@@ -376,7 +375,7 @@ class MyClient(discord.Client):
 							#highlightsList = re.split('\.mp4$', highlights)
 							highlightsList = highlights.split('\n\n')
 							
-							discordFormattedString = '>>> Here are the latest five highlights from the **' +  teamSelected['name'] + '** \n'
+							discordFormattedString = '>>> Here are the latest highlights from the **' +  teamSelected['name'] + '** \n'
 							
 							for index in range(0, 5):
 								if index != 4:
@@ -412,7 +411,7 @@ class MyClient(discord.Client):
 						await message.channel.send('>>> Here is the current roster for the **' + teamSelected['name'] + '**:\n ' + statsapi.roster(int(teamSelected['id'])))
 					#Display the help message
 					elif messageArray[1].upper() == 'HELP':
-						await message.channel.send('>>> use \'statsbot player PLAYERNAME\' to lookup a players stats.')
+						await message.channel.send('>>> use \'statsbot player PLAYERNAME\' to lookup a players stats. \n use \'statsbot highlights TEAMNAME\' to lookup the latest highlights. \n')
 					else:
 						await message.channel.send('Sorry all I support right now is player stats.')
 				#Bot was called without enough arguments
