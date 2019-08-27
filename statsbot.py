@@ -15,7 +15,7 @@ class MyClient(discord.Client):
 	
 	async def get_team(self, searchName, message):
 		teamsReturned = []
-		teamsReturned = statsapi.lookup_team(messageArray[2])
+		teamsReturned = statsapi.lookup_team(searchName)
 		
 		if len(teamsReturned) > 1:
 			teamSelected = await self.prompt_team(message, searchName, teamsReturned)
