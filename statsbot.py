@@ -120,7 +120,7 @@ class MyClient(discord.Client):
 							#if trying to use a channel member
 							elif messageArray[2].upper() in mentionList:
 								#Print random insult
-								index = random.randint(1, 20)
+								#index = random.randint(1, 20)
 								
 								insultList = []
 								insultList.append('%s is so bad they couldn\'t hit the ground if they fell off a ladder')
@@ -129,7 +129,7 @@ class MyClient(discord.Client):
 								insultList.append('%s loves playing catcher...')
 								insultList.append('A toaster throws more heat than %s')
 								insultList.append('Yoko Ono has better pitch control than %s')
-								insultList.append('%s couldn\'t even save a word file'
+								insultList.append('%s couldn\'t even save a word file')
 								insultList.append('%s couldn\'t buy a cup of coffee with their batting average')
 								insultList.append('I just named my new dog %s, because he gets beaten every day')
 								insultList.append('%s couldn\'t beat the Helen Keller School Team')
@@ -139,7 +139,7 @@ class MyClient(discord.Client):
 								insultList.append('%s looks like they were drawn with my left hand')
 								insultList.append('I would call %s\'s aim cancer, but cancer kills people')
 
-								await message.channel.send(insultList[random.randint(0, len(insultList))] % messageArray[2])
+								await message.channel.send(insultList[random.randint(0, len(insultList) - 1)] % messageArray[2])
 								return
 							#We might have an actual name to search
 							else:
