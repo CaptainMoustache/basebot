@@ -120,28 +120,26 @@ class MyClient(discord.Client):
 							#if trying to use a channel member
 							elif messageArray[2].upper() in mentionList:
 								#Print random insult
-								index = random.randint(1, 10)
+								index = random.randint(1, 20)
 								
-								if index == 1:
-									await message.channel.send('%s is so bad they couldn\'t hit the ground if they fell off a ladder' % messageArray[2])
-								elif index == 2:
-									await message.channel.send('%s gets less hits than an Amish website' % messageArray[2])
-								elif index == 3:
-									await message.channel.send('%s hasn\'t reached second base since prom' % messageArray[2])
-								elif index == 4:
-									await message.channel.send('%s loves playing catcher...' % messageArray[2])
-								elif index == 5:
-									await message.channel.send('A toaster throws more heat than %s' % messageArray[2])
-								elif index == 6:
-									await message.channel.send('Yoko Ono has better pitch control than %s' % messageArray[2])
-								elif index == 7:
-									await message.channel.send('%s couldn\'t even save a word file' % messageArray[2])
-								elif index == 8:
-									await message.channel.send('%s couldn\'t buy a cup of coffee with their batting average' % messageArray[2])
-								elif index == 9:
-									await message.channel.send('I just named my new dog %s, because he gets beaten every day' % messageArray[2])
-								elif index == 10:
-									await message.channel.send('%s couldn\'t beat the Helen Keller School Team' % messageArray[2])
+								insultList = []
+								insultList.append('%s is so bad they couldn\'t hit the ground if they fell off a ladder')
+								insultList.append('%s gets less hits than an Amish website')
+								insultList.append('%s hasn\'t reached second base since prom')
+								insultList.append('%s loves playing catcher...')
+								insultList.append('A toaster throws more heat than %s')
+								insultList.append('Yoko Ono has better pitch control than %s')
+								insultList.append('%s couldn\'t even save a word file'
+								insultList.append('%s couldn\'t buy a cup of coffee with their batting average')
+								insultList.append('I just named my new dog %s, because he gets beaten every day')
+								insultList.append('%s couldn\'t beat the Helen Keller School Team')
+								insultList.append('%s is a Butterface Cock Box')
+								insultList.append('%s is a triple bagger, one for me, one for them, and one for anyone walking by')
+								insultList.append('%s is so ugly their mother breast fed them through a straw')
+								insultList.append('%s looks like they were drawn with my left hand')
+								insultList.append('I would call %s\'s aim cancer, but cancer kills people')
+
+								await message.channel.send(insultList[random.randint(0, len(insultList))] % messageArray[2])
 								return
 							#We might have an actual name to search
 							else:
