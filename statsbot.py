@@ -358,7 +358,7 @@ class MyClient(discord.Client):
 					elif messageArray[1].upper() == "ROSTER":
 						await message.channel.send(statsapi.roster(143))
 					elif messageArray[1].upper() == "SCORE":
-						teamSelected = self.get_team(messageArray[2], message)
+						teamSelected = await self.get_team(messageArray[2], message)
 					
 						most_recent_game_id = statsapi.last_game(int(teamSelected['id']))
 						
@@ -367,7 +367,7 @@ class MyClient(discord.Client):
 						await message.channel.send(discordFormattedString)
 						
 					elif messageArray[1].upper() == "HIGHLIGHTS":
-						teamSelected = self.get_team(messageArray[2], message)
+						teamSelected = await self.get_team(messageArray[2], message)
 						
 						#await message.channel.send('>>> Here is the current roster for ' + teamSelected['name'] + ':\n ' + statsapi.roster(int(teamSelected['id'])))
 						highlights = statsapi.game_highlights(statsapi.last_game(teamSelected['id']))
@@ -390,7 +390,7 @@ class MyClient(discord.Client):
 					
 						
 					elif messageArray[1].upper() == "ROSTER":
-						teamSelected = self.get_team(messageArray[2], message)
+						teamSelected = await self.get_team(messageArray[2], message)
 						
 						await message.channel.send('>>> Here is the current roster for the **' + teamSelected['name'] + '**:\n ' + statsapi.roster(int(teamSelected['id'])))
 					#Display the help message
