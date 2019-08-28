@@ -2,6 +2,7 @@ import discord
 import requests
 import json
 import datetime
+from datetime import timedelta
 import time
 import random
 import statsapi
@@ -12,22 +13,18 @@ import re
 class MyClient(discord.Client):
 	async def on_ready(self):
 		print('Logged on as', self.user)
+		
 	
 	async def get_team(self, searchName, message):
-		teamsReturned = []
 		teamsReturned = statsapi.lookup_team(searchName)
-		print('\n\nDEBUG: teamsReturned = %s' % teamsReturned)
-		print('\n\nDEBUG: len(teamsReturned) = %s' % len(teamsReturned))
 		if len(teamsReturned) > 1:
 			teamSelected = await self.prompt_team(message, searchName, teamsReturned)
 		elif len(teamsReturned) == 1:
-			teamSelected = teamsReturned
+			teamSelected = teamsReturned[0]
 		elif len(teamsReturned) == 0:
 			await message.channel.send('Hmmm I couldn\'t find and teams using \'' + searchName + '\'')
 			return
-		else:
-			print('\n\nDEBUG: teamSelected = %s' % teamSelected)
-			return teamSelected
+		return teamSelected
 	
 	#Identify which team is being requested by prompting the users with all returned results
 	async def prompt_team(self, message, searchTerm, teams):
@@ -357,7 +354,7 @@ class MyClient(discord.Client):
 							' Games: %s\n' \
 							' WHIP: %s' % (playerGenInfo.name_display_first_last, seasonPitchingInfo.team_abbrev, statYear, seasonPitchingInfo.era, seasonPitchingInfo.w, seasonPitchingInfo.l, seasonPitchingInfo.gs, seasonPitchingInfo.whip))
 
-					elif messageArray[1].upper() == "SCORE":
+					elif messageArray[1].upper() == 'SCORE':
 						teamSelected = await self.get_team(messageArray[2], message)
 					
 						most_recent_game_id = statsapi.last_game(int(teamSelected['id']))
@@ -366,29 +363,48 @@ class MyClient(discord.Client):
 						discordFormattedString = '>>> Here is the score of the latest game for the **' + teamSelected['name'] + '** \n' + statsapi.linescore(most_recent_game_id)
 						await message.channel.send(discordFormattedString)
 						
-					elif messageArray[1].upper() == "HIGHLIGHTS":
+					elif messageArray[1].upper() == 'HIGHLIGHTS':
 						teamSelected = await self.get_team(messageArray[2], message)
-						print(teamSelected)
-						#await message.channel.send('>>> Here is the current roster for ' + teamSelected['name'] + ':\n ' + statsapi.roster(int(teamSelected['id'])))
-						highlights = statsapi.game_highlights(statsapi.last_game(teamSelected['id']))
+
+						#Get the last game
+						lastGameInfo = statsapi.last_game(teamSelected['id'])
+						
+						#Get the highlights for the last game
+						highlights = statsapi.game_highlights(lastGameInfo)
+						
+						#If no highlights are returned then check the previous date for a game
+						if len(highlights) == 0:
+							#Attempt to get the next to last game highlights
+							yesterday = datetime.datetime.today() - timedelta(1)
+							schedule = statsapi.schedule(date=yesterday.strftime('%m/%d/%Y'), team=teamSelected['id'])
+							
+							#TODO support double headers
+							nextToLastGameInfo = schedule[0]['game_id']
+							
+							#Get the highlights for the last game
+							highlights = statsapi.game_highlights(nextToLastGameInfo)
 						
 						if len(highlights) > 0:
 						
-							#split the highlights on the .mp4 of the video links returned
+							#split the highlights on the line breaks of the video links returned
 							highlightsList = highlights.split('\n\n')
 							
 							discordFormattedString = '>>> Here are the latest highlights from the **' +  teamSelected['name'] + '** \n'
+							
+							#TODO: Wrap the urls in <https://*.mp4> to disable auto embed
 							
 							for index in range(0, 5):
 								if index != 4:
 									discordFormattedString = discordFormattedString + highlightsList[index] + '\n'
 								else:
-									discordFormattedString = discordFormattedString
+									discordFormattedString = discordFormattedString + highlightsList[index]
 							await message.channel.send(discordFormattedString)
 						else:
 							await message.channel.send('Sorry, I couldn\'t find any highlights right now, try again later')
+							
+							
 					
-					elif messageArray[1].upper() == "ROSTER":
+					elif messageArray[1].upper() == 'ROSTER':
 						teamSelected = await self.get_team(messageArray[2], message)
 						
 						print ('DEBUG: teamSelected in ROSTER = %s' % teamSelected)
