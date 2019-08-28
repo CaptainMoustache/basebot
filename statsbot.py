@@ -21,7 +21,7 @@ class MyClient(discord.Client):
 		if len(teamsReturned) > 1:
 			teamSelected = await self.prompt_team(message, searchName, teamsReturned)
 		elif len(teamsReturned) == 1:
-			teamSelected = teamsReturned[0]
+			teamSelected = teamsReturned
 		elif len(teamsReturned) == 0:
 			await message.channel.send('Hmmm I couldn\'t find and teams using \'' + searchName + '\'')
 			return
