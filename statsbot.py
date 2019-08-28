@@ -16,15 +16,18 @@ class MyClient(discord.Client):
 	async def get_team(self, searchName, message):
 		teamsReturned = []
 		teamsReturned = statsapi.lookup_team(searchName)
-		
+		print('\n\nDEBUG: teamsReturned = %s' % teamsReturned)
+		print('\n\nDEBUG: len(teamsReturned) = %s' % len(teamsReturned))
 		if len(teamsReturned) > 1:
 			teamSelected = await self.prompt_team(message, searchName, teamsReturned)
 		elif len(teamsReturned) == 1:
 			teamSelected = teamsReturned[0]
-		else:
-			await message.channel.send('Hmmm I couldn\'t find and teams using \'' + messageArray[2] + '\'')
+		elif len(teamsReturned) == 0:
+			await message.channel.send('Hmmm I couldn\'t find and teams using \'' + searchName + '\'')
 			return
-		return teamSelected
+		else:
+			print('\n\nDEBUG: teamSelected = %s' % teamSelected)
+			return teamSelected
 	
 	#Identify which team is being requested by prompting the users with all returned results
 	async def prompt_team(self, message, searchTerm, teams):
@@ -32,7 +35,6 @@ class MyClient(discord.Client):
 		if len(teams) > 1:
 			#Build the string of teams to display
 			discordFormattedString = '>>> I found ' + str(len(teams)) + ' matchs for \'' + searchTerm + '\' Enter the number for the team you want \n'
-			
 			#Build the string to display the found players
 			for index in range(len(teams)):
 				#Add a newline for the next list item
@@ -354,9 +356,7 @@ class MyClient(discord.Client):
 							' Wins/Losses: %s/%s\n' \
 							' Games: %s\n' \
 							' WHIP: %s' % (playerGenInfo.name_display_first_last, seasonPitchingInfo.team_abbrev, statYear, seasonPitchingInfo.era, seasonPitchingInfo.w, seasonPitchingInfo.l, seasonPitchingInfo.gs, seasonPitchingInfo.whip))
-					#Display the current roster
-					elif messageArray[1].upper() == "ROSTER":
-						await message.channel.send(statsapi.roster(143))
+
 					elif messageArray[1].upper() == "SCORE":
 						teamSelected = await self.get_team(messageArray[2], message)
 					
@@ -368,7 +368,7 @@ class MyClient(discord.Client):
 						
 					elif messageArray[1].upper() == "HIGHLIGHTS":
 						teamSelected = await self.get_team(messageArray[2], message)
-						
+						print(teamSelected)
 						#await message.channel.send('>>> Here is the current roster for ' + teamSelected['name'] + ':\n ' + statsapi.roster(int(teamSelected['id'])))
 						highlights = statsapi.game_highlights(statsapi.last_game(teamSelected['id']))
 						
