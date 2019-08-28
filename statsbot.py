@@ -34,7 +34,7 @@ class MyClient(discord.Client):
 		#Check that more than one team was passed in
 		if len(teams) > 1:
 			#Build the string of teams to display
-			discordFormattedString = '>>> I found ' + str(len(teams)) + ' matchs for \'' + searchTerm + '\' Enter the number for the team you want \n'
+			discordFormattedString = '>>> I found ' + str(len(teams)) + ' matches for \'' + searchTerm + '\' Enter the number for the team you want \n'
 			#Build the string to display the found players
 			for index in range(len(teams)):
 				#Add a newline for the next list item
@@ -388,9 +388,10 @@ class MyClient(discord.Client):
 						else:
 							await message.channel.send('Sorry, I couldn\'t find any highlights right now, try again later')
 					
-						
 					elif messageArray[1].upper() == "ROSTER":
 						teamSelected = await self.get_team(messageArray[2], message)
+						
+						print ('DEBUG: teamSelected in ROSTER = %s' % teamSelected)
 						
 						await message.channel.send('>>> Here is the current roster for the **' + teamSelected['name'] + '**:\n ' + statsapi.roster(int(teamSelected['id'])))
 					#Display the help message
