@@ -366,41 +366,72 @@ class MyClient(discord.Client):
 					elif messageArray[1].upper() == 'HIGHLIGHTS':
 						teamSelected = await self.get_team(messageArray[2], message)
 
+						pastDay = datetime.datetime.today()
+
 						#Get the last game
 						lastGameInfo = statsapi.last_game(teamSelected['id'])
 						
 						#Get the highlights for the last game
 						highlights = statsapi.game_highlights(lastGameInfo)
 						
-						#If no highlights are returned then check the previous date for a game
+						#If no highlights are returned then check the previous dates for a game
 						if len(highlights) == 0:
+						
+							#Look back one week for highlights
+							for day in range(0, 7):
+								pastDay = datetime.datetime.today() - timedelta(day)
+								schedule = statsapi.schedule(date=pastDay.strftime('%m/%d/%Y'), team=teamSelected['id'])
+								#TODO check for a double header
+								nextToLastGameInfo = schedule[0]['game_id']
+								highlights = statsapi.game_highlights(nextToLastGameInfo)
+								if len(highlights) > 0:
+									break
+							
 							#Attempt to get the next to last game highlights
-							yesterday = datetime.datetime.today() - timedelta(1)
-							schedule = statsapi.schedule(date=yesterday.strftime('%m/%d/%Y'), team=teamSelected['id'])
+							# = datetime.datetime.today() - timedelta(1)
+							#schedule = statsapi.schedule(date=yesterday.strftime('%m/%d/%Y'), team=teamSelected['id'])
 							
 							#TODO support double headers
-							nextToLastGameInfo = schedule[0]['game_id']
+							#nextToLastGameInfo = schedule[0]['game_id']
 							
 							#Get the highlights for the last game
 							highlights = statsapi.game_highlights(nextToLastGameInfo)
 						
 						if len(highlights) > 0:
 						
+							#print('DEBUG: %s' % highlights)
+							#print('DEBUG:len(highlights) = %s' % str(len(highlights)))
+						
+							#higlightsSplit = re.split('(.mp4)', highlights)
+							
+							#for strings in higlightsSplit:
+							#	print(strings)
+							
+							#print('DEBUG: Highlight 0 = %s' % higlightsSplit[0])
+							#print('DEBUG: Highlight 1 = %s' % higlightsSplit[1])
+							
+							#print('DEBUG:len(higlightsSplit) = %s' % str(len(higlightsSplit)))
+							
 							#split the highlights on the line breaks of the video links returned
 							highlightsList = highlights.split('\n\n')
 							
-							discordFormattedString = '>>> Here are the latest highlights from the **' +  teamSelected['name'] + '** \n'
+							discordFormattedString = '>>> Here are the latest highlights from the **' +  teamSelected['name'] + '** on ' + pastDay.strftime('%m/%d/%Y') + '\n'
 							
 							#TODO: Wrap the urls in <https://*.mp4> to disable auto embed
 							
 							for index in range(0, 5):
+								#Replace https with <https
+								highlightsList[index] = highlightsList[index].replace('https', '<https')
+								#Replace .mp4 with .mp4>
+								highlightsList[index] = highlightsList[index].replace('.mp4', '.mp4>')
+								
 								if index != 4:
 									discordFormattedString = discordFormattedString + highlightsList[index] + '\n'
 								else:
 									discordFormattedString = discordFormattedString + highlightsList[index]
 							await message.channel.send(discordFormattedString)
 						else:
-							await message.channel.send('Sorry, I couldn\'t find any highlights right now, try again later')
+							await message.channel.send('Sorry, I couldn\'t find any highlights for the past week')
 							
 							
 					
