@@ -401,19 +401,24 @@ class MyClient(discord.Client):
 						
 							#split the highlights on the line breaks of the video links returned
 							highlightsList = highlights.split('\n\n')
+							#split each highlight on the newline to get 0. Short description 1. Long description 2. Video Link
+							splitHighlightsList = []
+							for listItem in highlightsList:
+								splitHighlightsList.append(listItem.split('\n'))
 							
 							discordFormattedString = '>>> Here are the latest highlights from the **' +  teamSelected['name'] + '** on ' + pastDay.strftime('%m/%d/%Y') + '\n'
 							
+							#TODO limit this to the length of highlights returned in case < 5 are provided
 							for index in range(0, 5):
 								#Replace https with <https
-								highlightsList[index] = highlightsList[index].replace('https', '<https')
+								splitHighlightsList[index][2] = splitHighlightsList[index][2].replace('https', '<https')
 								#Replace .mp4 with .mp4>
-								highlightsList[index] = highlightsList[index].replace('.mp4', '.mp4>')
+								splitHighlightsList[index][2] = splitHighlightsList[index][2].replace('.mp4', '.mp4>')
 								
 								if index != 4:
-									discordFormattedString = discordFormattedString + highlightsList[index] + '\n'
+									discordFormattedString = discordFormattedString + splitHighlightsList[index][0] + '\n' + splitHighlightsList[index][2] + '\n'
 								else:
-									discordFormattedString = discordFormattedString + highlightsList[index]
+									discordFormattedString = discordFormattedString + splitHighlightsList[index][0] + '\n' + splitHighlightsList[index][2]
 							await message.channel.send(discordFormattedString)
 						else:
 							await message.channel.send('Sorry, I couldn\'t find any highlights for the past week')
