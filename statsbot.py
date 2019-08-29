@@ -399,25 +399,10 @@ class MyClient(discord.Client):
 						
 						if len(highlights) > 0:
 						
-							#print('DEBUG: %s' % highlights)
-							#print('DEBUG:len(highlights) = %s' % str(len(highlights)))
-						
-							#higlightsSplit = re.split('(.mp4)', highlights)
-							
-							#for strings in higlightsSplit:
-							#	print(strings)
-							
-							#print('DEBUG: Highlight 0 = %s' % higlightsSplit[0])
-							#print('DEBUG: Highlight 1 = %s' % higlightsSplit[1])
-							
-							#print('DEBUG:len(higlightsSplit) = %s' % str(len(higlightsSplit)))
-							
 							#split the highlights on the line breaks of the video links returned
 							highlightsList = highlights.split('\n\n')
 							
 							discordFormattedString = '>>> Here are the latest highlights from the **' +  teamSelected['name'] + '** on ' + pastDay.strftime('%m/%d/%Y') + '\n'
-							
-							#TODO: Wrap the urls in <https://*.mp4> to disable auto embed
 							
 							for index in range(0, 5):
 								#Replace https with <https
