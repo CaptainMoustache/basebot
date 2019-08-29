@@ -407,18 +407,25 @@ class MyClient(discord.Client):
 								splitHighlightsList.append(listItem.split('\n'))
 							
 							discordFormattedString = '>>> Here are the latest highlights from the **' +  teamSelected['name'] + '** on ' + pastDay.strftime('%m/%d/%Y') + '\n'
-							
-							#TODO limit this to the length of highlights returned in case < 5 are provided
-							for index in range(0, 5):
+													
+							#Loop through all the returned highlights and format the strings
+							for index in range(0, len(highlightsList) - 1):
 								#Replace https with <https
 								splitHighlightsList[index][2] = splitHighlightsList[index][2].replace('https', '<https')
 								#Replace .mp4 with .mp4>
 								splitHighlightsList[index][2] = splitHighlightsList[index][2].replace('.mp4', '.mp4>')
 								
-								if index != 4:
+								#On the last highlight to list don't add a newline
+								#Right now this will be limited to 5 highlights
+								
+								if index < 4:
 									discordFormattedString = discordFormattedString + splitHighlightsList[index][0] + '\n' + splitHighlightsList[index][2] + '\n'
-								else:
+								elif index == 4:
 									discordFormattedString = discordFormattedString + splitHighlightsList[index][0] + '\n' + splitHighlightsList[index][2]
+								elif index == 5:
+									break
+
+
 							await message.channel.send(discordFormattedString)
 						else:
 							await message.channel.send('Sorry, I couldn\'t find any highlights for the past week')
