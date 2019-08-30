@@ -1,13 +1,10 @@
 import discord
-import requests
 import json
 import datetime
 from datetime import timedelta
 import time
 import random
 import statsapi
-import players
-import asyncio
 import re
 
 class MyClient(discord.Client):
