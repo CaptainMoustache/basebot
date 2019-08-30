@@ -13,6 +13,7 @@ import re
 class MyClient(discord.Client):
 	async def on_ready(self):
 		print('Logged on as', self.user)
+		await self.change_presence(activity=discord.Game(name='with myself'))
 		
 	
 	async def get_team(self, searchName, message):
@@ -368,22 +369,24 @@ class MyClient(discord.Client):
 							discordFormattedString = '>>> Here is the score of the latest game for the **' + teamSelected['name'] + '** \n'
 							
 							#Get shortened team names
-							homeTeam = statsapi.lookup_team(target_game[home_name])
-							awayTeam = statsapi.lookup_team(target_game[away_name])
+							homeTeam = statsapi.lookup_team(target_game[0]['home_name'])
+							awayTeam = statsapi.lookup_team(target_game[0]['away_name'])
 							
 							homeScore = target_game[0]['home_score']
+							homeScoreString = str(homeScore)
 							awayScore = target_game[0]['away_score']
+							awayScoreString = str(awayScore)
 							
 							if homeScore > awayScore:
-								homeScore = homeScore.upper()
+								homeScoreString = '**' + homeScoreString + '**'
 							else:
-								awayScore = awayScore.upper()
+								awayScoreString = '**' + awayScoreString + '**'
 							
-							appendString = homeTeam[0]['fileCode'].upper() + ' ' + homeScore + 'F' + '\n'
+							appendString = homeTeam[0]['fileCode'].upper() + ' ' + homeScoreString + 'F' + '\n'
+							discordFormattedString = discordFormattedString + appendString
 							
-							discordFormattedString + appendString
-							
-							appendString = awayTeam[0]['fileCode'].upper() + ' ' + awayScore + '\n'
+							appendString = awayTeam[0]['fileCode'].upper() + ' ' + awayScoreString + '\n'
+							discordFormattedString = discordFormattedString + appendString
 							
 							await message.channel.send(discordFormattedString)
 							
@@ -417,6 +420,38 @@ class MyClient(discord.Client):
 							
 							await message.channel.send(discordFormattedString)
 							
+						elif target_game[0]['status'] == 'In Progress':
+							#Get shortened team names
+							homeTeam = statsapi.lookup_team(target_game[0]['home_name'])
+							awayTeam = statsapi.lookup_team(target_game[0]['away_name'])
+							
+							discordFormattedString = '>>> Game in progress: ' + homeTeam[0]['fileCode'].upper() + ' vs ' + awayTeam[0]['fileCode'].upper() + ' \n'
+							
+							#appendString = homeTeam[0]['fileCode'].upper() + ' ' + homeScore + 'F' + '\n'
+							
+							#appendString = awayTeam[0]['fileCode'].upper() + ' ' + awayScore + '\n'
+							
+							homeScore = target_game[0]['home_score']
+							homeScoreString = str(homeScore)
+							awayScore = target_game[0]['away_score']
+							awayScoreString = str(awayScore)
+							
+							if homeScore > awayScore:
+								homeScoreString = '**' + homeScoreString + '**'
+							elif awayScore > homeScore:
+								awayScoreString = '**' + awayScoreString + '**'
+								
+							
+							appendString = target_game[0]['inning_state'] + ' ' + str(target_game[0]['current_inning']) + '\n'
+							discordFormattedString = discordFormattedString + appendString
+							
+							appendString = homeTeam[0]['fileCode'].upper() + ' ' + homeScoreString + '\n'
+							discordFormattedString = discordFormattedString + appendString
+							
+							appendString = awayTeam[0]['fileCode'].upper() + ' ' + awayScoreString + '\n'
+							discordFormattedString = discordFormattedString + appendString
+							
+							await message.channel.send(discordFormattedString)	
 							
 						
 						#print('DEBUG: statsapi.schedule %s' % statsapi.schedule(game_id=most_recent_game_id - 1))
