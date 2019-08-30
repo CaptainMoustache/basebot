@@ -356,12 +356,75 @@ class MyClient(discord.Client):
 
 					elif messageArray[1].upper() == 'SCORE':
 						teamSelected = await self.get_team(messageArray[2], message)
-					
-						most_recent_game_id = statsapi.last_game(int(teamSelected['id']))
+						
+						most_recent_game = statsapi.last_game(int(teamSelected['id']))
+						
+						target_game = statsapi.schedule(game_id=most_recent_game)
+						
+						#print('DEBUG: target_game = %s' % target_game)
+						
+						#Game is over
+						if target_game[0]['status'] == 'Final':
+							discordFormattedString = '>>> Here is the score of the latest game for the **' + teamSelected['name'] + '** \n'
+							
+							#Get shortened team names
+							homeTeam = statsapi.lookup_team(target_game[home_name])
+							awayTeam = statsapi.lookup_team(target_game[away_name])
+							
+							homeScore = target_game[0]['home_score']
+							awayScore = target_game[0]['away_score']
+							
+							if homeScore > awayScore:
+								homeScore = homeScore.upper()
+							else:
+								awayScore = awayScore.upper()
+							
+							appendString = homeTeam[0]['fileCode'].upper() + ' ' + homeScore + 'F' + '\n'
+							
+							discordFormattedString + appendString
+							
+							appendString = awayTeam[0]['fileCode'].upper() + ' ' + awayScore + '\n'
+							
+							await message.channel.send(discordFormattedString)
+							
+						elif target_game[0]['status'] == 'Scheduled':
+							discordFormattedString = '>>> Here is the info for the **' + teamSelected['name'] + '**\'s next game: \n'
+							
+							#Get shortened team names
+							homeTeam = statsapi.lookup_team(target_game[0]['home_name'])
+							awayTeam = statsapi.lookup_team(target_game[0]['away_name'])
+							
+							gameTime = target_game[0]['game_datetime']
+							#homeScore = most_recent_game['home_score']
+							#awayScore = most_recent_game['away_score']
+							
+							#if homeScore > awayScore
+							#	homeScore = homeScore.upper()
+							#else
+							#	awayScore = awayScore.upper()
+							
+							appendString = 'GameTime: ' + gameTime + '\n'
+							discordFormattedString = discordFormattedString + appendString
+							
+							homeProbable = target_game[0]['home_probable_pitcher']
+							awayProbable = target_game[0]['away_probable_pitcher']
+							
+							appendString = 'Home Probable: ' + homeProbable + '\n'
+							discordFormattedString = discordFormattedString + appendString
+							
+							appendString = 'Away Probable: ' + awayProbable + '\n'
+							discordFormattedString = discordFormattedString + appendString
+							
+							await message.channel.send(discordFormattedString)
+							
+							
+						
+						#print('DEBUG: statsapi.schedule %s' % statsapi.schedule(game_id=most_recent_game_id - 1))
+						#print('DEBUG: statsapi.schedule %s' % statsapi.schedule(game_id=most_recent_game_id))
 						
 						#discordFormattedString = '>>> Here is the score of the latest game for the **' + teamSelected['name'] + '** \n' + statsapi.boxscore(most_recent_game_id) + '\n' + statsapi.linescore(most_recent_game_id)
-						discordFormattedString = '>>> Here is the score of the latest game for the **' + teamSelected['name'] + '** \n' + statsapi.linescore(most_recent_game_id)
-						await message.channel.send(discordFormattedString)
+						#discordFormattedString = '>>> Here is the score of the latest game for the **' + teamSelected['name'] + '** \n' + statsapi.linescore(most_recent_game_id)
+						#await message.channel.send(discordFormattedString)
 						
 					elif messageArray[1].upper() == 'HIGHLIGHTS':
 						teamSelected = await self.get_team(messageArray[2], message)
