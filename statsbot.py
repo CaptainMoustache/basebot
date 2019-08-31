@@ -366,9 +366,9 @@ class MyClient(discord.Client):
 						if prev_game[0]['status'] == 'In Progress':
 							target_game = prev_game
 						
-						#print('DEBUG: target_game[0][\'status\'] = %s' % target_game[0]['status'])
+						print('DEBUG: target_game[0][\'status\'] = %s' % target_game[0]['status'])
 						
-						#print('DEBUG: prev_game[0][\'status\'] = %s' % prev_game[0]['status'])
+						print('DEBUG: prev_game[0][\'status\'] = %s' % prev_game[0]['status'])
 						
 						#Game is over
 						if target_game[0]['status'] == 'Final':
@@ -388,7 +388,7 @@ class MyClient(discord.Client):
 							else:
 								awayScoreString = '**' + awayScoreString + '**'
 							
-							appendString = homeTeam[0]['fileCode'].upper() + ' ' + homeScoreString + 'F' + '\n'
+							appendString = homeTeam[0]['fileCode'].upper() + ' ' + homeScoreString + ' F' + '\n'
 							discordFormattedString = discordFormattedString + appendString
 							
 							appendString = awayTeam[0]['fileCode'].upper() + ' ' + awayScoreString + '\n'
@@ -396,7 +396,7 @@ class MyClient(discord.Client):
 							
 							await message.channel.send(discordFormattedString)
 							
-						elif target_game[0]['status'] == 'Scheduled':
+						elif target_game[0]['status'] == 'Scheduled' or target_game[0]['status'] == 'Pre-Game':
 							discordFormattedString = '>>> Here is the info for the **' + teamSelected['name'] + '**\'s next game: \n'
 							
 							#Get shortened team names
@@ -422,6 +422,29 @@ class MyClient(discord.Client):
 							discordFormattedString = discordFormattedString + appendString
 							
 							appendString = 'Away Probable: ' + awayProbable + '\n'
+							discordFormattedString = discordFormattedString + appendString
+							
+							#Also display the last game
+							discordFormattedString = '\n Here is the score of the last game for the **' + teamSelected['name'] + '** \n'
+							
+							#Get shortened team names
+							homeTeam = statsapi.lookup_team(prev_game[0]['home_name'])
+							awayTeam = statsapi.lookup_team(prev_game[0]['away_name'])
+							
+							homeScore = prev_game[0]['home_score']
+							homeScoreString = str(homeScore)
+							awayScore = prev_game[0]['away_score']
+							awayScoreString = str(awayScore)
+							
+							if homeScore > awayScore:
+								homeScoreString = '**' + homeScoreString + '**'
+							else:
+								awayScoreString = '**' + awayScoreString + '**'
+							
+							appendString = homeTeam[0]['fileCode'].upper() + ' ' + homeScoreString + ' F' + '\n'
+							discordFormattedString = discordFormattedString + appendString
+							
+							appendString = awayTeam[0]['fileCode'].upper() + ' ' + awayScoreString + '\n'
 							discordFormattedString = discordFormattedString + appendString
 							
 							await message.channel.send(discordFormattedString)
@@ -510,27 +533,51 @@ class MyClient(discord.Client):
 							for listItem in highlightsList:
 								splitHighlightsList.append(listItem.split('\n'))
 							
-							discordFormattedString = '>>> Here are the latest highlights from the **' +  teamSelected['name'] + '** on ' + pastDay.strftime('%m/%d/%Y') + '\n'
-													
+							#discordFormattedString = '>>> Here are the latest highlights from the **' +  teamSelected['name'] + '** on ' + pastDay.strftime('%m/%d/%Y') + '\n'
+							
+							#Create the embed object
+							highlightEmbed = discord.Embed()
+							highlightEmbed.title = '**' +  teamSelected['name'] + '** highlights from ' + pastDay.strftime('%m/%d/%Y')
+							highlightEmbed.type = 'rich'
+							#testEmbed.colour = 
+							highlightEmbed.color = discord.Color.greyple()
+							
+							
 							#Loop through all the returned highlights and format the strings
 							for index in range(0, len(highlightsList) - 1):
 								#Replace https with <https
-								splitHighlightsList[index][2] = splitHighlightsList[index][2].replace('https', '<https')
+								#splitHighlightsList[index][2] = splitHighlightsList[index][2].replace('https', '<https')
 								#Replace .mp4 with .mp4>
-								splitHighlightsList[index][2] = splitHighlightsList[index][2].replace('.mp4', '.mp4>')
+								#splitHighlightsList[index][2] = splitHighlightsList[index][2].replace('.mp4', '.mp4>')
 								
+								#If we haven't hit the character limit yet, add the next highlight
+								if len(highlightEmbed) < 6000:
+									highlightEmbed.add_field(name=splitHighlightsList[index][0], value='[' + splitHighlightsList[index][2][:27]  + '...]' + '(' + splitHighlightsList[index][2] + ')', inline=False)
+															
 								#On the last highlight to list don't add a newline
 								#Right now this will be limited to 5 highlights
 								
-								if index < 4:
-									discordFormattedString = discordFormattedString + splitHighlightsList[index][0] + '\n' + splitHighlightsList[index][2] + '\n'
-								elif index == 4:
-									discordFormattedString = discordFormattedString + splitHighlightsList[index][0] + '\n' + splitHighlightsList[index][2]
-								elif index == 5:
-									break
+								#if index < 4:
+								#	discordFormattedString = discordFormattedString + splitHighlightsList[index][0] + '\n' + splitHighlightsList[index][2] + '\n'
+								#elif index == 4:
+								#	discordFormattedString = discordFormattedString + splitHighlightsList[index][0] + '\n' + splitHighlightsList[index][2]
+								#elif index == 5:
+								#	break
+							
 
+							
+							
+							
+							
+							#highlightEmbed.add_field(name=splitHighlightsList[0][0], value=splitHighlightsList[0][2], inline=True)
+							#highlightEmbed.add_field(name=splitHighlightsList[1][0], value=splitHighlightsList[1][2], inline=True)
+							
+							#Build a test dict
+							#testDict = { splitHighlightsList[0][2] : 1  , splitHighlightsList[1][2] : 2 }
+							
+							#testEmbed.from_dict(testDict)
 
-							await message.channel.send(discordFormattedString)
+							await message.channel.send(embed=highlightEmbed)
 						else:
 							await message.channel.send('Sorry, I couldn\'t find any highlights for the past week')
 							
