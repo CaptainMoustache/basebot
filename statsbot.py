@@ -359,8 +359,16 @@ class MyClient(discord.Client):
 						most_recent_game = statsapi.last_game(int(teamSelected['id']))
 						
 						target_game = statsapi.schedule(game_id=most_recent_game)
+						prev_game = statsapi.schedule(game_id=most_recent_game - 1)
 						
-						#print('DEBUG: target_game = %s' % target_game)
+						#Check if the previous game is still 'In Progress' and if so set that as the target game
+						#Apprently sometimes the MLB api returns the next game sometimes
+						if prev_game[0]['status'] == 'In Progress':
+							target_game = prev_game
+						
+						#print('DEBUG: target_game[0][\'status\'] = %s' % target_game[0]['status'])
+						
+						#print('DEBUG: prev_game[0][\'status\'] = %s' % prev_game[0]['status'])
 						
 						#Game is over
 						if target_game[0]['status'] == 'Final':
