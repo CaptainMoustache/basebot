@@ -457,10 +457,24 @@ class MyClient(discord.Client):
 							else:
 								awayScoreString = '**' + awayScoreString + '**'
 							
-							appendString = homeTeam[0]['fileCode'].upper() + ' ' + homeScoreString + ' F' + '\n'
+							homeTeamShort = homeTeam[0]['fileCode'].upper() 
+							awayTeamShort = awayTeam[0]['fileCode'].upper()
+							
+							print(len(homeTeamShort))
+							print(len(awayTeamShort))
+							
+							#Pad the strings to align the formatting
+							if len(homeTeamShort) <= 2:
+								homeTeamShort = homeTeamShort + ' '
+							if len(awayTeamShort) <= 2:
+								awayTeamShort = awayTeamShort + ' '	
+							
+							
+													
+							appendString = homeTeamShort + ' ' + homeScoreString + ' F' + '\n'
 							discordFormattedString = discordFormattedString + appendString
 							
-							appendString = awayTeam[0]['fileCode'].upper() + ' ' + awayScoreString + '\n'
+							appendString = awayTeamShort + ' ' + awayScoreString + '\n'
 							discordFormattedString = discordFormattedString + appendString
 							
 							#await message.channel.send(discordFormattedString)
@@ -484,11 +498,17 @@ class MyClient(discord.Client):
 							
 							#scoreEmbed.add_field(name='NAME', value='VALUE', inline=False)
 							scheduledEmbed.add_field(name='Start Time:', value=gameTimeLocal.strftime('%-I:%M%p') + ' EST', inline=False)
-							scheduledEmbed.add_field(name=homeTeam[0]['fileCode'].upper() + ' Probable:' , value=homeProbable, inline=True)
-							scheduledEmbed.add_field(name=awayTeam[0]['fileCode'].upper() + ' Probable:' , value=awayProbable, inline=True)
+							scheduledEmbed.add_field(name=homeTeamShort + ' Probable:' , value=homeProbable, inline=True)
+							scheduledEmbed.add_field(name=awayTeamShort+ ' Probable:' , value=awayProbable, inline=True)
 							
 							await message.channel.send(content='Scheduled Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=scheduledEmbed)
 							
+							prevGameTimeUTC = dateutil.parser.parse(prev_game[0]['game_datetime'])
+							# Tell the datetime object that it's in UTC time zone since 
+							# datetime objects are 'naive' by default
+							prevGameTimeUTC = prevGameTimeUTC.replace(tzinfo=dateutil.tz.tzutc())
+							#Convert to localtime
+							prevGameTimeLocal = prevGameTimeUTC.astimezone(dateutil.tz.tzlocal())
 							
 							
 							#Create the embed object
@@ -505,7 +525,7 @@ class MyClient(discord.Client):
 							if prev_game[0]['save_pitcher'] != None:
 								finalEmbed.add_field(name='Save:', value=prev_game[0]['save_pitcher'] , inline=False)
 							
-							await message.channel.send(content='Final Score from ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=finalEmbed)
+							await message.channel.send(content='Final Score from ' + prevGameTimeLocal.strftime('%m/%d/%Y') + ':',embed=finalEmbed)
 							
 							
 							
@@ -532,13 +552,30 @@ class MyClient(discord.Client):
 								awayScoreString = '**' + awayScoreString + '**'
 								
 							
+							homeTeamShort = homeTeam[0]['fileCode'].upper() 
+							awayTeamShort = awayTeam[0]['fileCode'].upper()
+							
+							#Pad the strings to align the formatting
+							if len(homeTeamShort) < 2:
+								homeTeamShort = homeTeamShort + ' '
+							if len(awayTeamShort) < 2:
+								awayTeamShort = awayTeamShort + ' '	
+							
+							
+							'''			
+							appendString = homeTeamShort + ' ' + homeScoreString + ' F' + '\n'
+							discordFormattedString = discordFormattedString + appendString
+							
+							appendString = awayTeamShort + ' ' + awayScoreString + '\n'
+							discordFormattedString = discordFormattedString + appendString
+							'''
 							appendString = target_game[0]['inning_state'] + ' ' + str(target_game[0]['current_inning']) + '\n'
 							discordFormattedString = discordFormattedString + appendString
 							
-							appendString = homeTeam[0]['fileCode'].upper() + ' ' + homeScoreString + '\n'
+							appendString = homeTeamShort + ' ' + homeScoreString + '\n'
 							discordFormattedString = discordFormattedString + appendString
 							
-							appendString = awayTeam[0]['fileCode'].upper() + ' ' + awayScoreString + '\n'
+							appendString = awayTeamShort + ' ' + awayScoreString + '\n'
 							discordFormattedString = discordFormattedString + appendString
 							
 							#await message.channel.send(discordFormattedString)
@@ -552,8 +589,8 @@ class MyClient(discord.Client):
 							
 							#scoreEmbed.add_field(name='NAME', value='VALUE', inline=False)
 							scoreEmbed.add_field(name='Inning:', value=target_game[0]['inning_state'] + ' ' + str(target_game[0]['current_inning']), inline=False)
-							scoreEmbed.add_field(name=homeTeam[0]['fileCode'].upper() , value=homeScoreString, inline=True)
-							scoreEmbed.add_field(name=awayTeam[0]['fileCode'].upper() , value=awayScoreString, inline=True)
+							scoreEmbed.add_field(name=homeTeamShort , value=homeScoreString, inline=True)
+							scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
 							
 							await message.channel.send(content='Live Game:',embed=scoreEmbed)
 						
