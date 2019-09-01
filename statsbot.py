@@ -363,7 +363,7 @@ class MyClient(discord.Client):
 						
 						#Check if the previous game is still 'In Progress' and if so set that as the target game
 						#Apprently sometimes the MLB api returns the next game sometimes
-						if prev_game[0]['status'] == 'In Progress':
+						if prev_game[0]['status'] == 'In Progress' and target_game[0]['status'] == 'Scheduled':
 							target_game = prev_game
 						
 						print('DEBUG: target_game[0][\'status\'] = %s' % target_game[0]['status'])
@@ -480,8 +480,21 @@ class MyClient(discord.Client):
 							appendString = awayTeam[0]['fileCode'].upper() + ' ' + awayScoreString + '\n'
 							discordFormattedString = discordFormattedString + appendString
 							
-							await message.channel.send(discordFormattedString)	
+							#await message.channel.send(discordFormattedString)
 							
+							#Create the embed object
+							scoreEmbed = discord.Embed()
+							scoreEmbed.title = '**' +  target_game[0]['home_name'] + '** vs **' + target_game[0]['away_name'] + '**'
+							scoreEmbed.type = 'rich'
+							#testEmbed.colour = 
+							scoreEmbed.color = discord.Color.greyple()
+							
+							#scoreEmbed.add_field(name='NAME', value='VALUE', inline=False)
+							scoreEmbed.add_field(name='Inning:', value=target_game[0]['inning_state'] + ' ' + str(target_game[0]['current_inning']), inline=False)
+							scoreEmbed.add_field(name=homeTeam[0]['fileCode'].upper() , value=homeScoreString, inline=False)
+							scoreEmbed.add_field(name=awayTeam[0]['fileCode'].upper() , value=awayScoreString, inline=True)
+							
+							await message.channel.send(embed=scoreEmbed)
 						
 						#print('DEBUG: statsapi.schedule %s' % statsapi.schedule(game_id=most_recent_game_id - 1))
 						#print('DEBUG: statsapi.schedule %s' % statsapi.schedule(game_id=most_recent_game_id))
