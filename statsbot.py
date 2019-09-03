@@ -82,6 +82,118 @@ class MyClient(discord.Client):
 			else:
 				return teamSelected
 	
+	def get_Local_Time(self, dateTimeString):
+		gameTimeUTC = dateutil.parser.parse(dateTimeString)
+		# Tell the datetime object that it's in UTC time zone since 
+		# datetime objects are 'naive' by default
+		gameTimeUTC = gameTimeUTC.replace(tzinfo=dateutil.tz.tzutc())
+		#Convert to localtime
+		return gameTimeUTC.astimezone(dateutil.tz.tzlocal())
+	
+	async def scheduled_Game_Embed(self, game, message):
+		#Get the UTC datetime string
+		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
+		
+		homeTeam = statsapi.lookup_team(game['home_name'])
+		awayTeam = statsapi.lookup_team(game['away_name'])
+		
+		homeTeamShort = homeTeam[0]['fileCode'].upper() 
+		awayTeamShort = awayTeam[0]['fileCode'].upper()
+		
+		#Get the probable pitchers
+		homeProbable = game['home_probable_pitcher']
+		awayProbable = game['away_probable_pitcher']
+		
+		#Create the embed object
+		scheduledEmbed = discord.Embed()
+		scheduledEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		scheduledEmbed.type = 'rich'
+		#testEmbed.colour = 
+		scheduledEmbed.color = discord.Color.dark_blue()
+		
+		#scoreEmbed.add_field(name='NAME', value='VALUE', inline=False)
+		scheduledEmbed.add_field(name='Start Time:', value=gameTimeLocal.strftime('%-I:%M%p') + ' EST', inline=False)
+		scheduledEmbed.add_field(name=homeTeamShort + ' Probable:' , value=homeProbable, inline=True)
+		scheduledEmbed.add_field(name=awayTeamShort+ ' Probable:' , value=awayProbable, inline=True)
+		scheduledEmbed.add_field(name='Home Notes' , value=game['home_pitcher_note'], inline=False)
+		scheduledEmbed.add_field(name='Away Notes' , value=game['away_pitcher_note'], inline=False)
+		await message.channel.send(content='Scheduled Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=scheduledEmbed)
+		
+	async def final_Game_Embed(self, game, message):
+		#Get the UTC datetime string
+		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
+		
+		homeTeam = statsapi.lookup_team(game['home_name'])
+		awayTeam = statsapi.lookup_team(game['away_name'])
+		
+		homeTeamShort = homeTeam[0]['fileCode'].upper() 
+		awayTeamShort = awayTeam[0]['fileCode'].upper()
+		
+		#Get the scores
+		homeScore = game['home_score']
+		homeScoreString = str(homeScore)
+		awayScore = game['away_score']
+		awayScoreString = str(awayScore)
+		
+		#Set the higher score to BOLD
+		if homeScore > awayScore:
+			homeScoreString = '**' + homeScoreString + '**'
+		else:
+			awayScoreString = '**' + awayScoreString + '**'
+		
+		discordFormattedString = ''
+		
+		#Format a string to display the score
+		appendString = homeTeamShort + ' ' + homeScoreString + ' F' + '\n'
+		discordFormattedString = discordFormattedString + appendString
+		
+		appendString = awayTeamShort + ' ' + awayScoreString + '\n'
+		discordFormattedString = discordFormattedString + appendString
+		
+		#Create the embed object
+		finalEmbed = discord.Embed()
+		finalEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		finalEmbed.type = 'rich'
+		finalEmbed.color = discord.Color.dark_blue()
+		
+		finalEmbed.add_field(name='Score:', value=discordFormattedString, inline=False)
+		finalEmbed.add_field(name='Winning Pitcher:', value=game['winning_pitcher'] , inline=True)
+		finalEmbed.add_field(name='Losing Pitcher:', value=game['losing_pitcher'] , inline=True)
+		if game['save_pitcher'] != None:
+			finalEmbed.add_field(name='Save:', value=game['save_pitcher'] , inline=False)
+		
+		await message.channel.send(content='Final Score from ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=finalEmbed)
+	
+	async def live_Game_Embed(self, game, message):
+		homeTeam = statsapi.lookup_team(game['home_name'])
+		awayTeam = statsapi.lookup_team(game['away_name'])
+		
+		homeTeamShort = homeTeam[0]['fileCode'].upper() 
+		awayTeamShort = awayTeam[0]['fileCode'].upper()
+	
+		homeScore = game['home_score']
+		homeScoreString = str(homeScore)
+		awayScore = game['away_score']
+		awayScoreString = str(awayScore)
+		
+		if homeScore > awayScore:
+			homeScoreString = '**' + homeScoreString + '**'
+		elif awayScore > homeScore:
+			awayScoreString = '**' + awayScoreString + '**'
+		
+		#Create the embed object
+		scoreEmbed = discord.Embed()
+		scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		scoreEmbed.type = 'rich'
+		#testEmbed.colour = 
+		scoreEmbed.color = discord.Color.dark_blue()
+		
+		scoreEmbed.add_field(name='Inning:', value=game['inning_state'] + ' ' + str(game['current_inning']), inline=False)
+		scoreEmbed.add_field(name=homeTeamShort , value=homeScoreString, inline=True)
+		scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
+		
+		await message.channel.send(content='Live Game:',embed=scoreEmbed)
+	
 	async def on_message(self, message):
 		# don't respond to ourselves
 		if message.author == self.user:
@@ -354,6 +466,8 @@ class MyClient(discord.Client):
 							' WHIP: %s' % (playerGenInfo.name_display_first_last, seasonPitchingInfo.team_abbrev, statYear, seasonPitchingInfo.era, seasonPitchingInfo.w, seasonPitchingInfo.l, seasonPitchingInfo.gs, seasonPitchingInfo.whip))
 
 					elif messageArray[1].upper() == 'SCORE':
+						targetDateTime = datetime.datetime.now()
+					
 						#Get the team
 						teamSelected = await self.get_team(messageArray[2], message)
 						
@@ -363,156 +477,48 @@ class MyClient(discord.Client):
 						#Set the target game to the value returned from statsapi.last_game
 						target_game = statsapi.schedule(game_id=most_recent_game)
 						#Get the game previous to the returned game
-						prev_game = statsapi.schedule(game_id=most_recent_game - 1)
+						
+						#Get a list of games a week in the past
+						pastDay = datetime.datetime.today()
+						pastWeek = datetime.datetime.today() - timedelta(7)
+						pastGames = statsapi.schedule(start_date=pastWeek.strftime('%m/%d/%Y'), end_date=pastDay.strftime('%m/%d/%Y'), team=teamSelected['id'])
+						
+						#Get a list of games a week in the future
+						nextDay = datetime.datetime.today() + timedelta(1)
+						NextWeek = datetime.datetime.today() + timedelta(7)
+						nextGames = statsapi.schedule(start_date=nextDay.strftime('%m/%d/%Y'), end_date=NextWeek.strftime('%m/%d/%Y'), team=teamSelected['id'])
+						
+						
+						#TODO handle no previous games returned
+						print('Past Games')
+						for games in pastGames:
+							print('game_id = %s | game_datetime = %s ' % (games['game_datetime'], games['game_datetime']))
+						
+						print('Next Games')
+						for games in nextGames:
+							print('game_id = %s | game_datetime = %s ' % (games['game_datetime'], games['game_datetime']))
+						
+						#TODO If the target game is the same as the most recent pastGames[n] then access pastGames[n - 1]
+						
+						if len(pastGames) > 0:
+							prev_game = pastGames[len(pastGames) - 1]
 						
 						#Check if the previous game is still 'In Progress' and if so set that as the target game
 						#Apprently sometimes the MLB api returns the next game sometimes
-						if prev_game[0]['status'] == 'In Progress' and target_game[0]['status'] == 'Scheduled':
+						if prev_game['status'] == 'In Progress' and target_game[0]['status'] == 'Scheduled':
 							target_game = prev_game
+						else:
+							target_game = target_game[0]
 						
-						#Read common properties
-						
-						homeTeam = statsapi.lookup_team(target_game[0]['home_name'])
-						awayTeam = statsapi.lookup_team(target_game[0]['away_name'])
-						
-						homeTeamShort = homeTeam[0]['fileCode'].upper() 
-						awayTeamShort = awayTeam[0]['fileCode'].upper()
-						
-						#Get the UTC datetime string
-						gameTime = target_game[0]['game_datetime']
-							
 						#Game is over
-						if target_game[0]['status'] == 'Final':
-							#Get the scores
-							homeScore = target_game[0]['home_score']
-							homeScoreString = str(homeScore)
-							awayScore = target_game[0]['away_score']
-							awayScoreString = str(awayScore)
-							
-							#Set the higher score to BOLD
-							if homeScore > awayScore:
-								homeScoreString = '**' + homeScoreString + '**'
-							else:
-								awayScoreString = '**' + awayScoreString + '**'
-							
-							#Format a string to display the score
-							appendString = homeTeamShort + ' ' + homeScoreString + ' F' + '\n'
-							discordFormattedString = discordFormattedString + appendString
-							
-							appendString = awayTeamShort + ' ' + awayScoreString + '\n'
-							discordFormattedString = discordFormattedString + appendString
-							
-							#Create the embed object
-							finalEmbed = discord.Embed()
-							finalEmbed.title = '**' +  target_game[0]['home_name'] + '** vs **' + target_game[0]['away_name'] + '**'
-							finalEmbed.type = 'rich'
-							finalEmbed.color = discord.Color.dark_blue()
-							
-							finalEmbed.add_field(name='Score:', value=discordFormattedString, inline=False)
-							finalEmbed.add_field(name='Winning Pitcher:', value=target_game[0]['winning_pitcher'] , inline=True)
-							finalEmbed.add_field(name='Losing Pitcher:', value=target_game[0]['losing_pitcher'] , inline=True)
-							if target_game[0]['save_pitcher'] != Nopne:
-								finalEmbed.add_field(name='Save:', value=target_game[0]['save_pitcher'] , inline=False)
-							
-							await message.channel.send(content='Final Score from ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=finalEmbed)
-							
-						elif target_game[0]['status'] == 'Scheduled' or target_game[0]['status'] == 'Pre-Game':		
-							#Get the probable pitchers
-							homeProbable = target_game[0]['home_probable_pitcher']
-							awayProbable = target_game[0]['away_probable_pitcher']
-							
-							gameTimeUTC = dateutil.parser.parse(gameTime)
-							# Tell the datetime object that it's in UTC time zone since 
-							# datetime objects are 'naive' by default
-							gameTimeUTC = gameTimeUTC.replace(tzinfo=dateutil.tz.tzutc())
-							#Convert to localtime
-							gameTimeLocal = gameTimeUTC.astimezone(dateutil.tz.tzlocal())
-							
-							#Show info for the next game
-							#Create the embed object
-							scheduledEmbed = discord.Embed()
-							scheduledEmbed.title = '**' +  target_game[0]['home_name'] + '** vs **' + target_game[0]['away_name'] + '**'
-							scheduledEmbed.type = 'rich'
-							#testEmbed.colour = 
-							scheduledEmbed.color = discord.Color.dark_blue()
-							
-							#scoreEmbed.add_field(name='NAME', value='VALUE', inline=False)
-							scheduledEmbed.add_field(name='Start Time:', value=gameTimeLocal.strftime('%-I:%M%p') + ' EST', inline=False)
-							scheduledEmbed.add_field(name=homeTeamShort + ' Probable:' , value=homeProbable, inline=True)
-							scheduledEmbed.add_field(name=awayTeamShort+ ' Probable:' , value=awayProbable, inline=True)
-							scheduledEmbed.add_field(name='Home Notes' , value=target_game[0]['home_pitcher_note'], inline=False)
-							scheduledEmbed.add_field(name='Away Notes' , value=target_game[0]['away_pitcher_note'], inline=False)
-							
-							
-							await message.channel.send(content='Scheduled Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=scheduledEmbed)
-							
-							#Display the last game info
-							prevGameTimeUTC = dateutil.parser.parse(prev_game[0]['game_datetime'])
-							# Tell the datetime object that it's in UTC time zone since 
-							# datetime objects are 'naive' by default
-							prevGameTimeUTC = prevGameTimeUTC.replace(tzinfo=dateutil.tz.tzutc())
-							#Convert to localtime
-							prevGameTimeLocal = prevGameTimeUTC.astimezone(dateutil.tz.tzlocal())
-							
-							homeScore = prev_game[0]['home_score']
-							homeScoreString = str(homeScore)
-							awayScore = prev_game[0]['away_score']
-							awayScoreString = str(awayScore)
-							
-							discordFormattedString = ''
-							
-							if homeScore > awayScore:
-								homeScoreString = '**' + homeScoreString + '**'
-							else:
-								awayScoreString = '**' + awayScoreString + '**'
-									
-							#Format a string to display the score
-							appendString = homeTeamShort + ' ' + homeScoreString + ' F' + '\n'
-							discordFormattedString = discordFormattedString + appendString
-							
-							appendString = awayTeamShort + ' ' + awayScoreString + '\n'
-							discordFormattedString = discordFormattedString + appendString
-							
-							#Create the embed object
-							finalEmbed = discord.Embed()
-							finalEmbed.title = '**' +  prev_game[0]['home_name'] + '** vs **' + prev_game[0]['away_name'] + '**'
-							finalEmbed.type = 'rich'
-							#testEmbed.colour = 
-							finalEmbed.color = discord.Color.dark_blue()
-							
-							#scoreEmbed.add_field(name='NAME', value='VALUE', inline=False)
-							finalEmbed.add_field(name='Score:', value=discordFormattedString, inline=False)
-							finalEmbed.add_field(name='Winning Pitcher:', value=prev_game[0]['winning_pitcher'] , inline=True)
-							finalEmbed.add_field(name='Losing Pitcher:', value=prev_game[0]['losing_pitcher'] , inline=True)
-							if prev_game[0]['save_pitcher'] != None:
-								finalEmbed.add_field(name='Save:', value=prev_game[0]['save_pitcher'] , inline=False)
-							
-							await message.channel.send(content='Final Score from ' + prevGameTimeLocal.strftime('%m/%d/%Y') + ':',embed=finalEmbed)
-							
-						elif target_game[0]['status'] == 'In Progress':
-
-							homeScore = target_game[0]['home_score']
-							homeScoreString = str(homeScore)
-							awayScore = target_game[0]['away_score']
-							awayScoreString = str(awayScore)
-							
-							if homeScore > awayScore:
-								homeScoreString = '**' + homeScoreString + '**'
-							elif awayScore > homeScore:
-								awayScoreString = '**' + awayScoreString + '**'
-							
-							#Create the embed object
-							scoreEmbed = discord.Embed()
-							scoreEmbed.title = '**' +  target_game[0]['home_name'] + '** vs **' + target_game[0]['away_name'] + '**'
-							scoreEmbed.type = 'rich'
-							#testEmbed.colour = 
-							scoreEmbed.color = discord.Color.dark_blue()
-							
-							scoreEmbed.add_field(name='Inning:', value=target_game[0]['inning_state'] + ' ' + str(target_game[0]['current_inning']), inline=False)
-							scoreEmbed.add_field(name=homeTeamShort , value=homeScoreString, inline=True)
-							scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
-							
-							await message.channel.send(content='Live Game:',embed=scoreEmbed)
+						if target_game['status'] == 'Final':
+							await self.final_Game_Embed(target_game, message)
+						#Game is scheduled	
+						elif target_game['status'] == 'Scheduled' or target_game['status'] == 'Pre-Game':	
+							await self.scheduled_Game_Embed(target_game, message)
+							await self.final_Game_Embed(pastGames[len(pastGames) - 1], message)
+						elif target_game['status'] == 'In Progress':
+							await self.live_Game_Embed(target_game, message)
 						
 					elif messageArray[1].upper() == 'HIGHLIGHTS':
 						teamSelected = await self.get_team(messageArray[2], message)
@@ -619,6 +625,7 @@ class MyClient(discord.Client):
 						#Create the embed
 						#https://i.imgur.com/NXWswde.png
 						
+						
 						#Create the embed object
 						gibbyEmbed = discord.Embed()
 						gibbyEmbed.title = '**BRUDDA**'
@@ -626,11 +633,22 @@ class MyClient(discord.Client):
 						#testEmbed.colour = 
 						gibbyEmbed.color = discord.Color.dark_blue()
 						
-						gibbyEmbed.set_image(url='https://i.imgur.com/NXWswde.png')
+						pewPewId = '<@&607777470208540710>'
 						
+						gibbyEmbed.set_image(url='https://i.imgur.com/kqGHmdi.jpg')
+						gibbyEmbed.image.width = 500
+						gibbyEmbed.image.height = 600
+						
+						await message.channel.send('%s' % pewPewId)
 						await message.channel.send(embed=gibbyEmbed)
-					
 						
+						
+						roles = []
+						roles = message.role_mentions
+						for index in range(0, len(roles)):
+							print(roles[index].id)
+							print(roles[index].mention)
+
 					#Display the help message
 					elif messageArray[1].upper() == 'HELP':
 						await message.channel.send('>>> use \'statsbot player PLAYERNAME\' to lookup a players stats. \n use \'statsbot highlights TEAMNAME\' to lookup the latest highlights. \n')
