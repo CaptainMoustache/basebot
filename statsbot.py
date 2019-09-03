@@ -14,185 +14,7 @@ class MyClient(discord.Client):
 		print('Logged on as', self.user)
 		await self.change_presence(activity=discord.Game(name='with myself'))
 	
-	async def get_team(self, searchName, message):
-		teamsReturned = statsapi.lookup_team(searchName)
-		if len(teamsReturned) > 1:
-			teamSelected = await self.prompt_team(message, searchName, teamsReturned)
-		elif len(teamsReturned) == 1:
-			teamSelected = teamsReturned[0]
-		elif len(teamsReturned) == 0:
-			await message.channel.send('Hmmm I couldn\'t find and teams using \'' + searchName + '\'')
-			return
-		return teamSelected
 	
-	#Identify which team is being requested by prompting the users with all returned results
-	async def prompt_team(self, message, searchTerm, teams):
-		#Check that more than one team was passed in
-		if len(teams) > 1:
-			#Build the string of teams to display
-			discordFormattedString = '>>> I found ' + str(len(teams)) + ' matches for \'' + searchTerm + '\' Enter the number for the team you want \n'
-			#Build the string to display the found players
-			for index in range(len(teams)):
-				#Add a newline for the next list item
-				if index < len(teams):
-					appendString = ' ' + str(index + 1) + ': ' + teams[index]['name'] + '\n'
-				else:
-					appendString = ' ' + str(index + 1) + ': ' + teams[index]['name']
-				discordFormattedString = discordFormattedString + appendString
-			await message.channel.send(discordFormattedString)
-			
-			messageTime = datetime.datetime.utcnow()
-			time.sleep(2)
-			teamSelectedIndex = 0
-			
-			#Wait 10 seconds to get an answer
-			for wait in range(1, 10):
-				if teamSelectedIndex != 0:
-					break;
-			
-				time.sleep(1)
-				#Get the last ten messages
-				messageList = await message.channel.history(limit=2).flatten()
-				
-				#if the name hasn't been selected yet
-				if teamSelectedIndex == 0:
-					#loop through the past 2 messages
-					for history in range (0, len(messageList)):
-						#The user who requested the list responded
-						if messageList[history].author == message.author:
-							#check if the message was sent after the list of names
-							if messageList[history].created_at > messageTime:
-								#The user responded with a number
-								if messageList[history].content.isdigit():
-									#The number is valid
-									if int(messageList[history].content) <= len(teams) and int(messageList[history].content) != 0:
-										teamSelectedIndex = int(messageList[history].content)
-										teamSelected = teams[teamSelectedIndex - 1]
-										break
-									else:
-										await message.channel.send('%s is not a valid number, start over' % str(messageList[history].content))
-										return
-								else:
-									await message.channel.send('%s is not a number, start over' % messageList[history].content)
-									return
-			#if the loop completes without a selection inform the user
-			if 	teamSelectedIndex == 0:
-				await message.channel.send('I\'m getting bored waiting for you, start over when you\'re ready.')
-				return
-			else:
-				return teamSelected
-	
-	def get_Local_Time(self, dateTimeString):
-		gameTimeUTC = dateutil.parser.parse(dateTimeString)
-		# Tell the datetime object that it's in UTC time zone since 
-		# datetime objects are 'naive' by default
-		gameTimeUTC = gameTimeUTC.replace(tzinfo=dateutil.tz.tzutc())
-		#Convert to localtime
-		return gameTimeUTC.astimezone(dateutil.tz.tzlocal())
-	
-	async def scheduled_Game_Embed(self, game, message):
-		#Get the UTC datetime string
-		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
-		
-		homeTeam = statsapi.lookup_team(game['home_name'])
-		awayTeam = statsapi.lookup_team(game['away_name'])
-		
-		homeTeamShort = homeTeam[0]['fileCode'].upper() 
-		awayTeamShort = awayTeam[0]['fileCode'].upper()
-		
-		#Get the probable pitchers
-		homeProbable = game['home_probable_pitcher']
-		awayProbable = game['away_probable_pitcher']
-		
-		#Create the embed object
-		scheduledEmbed = discord.Embed()
-		scheduledEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
-		scheduledEmbed.type = 'rich'
-		#testEmbed.colour = 
-		scheduledEmbed.color = discord.Color.dark_blue()
-		
-		#scoreEmbed.add_field(name='NAME', value='VALUE', inline=False)
-		scheduledEmbed.add_field(name='Start Time:', value=gameTimeLocal.strftime('%-I:%M%p') + ' EST', inline=False)
-		scheduledEmbed.add_field(name=homeTeamShort + ' Probable:' , value=homeProbable, inline=True)
-		scheduledEmbed.add_field(name=awayTeamShort+ ' Probable:' , value=awayProbable, inline=True)
-		scheduledEmbed.add_field(name='Home Notes' , value=game['home_pitcher_note'], inline=False)
-		scheduledEmbed.add_field(name='Away Notes' , value=game['away_pitcher_note'], inline=False)
-		await message.channel.send(content='Scheduled Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=scheduledEmbed)
-		
-	async def final_Game_Embed(self, game, message):
-		#Get the UTC datetime string
-		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
-		
-		homeTeam = statsapi.lookup_team(game['home_name'])
-		awayTeam = statsapi.lookup_team(game['away_name'])
-		
-		homeTeamShort = homeTeam[0]['fileCode'].upper() 
-		awayTeamShort = awayTeam[0]['fileCode'].upper()
-		
-		#Get the scores
-		homeScore = game['home_score']
-		homeScoreString = str(homeScore)
-		awayScore = game['away_score']
-		awayScoreString = str(awayScore)
-		
-		#Set the higher score to BOLD
-		if homeScore > awayScore:
-			homeScoreString = '**' + homeScoreString + '**'
-		else:
-			awayScoreString = '**' + awayScoreString + '**'
-		
-		discordFormattedString = ''
-		
-		#Format a string to display the score
-		appendString = homeTeamShort + ' ' + homeScoreString + ' F' + '\n'
-		discordFormattedString = discordFormattedString + appendString
-		
-		appendString = awayTeamShort + ' ' + awayScoreString + '\n'
-		discordFormattedString = discordFormattedString + appendString
-		
-		#Create the embed object
-		finalEmbed = discord.Embed()
-		finalEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
-		finalEmbed.type = 'rich'
-		finalEmbed.color = discord.Color.dark_blue()
-		
-		finalEmbed.add_field(name='Score:', value=discordFormattedString, inline=False)
-		finalEmbed.add_field(name='Winning Pitcher:', value=game['winning_pitcher'] , inline=True)
-		finalEmbed.add_field(name='Losing Pitcher:', value=game['losing_pitcher'] , inline=True)
-		if game['save_pitcher'] != None:
-			finalEmbed.add_field(name='Save:', value=game['save_pitcher'] , inline=False)
-		
-		await message.channel.send(content='Final Score from ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=finalEmbed)
-	
-	async def live_Game_Embed(self, game, message):
-		homeTeam = statsapi.lookup_team(game['home_name'])
-		awayTeam = statsapi.lookup_team(game['away_name'])
-		
-		homeTeamShort = homeTeam[0]['fileCode'].upper() 
-		awayTeamShort = awayTeam[0]['fileCode'].upper()
-	
-		homeScore = game['home_score']
-		homeScoreString = str(homeScore)
-		awayScore = game['away_score']
-		awayScoreString = str(awayScore)
-		
-		if homeScore > awayScore:
-			homeScoreString = '**' + homeScoreString + '**'
-		elif awayScore > homeScore:
-			awayScoreString = '**' + awayScoreString + '**'
-		
-		#Create the embed object
-		scoreEmbed = discord.Embed()
-		scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
-		scoreEmbed.type = 'rich'
-		#testEmbed.colour = 
-		scoreEmbed.color = discord.Color.dark_blue()
-		
-		scoreEmbed.add_field(name='Inning:', value=game['inning_state'] + ' ' + str(game['current_inning']), inline=False)
-		scoreEmbed.add_field(name=homeTeamShort , value=homeScoreString, inline=True)
-		scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
-		
-		await message.channel.send(content='Live Game:',embed=scoreEmbed)
 	
 	async def on_message(self, message):
 		# don't respond to ourselves
@@ -584,28 +406,6 @@ class MyClient(discord.Client):
 								if len(highlightEmbed) < 6000:
 									highlightEmbed.add_field(name=splitHighlightsList[index][0], value='[' + splitHighlightsList[index][2][:27]  + '...]' + '(' + splitHighlightsList[index][2] + ')', inline=False)
 															
-								#On the last highlight to list don't add a newline
-								#Right now this will be limited to 5 highlights
-								
-								#if index < 4:
-								#	discordFormattedString = discordFormattedString + splitHighlightsList[index][0] + '\n' + splitHighlightsList[index][2] + '\n'
-								#elif index == 4:
-								#	discordFormattedString = discordFormattedString + splitHighlightsList[index][0] + '\n' + splitHighlightsList[index][2]
-								#elif index == 5:
-								#	break
-							
-
-							
-							
-							
-							
-							#highlightEmbed.add_field(name=splitHighlightsList[0][0], value=splitHighlightsList[0][2], inline=True)
-							#highlightEmbed.add_field(name=splitHighlightsList[1][0], value=splitHighlightsList[1][2], inline=True)
-							
-							#Build a test dict
-							#testDict = { splitHighlightsList[0][2] : 1  , splitHighlightsList[1][2] : 2 }
-							
-							#testEmbed.from_dict(testDict)
 
 							await message.channel.send(embed=highlightEmbed)
 						else:
@@ -639,8 +439,8 @@ class MyClient(discord.Client):
 						gibbyEmbed.image.width = 500
 						gibbyEmbed.image.height = 600
 						
-						await message.channel.send('%s' % pewPewId)
-						await message.channel.send(embed=gibbyEmbed)
+						#await message.channel.send('%s' % pewPewId)
+						await message.channel.send(content=pewPewId,embed=gibbyEmbed)
 						
 						
 						roles = []
@@ -659,6 +459,186 @@ class MyClient(discord.Client):
 					await message.channel.send('I like it when you say my name, but I need more instructions.')
 				else:
 					return
+					
+	async def get_team(self, searchName, message):
+		teamsReturned = statsapi.lookup_team(searchName)
+		if len(teamsReturned) > 1:
+			teamSelected = await self.prompt_team(message, searchName, teamsReturned)
+		elif len(teamsReturned) == 1:
+			teamSelected = teamsReturned[0]
+		elif len(teamsReturned) == 0:
+			await message.channel.send('Hmmm I couldn\'t find and teams using \'' + searchName + '\'')
+			return
+		return teamSelected
+	
+	#Identify which team is being requested by prompting the users with all returned results
+	async def prompt_team(self, message, searchTerm, teams):
+		#Check that more than one team was passed in
+		if len(teams) > 1:
+			#Build the string of teams to display
+			discordFormattedString = '>>> I found ' + str(len(teams)) + ' matches for \'' + searchTerm + '\' Enter the number for the team you want \n'
+			#Build the string to display the found players
+			for index in range(len(teams)):
+				#Add a newline for the next list item
+				if index < len(teams):
+					appendString = ' ' + str(index + 1) + ': ' + teams[index]['name'] + '\n'
+				else:
+					appendString = ' ' + str(index + 1) + ': ' + teams[index]['name']
+				discordFormattedString = discordFormattedString + appendString
+			await message.channel.send(discordFormattedString)
+			
+			messageTime = datetime.datetime.utcnow()
+			time.sleep(2)
+			teamSelectedIndex = 0
+			
+			#Wait 10 seconds to get an answer
+			for wait in range(1, 10):
+				if teamSelectedIndex != 0:
+					break;
+			
+				time.sleep(1)
+				#Get the last ten messages
+				messageList = await message.channel.history(limit=2).flatten()
+				
+				#if the name hasn't been selected yet
+				if teamSelectedIndex == 0:
+					#loop through the past 2 messages
+					for history in range (0, len(messageList)):
+						#The user who requested the list responded
+						if messageList[history].author == message.author:
+							#check if the message was sent after the list of names
+							if messageList[history].created_at > messageTime:
+								#The user responded with a number
+								if messageList[history].content.isdigit():
+									#The number is valid
+									if int(messageList[history].content) <= len(teams) and int(messageList[history].content) != 0:
+										teamSelectedIndex = int(messageList[history].content)
+										teamSelected = teams[teamSelectedIndex - 1]
+										break
+									else:
+										await message.channel.send('%s is not a valid number, start over' % str(messageList[history].content))
+										return
+								else:
+									await message.channel.send('%s is not a number, start over' % messageList[history].content)
+									return
+			#if the loop completes without a selection inform the user
+			if 	teamSelectedIndex == 0:
+				await message.channel.send('I\'m getting bored waiting for you, start over when you\'re ready.')
+				return
+			else:
+				return teamSelected
+	
+	def get_Local_Time(self, dateTimeString):
+		gameTimeUTC = dateutil.parser.parse(dateTimeString)
+		# Tell the datetime object that it's in UTC time zone since 
+		# datetime objects are 'naive' by default
+		gameTimeUTC = gameTimeUTC.replace(tzinfo=dateutil.tz.tzutc())
+		#Convert to localtime
+		return gameTimeUTC.astimezone(dateutil.tz.tzlocal())
+	
+	async def scheduled_Game_Embed(self, game, message):
+		#Get the UTC datetime string
+		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
+		
+		homeTeam = statsapi.lookup_team(game['home_name'])
+		awayTeam = statsapi.lookup_team(game['away_name'])
+		
+		homeTeamShort = homeTeam[0]['fileCode'].upper() 
+		awayTeamShort = awayTeam[0]['fileCode'].upper()
+		
+		#Get the probable pitchers
+		homeProbable = game['home_probable_pitcher']
+		awayProbable = game['away_probable_pitcher']
+		
+		#Create the embed object
+		scheduledEmbed = discord.Embed()
+		scheduledEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		scheduledEmbed.type = 'rich'
+		#testEmbed.colour = 
+		scheduledEmbed.color = discord.Color.dark_blue()
+		
+		#scoreEmbed.add_field(name='NAME', value='VALUE', inline=False)
+		scheduledEmbed.add_field(name='Start Time:', value=gameTimeLocal.strftime('%-I:%M%p') + ' EST', inline=False)
+		scheduledEmbed.add_field(name=homeTeamShort + ' Probable:' , value=homeProbable, inline=True)
+		scheduledEmbed.add_field(name=awayTeamShort+ ' Probable:' , value=awayProbable, inline=True)
+		scheduledEmbed.add_field(name='Home Notes' , value=game['home_pitcher_note'], inline=False)
+		scheduledEmbed.add_field(name='Away Notes' , value=game['away_pitcher_note'], inline=False)
+		await message.channel.send(content='Scheduled Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=scheduledEmbed)
+		
+	async def final_Game_Embed(self, game, message):
+		#Get the UTC datetime string
+		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
+		
+		homeTeam = statsapi.lookup_team(game['home_name'])
+		awayTeam = statsapi.lookup_team(game['away_name'])
+		
+		homeTeamShort = homeTeam[0]['fileCode'].upper() 
+		awayTeamShort = awayTeam[0]['fileCode'].upper()
+		
+		#Get the scores
+		homeScore = game['home_score']
+		homeScoreString = str(homeScore)
+		awayScore = game['away_score']
+		awayScoreString = str(awayScore)
+		
+		#Set the higher score to BOLD
+		if homeScore > awayScore:
+			homeScoreString = '**' + homeScoreString + '**'
+		else:
+			awayScoreString = '**' + awayScoreString + '**'
+		
+		discordFormattedString = ''
+		
+		#Format a string to display the score
+		appendString = homeTeamShort + ' ' + homeScoreString + ' F' + '\n'
+		discordFormattedString = discordFormattedString + appendString
+		
+		appendString = awayTeamShort + ' ' + awayScoreString + '\n'
+		discordFormattedString = discordFormattedString + appendString
+		
+		#Create the embed object
+		finalEmbed = discord.Embed()
+		finalEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		finalEmbed.type = 'rich'
+		finalEmbed.color = discord.Color.dark_blue()
+		
+		finalEmbed.add_field(name='Score:', value=discordFormattedString, inline=False)
+		finalEmbed.add_field(name='Winning Pitcher:', value=game['winning_pitcher'] , inline=True)
+		finalEmbed.add_field(name='Losing Pitcher:', value=game['losing_pitcher'] , inline=True)
+		if game['save_pitcher'] != None:
+			finalEmbed.add_field(name='Save:', value=game['save_pitcher'] , inline=False)
+		
+		await message.channel.send(content='Final Score from ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=finalEmbed)
+	
+	async def live_Game_Embed(self, game, message):
+		homeTeam = statsapi.lookup_team(game['home_name'])
+		awayTeam = statsapi.lookup_team(game['away_name'])
+		
+		homeTeamShort = homeTeam[0]['fileCode'].upper() 
+		awayTeamShort = awayTeam[0]['fileCode'].upper()
+	
+		homeScore = game['home_score']
+		homeScoreString = str(homeScore)
+		awayScore = game['away_score']
+		awayScoreString = str(awayScore)
+		
+		if homeScore > awayScore:
+			homeScoreString = '**' + homeScoreString + '**'
+		elif awayScore > homeScore:
+			awayScoreString = '**' + awayScoreString + '**'
+		
+		#Create the embed object
+		scoreEmbed = discord.Embed()
+		scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		scoreEmbed.type = 'rich'
+		#testEmbed.colour = 
+		scoreEmbed.color = discord.Color.dark_blue()
+		
+		scoreEmbed.add_field(name='Inning:', value=game['inning_state'] + ' ' + str(game['current_inning']), inline=False)
+		scoreEmbed.add_field(name=homeTeamShort , value=homeScoreString, inline=True)
+		scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
+		
+		await message.channel.send(content='Live Game:',embed=scoreEmbed)
 
 def ReadTokenFile(filename):
 	#Read the token from a file
