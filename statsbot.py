@@ -411,8 +411,6 @@ class MyClient(discord.Client):
 						else:
 							await message.channel.send('Sorry, I couldn\'t find any highlights for the past week')
 							
-							
-					
 					elif messageArray[1].upper() == 'ROSTER':
 						teamSelected = await self.get_team(messageArray[2], message)
 						
@@ -420,12 +418,7 @@ class MyClient(discord.Client):
 						
 						await message.channel.send('>>> Here is the current roster for the **' + teamSelected['name'] + '**:\n ' + statsapi.roster(int(teamSelected['id'])))
 						
-						
 					elif messageArray[1].upper() == 'GIBBY':
-						#Create the embed
-						#https://i.imgur.com/NXWswde.png
-						
-						
 						#Create the embed object
 						gibbyEmbed = discord.Embed()
 						gibbyEmbed.title = '**BRUDDA**'
@@ -441,13 +434,6 @@ class MyClient(discord.Client):
 						
 						#await message.channel.send('%s' % pewPewId)
 						await message.channel.send(content=pewPewId,embed=gibbyEmbed)
-						
-						
-						roles = []
-						roles = message.role_mentions
-						for index in range(0, len(roles)):
-							print(roles[index].id)
-							print(roles[index].mention)
 
 					#Display the help message
 					elif messageArray[1].upper() == 'HELP':
