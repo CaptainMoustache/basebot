@@ -326,7 +326,7 @@ class MyClient(discord.Client):
 							prev_game = pastGames[len(pastGames) - 1]
 						
 						#Check if the previous game is still 'In Progress' and if so set that as the target game
-						#Apprently sometimes the MLB api returns the next game sometimes
+						#Apparently the MLB api returns the next game sometimes
 						if prev_game['status'] == 'In Progress' and target_game[0]['status'] == 'Scheduled':
 							target_game = prev_game
 						else:
