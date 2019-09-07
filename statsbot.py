@@ -418,6 +418,25 @@ class MyClient(discord.Client):
 						
 						await message.channel.send('>>> Here is the current roster for the **' + teamSelected['name'] + '**:\n ' + statsapi.roster(int(teamSelected['id'])))
 						
+					elif messageArray[1].upper() == 'STANDINGS':
+					
+						nLEastStandingsString = statsapi.standings(leagueId='103', division='east')
+						#NlStandingsString = statsapi.standings(leagueId='104', division='all', include_wildcard=True, season=None, standingsTypes=None, date=None)
+						
+						print(nLEastStandingsString)
+						
+						#Create the embed object
+						standingsEmbed = discord.Embed()
+						standingsEmbed.type = 'rich'
+						#testEmbed.colour = 
+						standingsEmbed.color = discord.Color.dark_blue()
+						standingsEmbed.add_field(name='**NL East Standings**',value=nLEastStandingsString, inline=False)
+						#standingsEmbed.add_field(name='**NL Standings**',value=AlStandingsString)
+						
+						print(nLEastStandingsString)
+						
+						#await message.channel.send(embed=standingsEmbed)
+						
 					elif messageArray[1].upper() == 'GIBBY':
 						#Create the embed object
 						gibbyEmbed = discord.Embed()
