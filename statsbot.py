@@ -25,7 +25,7 @@ class MyClient(discord.Client):
 				messageArray = message.content.split()
 				if len(messageArray) > 0:
 					#Bot was called with enough arguments
-					if messageArray[0].upper() == 'STATSBOT' or messageArray[0].upper() == 'STATS BOT':
+					if messageArray[0].upper() == 'STATSBOT' and len(messageArray) > 1:
 						#if the first message part is 'player' lookup the players stats
 						if messageArray[1].upper() == 'PLAYER':
 							#Set the year to lookup to the current year
@@ -421,20 +421,37 @@ class MyClient(discord.Client):
 							
 						elif messageArray[1].upper() == 'STANDINGS':
 						
-							nLEastStandingsString = statsapi.standings(leagueId='103', division='1')
+							#103 = American
+							#104 = National
+						
+							standingsString = statsapi.standings(leagueId='103', standingsTypes='byDivision')
 							#NlStandingsString = statsapi.standings(leagueId='104', division='all', include_wildcard=True, season=None, standingsTypes=None, date=None)
 							
-							print(nLEastStandingsString)
+							
+							#print(statsapi.meta('standingsTypes'))
+							
+							
+							print(standingsString)
+							
+							
+							standingsGet = statsapi.get('standings',{'fields':'records,standingsType,teamRecords,team,name,division,id'})
+							
+							print(standingsGet)
+							
+							#standingsDataString = statsapi.standings_data(leagueId='103')
+							
+							#print(standingsDataString)
+							
+							
 							
 							#Create the embed object
 							standingsEmbed = discord.Embed()
 							standingsEmbed.type = 'rich'
 							#testEmbed.colour = 
 							standingsEmbed.color = discord.Color.dark_blue()
-							standingsEmbed.add_field(name='**NL East Standings**',value=nLEastStandingsString, inline=False)
+							standingsEmbed.add_field(name='**AL Standings**',value=standingsString, inline=False)
 							#standingsEmbed.add_field(name='**NL Standings**',value=AlStandingsString)
 							
-							print(nLEastStandingsString)
 							
 							#await message.channel.send(embed=standingsEmbed)
 							
@@ -460,10 +477,10 @@ class MyClient(discord.Client):
 							await message.channel.send('>>> use \'statsbot player PLAYERNAME\' to lookup a players stats. \n use \'statsbot highlights TEAMNAME\' to lookup the latest highlights. \n')
 						else:
 							await message.channel.send('Sorry all I support right now is player stats.')
-				#Bot was called without enough arguments
-				else:
-					await message.channel.send('I like it when you say my name, but I need more instructions.')
-					return
+					#Bot was called without enough arguments
+					elif messageArray[0].upper() == 'STATSBOT' and len(messageArray) == 1:
+						await message.channel.send('I like it when you say my name, but I need more instructions.')
+						return
 					
 	async def get_team(self, searchName, message):
 		teamsReturned = statsapi.lookup_team(searchName)
