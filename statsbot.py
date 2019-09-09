@@ -311,7 +311,7 @@ class MyClient(discord.Client):
 							NextWeek = datetime.datetime.today() + timedelta(7)
 							nextGames = statsapi.schedule(start_date=nextDay.strftime('%m/%d/%Y'), end_date=NextWeek.strftime('%m/%d/%Y'), team=teamSelected['id'])
 							
-							
+							'''
 							#TODO handle no previous games returned
 							print('Past Games')
 							for games in pastGames:
@@ -320,7 +320,7 @@ class MyClient(discord.Client):
 							print('Next Games')
 							for games in nextGames:
 								print('game_id = %s | game_datetime = %s ' % (games['game_datetime'], games['game_datetime']))
-							
+							'''
 							#TODO If the target game is the same as the most recent pastGames[n] then access pastGames[n - 1]
 							
 							if len(pastGames) > 0:
@@ -421,27 +421,36 @@ class MyClient(discord.Client):
 							
 						elif messageArray[1].upper() == 'STANDINGS':
 						
+							#league IDs
+						
 							#103 = American
 							#104 = National
-						
-							standingsString = statsapi.standings(leagueId='103', standingsTypes='byDivision')
-							#NlStandingsString = statsapi.standings(leagueId='104', division='all', include_wildcard=True, season=None, standingsTypes=None, date=None)
 							
+							#Division IDs
 							
-							#print(statsapi.meta('standingsTypes'))
+							#AL East - 201
+							#AL Central = 202
+							#AL West = 200
 							
+							#NL East - 204
+							#NL Central - 205
+							#NL West - 203
 							
-							print(standingsString)
+							#alEastStandingsString = statsapi.standings(leagueId='103', division='201', standingsTypes='byDivision')
+							#alCentralStandingsString = statsapi.standings(leagueId='103', division='202', standingsTypes='byDivision')
+							#alWestStandingsString = statsapi.standings(leagueId='103', division='200', standingsTypes='byDivision')
 							
+							#nlEastStandingsString = statsapi.standings(leagueId=104, division='204')
+							#nlCentralStandingsString = statsapi.standings(leagueId='104', division='205', standingsTypes='byDivision')
+							#nlWestStandingsString = statsapi.standings(leagueId='104', division='203', standingsTypes='byDivision')
 							
-							standingsGet = statsapi.get('standings',{'fields':'records,standingsType,teamRecords,team,name,division,id'})
+							alStandingsString = statsapi.standings(leagueId='103', standingsTypes='byDivision', include_wildcard=False)
 							
-							print(standingsGet)
+							alStandingsArray = alStandingsString.split('\n\n')
 							
-							#standingsDataString = statsapi.standings_data(leagueId='103')
+							nlStandingsString = statsapi.standings(leagueId='104', standingsTypes='byDivision', include_wildcard=False)
 							
-							#print(standingsDataString)
-							
+							nlStandingsArray = nlStandingsString.split('\n\n')
 							
 							
 							#Create the embed object
@@ -449,12 +458,78 @@ class MyClient(discord.Client):
 							standingsEmbed.type = 'rich'
 							#testEmbed.colour = 
 							standingsEmbed.color = discord.Color.dark_blue()
-							standingsEmbed.add_field(name='**AL Standings**',value=standingsString, inline=False)
-							#standingsEmbed.add_field(name='**NL Standings**',value=AlStandingsString)
+							standingsEmbed.add_field(name='**AL East**',value='```' + alStandingsArray[1] + '```', inline=True)
+							standingsEmbed.add_field(name='**AL Central**',value='```' + alStandingsArray[2] + '```', inline=False)
+							standingsEmbed.add_field(name='**AL West**',value='```' + alStandingsArray[0] + '```', inline=False)
 							
+							standingsEmbed.add_field(name='**NL East**',value='```' + nlStandingsArray[2] + '```', inline=False)
+							standingsEmbed.add_field(name='**NL Central**',value='```' + nlStandingsArray[0] + '```', inline=False)
+							standingsEmbed.add_field(name='**NL West**',value='```' + nlStandingsArray[1] + '```', inline=False)
 							
-							#await message.channel.send(embed=standingsEmbed)
+							await message.channel.send(embed=standingsEmbed)
+						
+						elif messageArray[1].upper() == 'BOXSCORE':
+							targetDateTime = datetime.datetime.now()
+						
+							#Get the team
+							teamSelected = await self.get_team(messageArray[2], message)
 							
+							#Get that teams most recent game
+							most_recent_game = statsapi.last_game(int(teamSelected['id']))
+							
+							#Set the target game to the value returned from statsapi.last_game
+							target_game = statsapi.schedule(game_id=most_recent_game)
+							#Get the game previous to the returned game
+							
+							#Get a list of games a week in the past
+							pastDay = datetime.datetime.today()
+							pastWeek = datetime.datetime.today() - timedelta(7)
+							pastGames = statsapi.schedule(start_date=pastWeek.strftime('%m/%d/%Y'), end_date=pastDay.strftime('%m/%d/%Y'), team=teamSelected['id'])
+							
+							#Get a list of games a week in the future
+							nextDay = datetime.datetime.today() + timedelta(1)
+							NextWeek = datetime.datetime.today() + timedelta(7)
+							nextGames = statsapi.schedule(start_date=nextDay.strftime('%m/%d/%Y'), end_date=NextWeek.strftime('%m/%d/%Y'), team=teamSelected['id'])
+							
+							'''
+							#TODO handle no previous games returned
+							print('Past Games')
+							for games in pastGames:
+								print('game_id = %s | game_datetime = %s ' % (games['game_datetime'], games['game_datetime']))
+							
+							print('Next Games')
+							for games in nextGames:
+								print('game_id = %s | game_datetime = %s ' % (games['game_datetime'], games['game_datetime']))
+							'''
+							#TODO If the target game is the same as the most recent pastGames[n] then access pastGames[n - 1]
+							
+							if len(pastGames) > 0:
+								prev_game = pastGames[len(pastGames) - 1]
+							
+							#Check if the previous game is still 'In Progress' and if so set that as the target game
+							#Apparently the MLB api returns the next game sometimes
+							if prev_game['status'] == 'In Progress' and target_game[0]['status'] == 'Scheduled':
+								target_game = prev_game
+							else:
+								target_game = target_game[0]
+							'''
+							#Game is over
+							if target_game['status'] == 'Final':
+								await self.final_Game_Embed(target_game, message)
+							#Game is scheduled	
+							elif target_game['status'] == 'Scheduled' or target_game['status'] == 'Pre-Game':	
+								await self.scheduled_Game_Embed(target_game, message)
+								await self.final_Game_Embed(pastGames[len(pastGames) - 1], message)
+							elif target_game['status'] == 'In Progress':
+								await self.live_Game_Embed(target_game, message)
+							'''
+							#boxScoreString = statsapi.boxscore(gamePk=target_game['game_id'], battingBox=False, battingInfo=False, fieldingInfo=False, pitchingBox=False, gameInfo=True, timecode=None)
+							boxScoreString = statsapi.boxscore(target_game['game_id'], battingBox=False, battingInfo=False, fieldingInfo=False, pitchingBox=False, gameInfo=True, timecode=None)
+							boxScoreString = '```' + boxScoreString + '```'
+							
+							await message.channel.send(boxScoreString)
+							
+						
 						elif messageArray[1].upper() == 'GIBBY':
 							#Create the embed object
 							gibbyEmbed = discord.Embed()
