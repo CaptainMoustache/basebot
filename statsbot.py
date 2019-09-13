@@ -8,6 +8,7 @@ import random
 import statsapi
 import re
 import dateutil.parser
+import requests
 
 class MyClient(discord.Client):
 	async def on_ready(self):
@@ -523,11 +524,22 @@ class MyClient(discord.Client):
 							elif target_game['status'] == 'In Progress':
 								await self.live_Game_Embed(target_game, message)
 							'''
-							#boxScoreString = statsapi.boxscore(gamePk=target_game['game_id'], battingBox=False, battingInfo=False, fieldingInfo=False, pitchingBox=False, gameInfo=True, timecode=None)
-							boxScoreString = statsapi.boxscore(target_game['game_id'], battingBox=False, battingInfo=False, fieldingInfo=False, pitchingBox=False, gameInfo=True, timecode=None)
-							boxScoreString = '```' + boxScoreString + '```'
 							
-							await message.channel.send(boxScoreString)
+							#Get the datetime of the target game and format it for the YYYYMMDD_HHMMSS
+							#
+							#
+							#
+							#
+							#linescoreString = statsapi.linescore(target_game['game_id'], )
+							
+							
+							#print(target_game['game_id'])
+							#boxScoreString = statsapi.boxscore(gamePk=target_game['game_id'], battingBox=False, battingInfo=False, fieldingInfo=False, pitchingBox=False, gameInfo=True, timecode=None)
+							linescoreString = statsapi.linescore(target_game['game_id'], )
+							print(linescoreString)
+							linescoreString = '```js\n' + linescoreString + '```'
+							
+							await message.channel.send(content=linescoreString, tts=False)
 							
 						
 						elif messageArray[1].upper() == 'GIBBY':
@@ -724,6 +736,13 @@ class MyClient(discord.Client):
 		elif awayScore > homeScore:
 			awayScoreString = '**' + awayScoreString + '**'
 		
+		
+		#Build the content string
+		liveScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
+		
+		liveScoreString = liveScoreString + '```js\n' + statsapi.linescore(game['game_id']) + '```'
+		
+		'''
 		#Create the embed object
 		scoreEmbed = discord.Embed()
 		scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
@@ -731,11 +750,15 @@ class MyClient(discord.Client):
 		#testEmbed.colour = 
 		scoreEmbed.color = discord.Color.dark_blue()
 		
-		scoreEmbed.add_field(name='Inning:', value=game['inning_state'] + ' ' + str(game['current_inning']), inline=False)
-		scoreEmbed.add_field(name=homeTeamShort , value=homeScoreString, inline=True)
-		scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
+		#scoreEmbed.add_field(name='Inning:', value=game['inning_state'] + ' ' + str(game['current_inning']), inline=False)
+		#scoreEmbed.add_field(name=homeTeamShort , value=homeScoreString, inline=True)
+		#scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
+		scoreEmbed.add_field(name='Linescore', value='```' + statsapi.linescore(game['game_id']) + '```')
 		
 		await message.channel.send(content='Live Game:',embed=scoreEmbed)
+		'''
+		await message.channel.send(content=liveScoreString, tts=False)
+
 
 def ReadTokenFile(filename):
 	#Read the token from a file
