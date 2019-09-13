@@ -335,7 +335,7 @@ class MyClient(discord.Client):
 								target_game = target_game[0]
 							
 							#Game is over
-							if target_game['status'] == 'Final':
+							if target_game['status'] == 'Final' or target_game['status'] == 'Game Over':
 								await self.final_Game_Message(target_game, message)
 							#Game is scheduled	
 							elif target_game['status'] == 'Scheduled' or target_game['status'] == 'Pre-Game':	
@@ -343,6 +343,8 @@ class MyClient(discord.Client):
 								await self.final_Game_Message(pastGames[len(pastGames) - 1], message)
 							elif target_game['status'] == 'In Progress':
 								await self.live_Game_Message(target_game, message)
+							else:
+								await message.channel.send('Game Status = %s' % target_game['status'])
 							
 						elif messageArray[1].upper() == 'HIGHLIGHTS':
 							teamSelected = await self.get_team(messageArray[2], message)
