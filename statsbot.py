@@ -336,13 +336,13 @@ class MyClient(discord.Client):
 							
 							#Game is over
 							if target_game['status'] == 'Final':
-								await self.final_Game_Embed(target_game, message)
+								await self.final_Game_Message(target_game, message)
 							#Game is scheduled	
 							elif target_game['status'] == 'Scheduled' or target_game['status'] == 'Pre-Game':	
 								await self.scheduled_Game_Embed(target_game, message)
-								await self.final_Game_Embed(pastGames[len(pastGames) - 1], message)
+								await self.final_Game_Message(pastGames[len(pastGames) - 1], message)
 							elif target_game['status'] == 'In Progress':
-								await self.live_Game_Embed(target_game, message)
+								await self.live_Game_Message(target_game, message)
 							
 						elif messageArray[1].upper() == 'HIGHLIGHTS':
 							teamSelected = await self.get_team(messageArray[2], message)
@@ -674,7 +674,7 @@ class MyClient(discord.Client):
 		scheduledEmbed.add_field(name='Away Notes' , value=game['away_pitcher_note'], inline=False)
 		await message.channel.send(content='Scheduled Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=scheduledEmbed)
 		
-	async def final_Game_Embed(self, game, message):
+	async def final_Game_Message(self, game, message):
 		#Get the UTC datetime string
 		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
 		
@@ -698,6 +698,17 @@ class MyClient(discord.Client):
 		
 		discordFormattedString = ''
 		
+		
+		#Build the content string
+		liveScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
+		
+		liveScoreString = 'Final score from ' + gameTimeLocal.strftime('%m/%d/%Y')
+		
+		liveScoreString = liveScoreString + '```js\n' + statsapi.linescore(game['game_id']) + '```'
+		
+		await message.channel.send(content=liveScoreString, tts=False)
+		
+		'''
 		#Format a string to display the score
 		appendString = homeTeamShort + ' ' + homeScoreString + ' F' + '\n'
 		discordFormattedString = discordFormattedString + appendString
@@ -718,8 +729,10 @@ class MyClient(discord.Client):
 			finalEmbed.add_field(name='Save:', value=game['save_pitcher'] , inline=False)
 		
 		await message.channel.send(content='Final Score from ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=finalEmbed)
+		'''
 	
-	async def live_Game_Embed(self, game, message):
+	
+	async def live_Game_Message(self, game, message):
 		homeTeam = statsapi.lookup_team(game['home_name'])
 		awayTeam = statsapi.lookup_team(game['away_name'])
 		
