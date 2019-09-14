@@ -290,17 +290,112 @@ class MyClient(discord.Client):
 								' WHIP: %s' % (playerGenInfo.name_display_first_last, seasonPitchingInfo.team_abbrev, statYear, seasonPitchingInfo.era, seasonPitchingInfo.w, seasonPitchingInfo.l, seasonPitchingInfo.gs, seasonPitchingInfo.whip))
 
 						elif messageArray[1].upper() == 'SCORE':
+						
+							#Set the target day
 							targetDateTime = datetime.datetime.now()
 						
 							#Get the team
 							teamSelected = await self.get_team(messageArray[2], message)
 							
+							# Get the schedule for the selected date
+							queriedSchedule = statsapi.schedule(date=targetDateTime.strftime('%Y-%m-%d'), team=int(teamSelected['id']))
+							
+							
+							#Get a list of games a week in the past
+							pastDay = datetime.datetime.today() - timedelta(1)
+							pastWeek = datetime.datetime.today() - timedelta(7)
+							pastGames = statsapi.schedule(start_date=pastWeek.strftime('%m/%d/%Y'), end_date=pastDay.strftime('%m/%d/%Y'), team=teamSelected['id'])
+							
+							#Get a list of games a week in the future
+							nextDay = datetime.datetime.today() + timedelta(1)
+							NextWeek = datetime.datetime.today() + timedelta(7)
+							nextGames = statsapi.schedule(start_date=nextDay.strftime('%m/%d/%Y'), end_date=NextWeek.strftime('%m/%d/%Y'), team=teamSelected['id'])
+							
+							if len(pastGames) > 0:
+								prev_game = pastGames[len(pastGames) - 1]
+							
+							#Check for a double header
+							if len(queriedSchedule) == 2:
+								print('DEBUG: Doubleheader detected!')
+								#Game 1 is over
+								if queriedSchedule[0]['status'] == 'Final' or queriedSchedule[0]['status'] == 'Game Over':
+									await self.final_Game_Message(queriedSchedule[0], message)
+								#Game is scheduled	
+								elif queriedSchedule[0]['status'] == 'Scheduled' or queriedSchedule[0]['status'] == 'Pre-Game':	
+									await self.scheduled_Game_Embed(queriedSchedule[0], message)
+									#await self.final_Game_Message(pastGames[len(pastGames) - 1], message)
+								elif queriedSchedule[0]['status'] == 'In Progress':
+									await self.live_Game_Message(queriedSchedule[0], message)
+								else:
+									await message.channel.send('Game Status = %s' % queriedSchedule[0]['status'])
+									
+								#Game 2 is over
+								if queriedSchedule[1]['status'] == 'Final' or queriedSchedule[1]['status'] == 'Game Over':
+									await self.final_Game_Message(queriedSchedule[1], message)
+								#Game is scheduled	
+								elif queriedSchedule[1]['status'] == 'Scheduled' or queriedSchedule[1]['status'] == 'Pre-Game':	
+									await self.scheduled_Game_Embed(queriedSchedule[1], message)
+									await self.final_Game_Message(prev_game, message)
+								elif queriedSchedule[1]['status'] == 'In Progress':
+									await self.live_Game_Message(queriedSchedule[1], message)
+								else:
+									await message.channel.send('Game Status = %s' % queriedSchedule[1]['status'])
+							#A single game was returned
+							elif len(queriedSchedule) == 1:
+								print('DEBUG: Single game detected!')
+								if len(pastGames) > 0:
+									prev_game = pastGames[len(pastGames) - 1]
+							
+								#Check if the previous game is still 'In Progress' and if so set that as the target game
+								#Apparently the MLB api returns the next game sometimes
+								if prev_game['status'] == 'In Progress' and queriedSchedule[0]['status'] == 'Scheduled':
+									queriedSchedule = prev_game
+							
+								#Game is over
+								if queriedSchedule[0]['status'] == 'Final' or queriedSchedule[0]['status'] == 'Game Over':
+									await self.final_Game_Message(queriedSchedule[0], message)
+								#Game is scheduled	
+								elif queriedSchedule[0]['status'] == 'Scheduled' or queriedSchedule[0]['status'] == 'Pre-Game':	
+									await self.scheduled_Game_Embed(queriedSchedule[0], message)
+									await self.final_Game_Message(prev_game, message)
+								elif queriedSchedule[0]['status'] == 'In Progress':
+									await self.live_Game_Message(queriedSchedule[0], message)
+								else:
+									await message.channel.send('Game Status = %s' % queriedSchedule[0]['status'])
+							#Nothing was returned
+							elif len(queriedSchedule) == 0:
+								print('DEBUG: No games detected!')
+							#Uhh more than 2 games in a day?
+							else:
+								print('DEBUG: statsapi.schedule(date=' + targetDateTime.strftime('%Y-%m-%d') + ',team=' +
+								str(team=int(teamSelected['id'])) + ')) returned more than 2 games')
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							'''
+							
+							
 							#Get that teams most recent game
 							most_recent_game = statsapi.last_game(int(teamSelected['id']))
 							
 							#Set the target game to the value returned from statsapi.last_game
-							target_game = statsapi.schedule(game_id=most_recent_game)
+							queriedSchedule[0] = statsapi.schedule(game_id=most_recent_game)
 							#Get the game previous to the returned game
+							
+							print(targetDateTime.strftime('%Y-%m-%d'))
+							todaySchedule = statsapi.schedule(date=targetDateTime.strftime('%Y-%m-%d'), team=int(teamSelected['id']))
+							#jsonData = json.loads(todaySchedule)
+							
+							#print(jsonData)
 							
 							#Get a list of games a week in the past
 							pastDay = datetime.datetime.today()
@@ -311,7 +406,7 @@ class MyClient(discord.Client):
 							nextDay = datetime.datetime.today() + timedelta(1)
 							NextWeek = datetime.datetime.today() + timedelta(7)
 							nextGames = statsapi.schedule(start_date=nextDay.strftime('%m/%d/%Y'), end_date=NextWeek.strftime('%m/%d/%Y'), team=teamSelected['id'])
-							
+							'''
 							'''
 							#TODO handle no previous games returned
 							print('Past Games')
@@ -323,29 +418,26 @@ class MyClient(discord.Client):
 								print('game_id = %s | game_datetime = %s ' % (games['game_datetime'], games['game_datetime']))
 							'''
 							#TODO If the target game is the same as the most recent pastGames[n] then access pastGames[n - 1]
-							
+							'''
 							if len(pastGames) > 0:
 								prev_game = pastGames[len(pastGames) - 1]
 							
 							#Check if the previous game is still 'In Progress' and if so set that as the target game
 							#Apparently the MLB api returns the next game sometimes
-							if prev_game['status'] == 'In Progress' and target_game[0]['status'] == 'Scheduled':
-								target_game = prev_game
-							else:
-								target_game = target_game[0]
+d								queriedSchedule[0] = queriedSchedule[0][0]
 							
 							#Game is over
-							if target_game['status'] == 'Final' or target_game['status'] == 'Game Over':
-								await self.final_Game_Message(target_game, message)
+							if queriedSchedule[0]['status'] == 'Final' or queriedSchedule[0]['status'] == 'Game Over':
+								await self.final_Game_Message(queriedSchedule[0], message)
 							#Game is scheduled	
-							elif target_game['status'] == 'Scheduled' or target_game['status'] == 'Pre-Game':	
-								await self.scheduled_Game_Embed(target_game, message)
+							elif queriedSchedule[0]['status'] == 'Scheduled' or queriedSchedule[0]['status'] == 'Pre-Game':	
+								await self.scheduled_Game_Embed(queriedSchedule[0], message)
 								await self.final_Game_Message(pastGames[len(pastGames) - 1], message)
-							elif target_game['status'] == 'In Progress':
-								await self.live_Game_Message(target_game, message)
+							elif queriedSchedule[0]['status'] == 'In Progress':
+								await self.live_Game_Message(queriedSchedule[0], message)
 							else:
-								await message.channel.send('Game Status = %s' % target_game['status'])
-							
+								await message.channel.send('Game Status = %s' % queriedSchedule[0]['status'])
+							'''
 						elif messageArray[1].upper() == 'HIGHLIGHTS':
 							teamSelected = await self.get_team(messageArray[2], message)
 
@@ -481,7 +573,7 @@ class MyClient(discord.Client):
 							most_recent_game = statsapi.last_game(int(teamSelected['id']))
 							
 							#Set the target game to the value returned from statsapi.last_game
-							target_game = statsapi.schedule(game_id=most_recent_game)
+							queriedSchedule[0] = statsapi.schedule(game_id=most_recent_game)
 							#Get the game previous to the returned game
 							
 							#Get a list of games a week in the past
@@ -511,20 +603,20 @@ class MyClient(discord.Client):
 							
 							#Check if the previous game is still 'In Progress' and if so set that as the target game
 							#Apparently the MLB api returns the next game sometimes
-							if prev_game['status'] == 'In Progress' and target_game[0]['status'] == 'Scheduled':
-								target_game = prev_game
+							if prev_game['status'] == 'In Progress' and queriedSchedule[0][0]['status'] == 'Scheduled':
+								queriedSchedule[0] = prev_game
 							else:
-								target_game = target_game[0]
+								queriedSchedule[0] = queriedSchedule[0][0]
 							'''
 							#Game is over
-							if target_game['status'] == 'Final':
-								await self.final_Game_Embed(target_game, message)
+							if queriedSchedule[0]['status'] == 'Final':
+								await self.final_Game_Embed(queriedSchedule[0], message)
 							#Game is scheduled	
-							elif target_game['status'] == 'Scheduled' or target_game['status'] == 'Pre-Game':	
-								await self.scheduled_Game_Embed(target_game, message)
+							elif queriedSchedule[0]['status'] == 'Scheduled' or queriedSchedule[0]['status'] == 'Pre-Game':	
+								await self.scheduled_Game_Embed(queriedSchedule[0], message)
 								await self.final_Game_Embed(pastGames[len(pastGames) - 1], message)
-							elif target_game['status'] == 'In Progress':
-								await self.live_Game_Embed(target_game, message)
+							elif queriedSchedule[0]['status'] == 'In Progress':
+								await self.live_Game_Embed(queriedSchedule[0], message)
 							'''
 							
 							#Get the datetime of the target game and format it for the YYYYMMDD_HHMMSS
@@ -532,12 +624,12 @@ class MyClient(discord.Client):
 							#
 							#
 							#
-							#linescoreString = statsapi.linescore(target_game['game_id'], )
+							#linescoreString = statsapi.linescore(queriedSchedule[0]['game_id'], )
 							
 							
-							#print(target_game['game_id'])
-							#boxScoreString = statsapi.boxscore(gamePk=target_game['game_id'], battingBox=False, battingInfo=False, fieldingInfo=False, pitchingBox=False, gameInfo=True, timecode=None)
-							linescoreString = statsapi.linescore(target_game['game_id'], )
+							#print(queriedSchedule[0]['game_id'])
+							#boxScoreString = statsapi.boxscore(gamePk=queriedSchedule[0]['game_id'], battingBox=False, battingInfo=False, fieldingInfo=False, pitchingBox=False, gameInfo=True, timecode=None)
+							linescoreString = statsapi.linescore(queriedSchedule[0]['game_id'], )
 							print(linescoreString)
 							linescoreString = '```js\n' + linescoreString + '```'
 							
@@ -659,7 +751,15 @@ class MyClient(discord.Client):
 		
 		#Get the probable pitchers
 		homeProbable = game['home_probable_pitcher']
+		print(homeProbable)
 		awayProbable = game['away_probable_pitcher']
+		print(awayProbable)
+		
+		
+		homeNote = game['home_pitcher_note']
+		print(homeNote)
+		awayNote = game['away_pitcher_note']
+		print(awayNote)
 		
 		#Create the embed object
 		scheduledEmbed = discord.Embed()
@@ -670,45 +770,63 @@ class MyClient(discord.Client):
 		
 		#scoreEmbed.add_field(name='NAME', value='VALUE', inline=False)
 		scheduledEmbed.add_field(name='Start Time:', value=gameTimeLocal.strftime('%-I:%M%p') + ' EST', inline=False)
+		
+		#Check for returned values
+		if not homeProbable:
+			homeProbable = 'Unannounced'
+		print('DEBUG: homeProbable = %s' % homeProbable)
 		scheduledEmbed.add_field(name=homeTeamShort + ' Probable:' , value=homeProbable, inline=True)
+		#Check for returned values
+		if not awayProbable:
+			awayProbable = 'Unannounced'
+		print('DEBUG: awayProbable = %s' % awayProbable)
 		scheduledEmbed.add_field(name=awayTeamShort+ ' Probable:' , value=awayProbable, inline=True)
-		scheduledEmbed.add_field(name='Home Notes' , value=game['home_pitcher_note'], inline=False)
-		scheduledEmbed.add_field(name='Away Notes' , value=game['away_pitcher_note'], inline=False)
+		#Check for returned values
+		print(len(homeNote))
+		if not homeNote:
+			homeNote = 'None'
+
+		print('DEBUG: homeNote = %s' % homeNote)
+		scheduledEmbed.add_field(name='Home Notes' , value=homeNote, inline=False)
+		#Check for returned values
+		if not awayNote:
+			awayNote = 'None'
+		print('DEBUG: awayNote = %s' % awayNote)
+		scheduledEmbed.add_field(name='Away Notes' , value=awayNote, inline=False)
 		await message.channel.send(content='Scheduled Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=scheduledEmbed)
 		
 	async def final_Game_Message(self, game, message):
 		#Get the UTC datetime string
 		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
 		
-		homeTeam = statsapi.lookup_team(game['home_name'])
-		awayTeam = statsapi.lookup_team(game['away_name'])
+		if game['status'] == 'Final':
+			homeTeam = statsapi.lookup_team(game['home_name'])
+			awayTeam = statsapi.lookup_team(game['away_name'])
+			
+			homeTeamShort = homeTeam[0]['fileCode'].upper() 
+			awayTeamShort = awayTeam[0]['fileCode'].upper()
+			'''
+			#Get the scores
+			homeScore = game['home_score']
+			homeScoreString = str(homeScore)
+			awayScore = game['away_score']
+			awayScoreString = str(awayScore)
+			'''
+			#Build the content string
+			finalScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
+			
+			finalScoreString = 'Final score from ' + gameTimeLocal.strftime('%m/%d/%Y')
+			
+			finalScoreString = finalScoreString + '```js\n' + statsapi.linescore(game['game_id']) + '```'
+			
+			await message.channel.send(content=finalScoreString, tts=False)
 		
-		homeTeamShort = homeTeam[0]['fileCode'].upper() 
-		awayTeamShort = awayTeam[0]['fileCode'].upper()
-		
-		#Get the scores
-		homeScore = game['home_score']
-		homeScoreString = str(homeScore)
-		awayScore = game['away_score']
-		awayScoreString = str(awayScore)
-		
-		#Set the higher score to BOLD
-		if homeScore > awayScore:
-			homeScoreString = '**' + homeScoreString + '**'
 		else:
-			awayScoreString = '**' + awayScoreString + '**'
+			finalScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
+			
+			finalScoreString = finalScoreString + 'Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + '**' + game['status'] + '**'
 		
-		discordFormattedString = ''
-		
-		
-		#Build the content string
-		liveScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
-		
-		liveScoreString = 'Final score from ' + gameTimeLocal.strftime('%m/%d/%Y')
-		
-		liveScoreString = liveScoreString + '```js\n' + statsapi.linescore(game['game_id']) + '```'
-		
-		await message.channel.send(content=liveScoreString, tts=False)
+			await message.channel.send(content=finalScoreString, tts=False)
 		
 		'''
 		#Format a string to display the score
