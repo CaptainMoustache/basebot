@@ -808,11 +808,13 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
 		
 		if game['status'] == 'Final':
+			'''
 			homeTeam = statsapi.lookup_team(game['home_name'])
 			awayTeam = statsapi.lookup_team(game['away_name'])
 			
 			homeTeamShort = homeTeam[0]['fileCode'].upper() 
 			awayTeamShort = awayTeam[0]['fileCode'].upper()
+			'''
 			'''
 			#Get the scores
 			homeScore = game['home_score']
@@ -820,6 +822,18 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			awayScore = game['away_score']
 			awayScoreString = str(awayScore)
 			'''
+			
+			#Create the embed object
+			finalEmbed = discord.Embed()
+			finalEmbed.type = 'rich'
+			finalEmbed.color = discord.Color.dark_blue()
+			
+			finalEmbed.add_field(name='Winning Pitcher:', value=game['winning_pitcher'] , inline=True)
+			finalEmbed.add_field(name='Losing Pitcher:', value=game['losing_pitcher'] , inline=True)
+			if game['save_pitcher'] != None:
+				finalEmbed.add_field(name='Save:', value=game['save_pitcher'] , inline=False)
+			
+			
 			#Build the content string
 			finalScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
 			
@@ -827,7 +841,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			
 			finalScoreString = finalScoreString + '```js\n' + statsapi.linescore(game['game_id']) + '```'
 			
-			await message.channel.send(content=finalScoreString, tts=False)
+			await message.channel.send(content=finalScoreString, embed=finalEmbed, tts=False)
 		
 		else:
 			finalScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
@@ -861,6 +875,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 	
 	
 	async def live_Game_Message(self, game, message):
+		'''
 		homeTeam = statsapi.lookup_team(game['home_name'])
 		awayTeam = statsapi.lookup_team(game['away_name'])
 		
@@ -877,28 +892,40 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		elif awayScore > homeScore:
 			awayScoreString = '**' + awayScoreString + '**'
 		
-		
+		'''
 		#Build the content string
 		liveScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
 		
+		liveScoreString = liveScoreString + game['inning_state'] + ' ' + str(game['current_inning']) + '\n'
+		
 		liveScoreString = liveScoreString + '```js\n' + statsapi.linescore(game['game_id']) + '```'
 		
-		'''
-		#Create the embed object
-		scoreEmbed = discord.Embed()
-		scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
-		scoreEmbed.type = 'rich'
-		#testEmbed.colour = 
-		scoreEmbed.color = discord.Color.dark_blue()
+		scoringPlays = statsapi.game_scoring_plays(game['game_id'])
 		
-		#scoreEmbed.add_field(name='Inning:', value=game['inning_state'] + ' ' + str(game['current_inning']), inline=False)
-		#scoreEmbed.add_field(name=homeTeamShort , value=homeScoreString, inline=True)
-		#scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
-		scoreEmbed.add_field(name='Linescore', value='```' + statsapi.linescore(game['game_id']) + '```')
+		if len(scoringPlays) > 0:
 		
-		await message.channel.send(content='Live Game:',embed=scoreEmbed)
-		'''
-		await message.channel.send(content=liveScoreString, tts=False)
+			#Create the embed object
+			scoreEmbed = discord.Embed()
+			scoreEmbed.title = '**Scoring Plays**'
+			scoreEmbed.type = 'rich'
+			#testEmbed.colour = 
+			scoreEmbed.color = discord.Color.dark_blue()
+			
+			#scoreEmbed.add_field(name='Inning:', value=game['inning_state'] + ' ' + str(game['current_inning']), inline=False)
+			#scoreEmbed.add_field(name=homeTeamShort , value=homeScoreString, inline=True)
+			#scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
+			#scoreEmbed.add_field(name='Linescore', value='```' + statsapi.linescore(game['game_id']) + '```')
+			
+			
+			scoringPlaysList = scoringPlays.split('\n\n')
+			for plays in scoringPlaysList:
+				scoreEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=True)
+		
+		
+		
+			await message.channel.send(content=liveScoreString, embed=scoreEmbed, tts=False)
+		else:
+			await message.channel.send(content=liveScoreString, tts=False)
 
 
 def ReadTokenFile(filename):
