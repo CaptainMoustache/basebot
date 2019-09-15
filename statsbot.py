@@ -653,6 +653,23 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							#await message.channel.send('%s' % pewPewId)
 							await message.channel.send(content=pewPewId,embed=gibbyEmbed)
 
+
+							#https://i.imgur.com/AewHTiT.png
+							
+							#Create the embed object
+							gibbyEmbed2 = discord.Embed()
+							gibbyEmbed2.title = '**YES BRUDDA**'
+							gibbyEmbed2.type = 'rich'
+							#testEmbed.colour = 
+							gibbyEmbed2.color = discord.Color.dark_blue()
+							gibbyEmbed2.set_image(url='https://i.imgur.com/AewHTiT.png')
+							gibbyEmbed2.image.width = 500
+							gibbyEmbed2.image.height = 600
+							
+							#await message.channel.send('%s' % pewPewId)
+							await message.channel.send(embed=gibbyEmbed2)
+							
+
 						#Display the help message
 						elif messageArray[1].upper() == 'HELP':
 							await message.channel.send('>>> use \'statsbot player PLAYERNAME\' to lookup a players stats. \n use \'statsbot highlights TEAMNAME\' to lookup the latest highlights. \n')
@@ -751,15 +768,10 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		
 		#Get the probable pitchers
 		homeProbable = game['home_probable_pitcher']
-		print(homeProbable)
 		awayProbable = game['away_probable_pitcher']
-		print(awayProbable)
-		
 		
 		homeNote = game['home_pitcher_note']
-		print(homeNote)
 		awayNote = game['away_pitcher_note']
-		print(awayNote)
 		
 		#Create the embed object
 		scheduledEmbed = discord.Embed()
@@ -774,24 +786,20 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		#Check for returned values
 		if not homeProbable:
 			homeProbable = 'Unannounced'
-		print('DEBUG: homeProbable = %s' % homeProbable)
 		scheduledEmbed.add_field(name=homeTeamShort + ' Probable:' , value=homeProbable, inline=True)
 		#Check for returned values
 		if not awayProbable:
 			awayProbable = 'Unannounced'
-		print('DEBUG: awayProbable = %s' % awayProbable)
 		scheduledEmbed.add_field(name=awayTeamShort+ ' Probable:' , value=awayProbable, inline=True)
 		#Check for returned values
 		print(len(homeNote))
 		if not homeNote:
 			homeNote = 'None'
 
-		print('DEBUG: homeNote = %s' % homeNote)
 		scheduledEmbed.add_field(name='Home Notes' , value=homeNote, inline=False)
 		#Check for returned values
 		if not awayNote:
 			awayNote = 'None'
-		print('DEBUG: awayNote = %s' % awayNote)
 		scheduledEmbed.add_field(name='Away Notes' , value=awayNote, inline=False)
 		await message.channel.send(content='Scheduled Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=scheduledEmbed)
 		
@@ -824,7 +832,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		else:
 			finalScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
 			
-			finalScoreString = finalScoreString + 'Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + '**' + game['status'] + '**'
+			finalScoreString = finalScoreString + 'Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + ' **' + game['status'] + '**'
 		
 			await message.channel.send(content=finalScoreString, tts=False)
 		
