@@ -953,6 +953,8 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		
 			#Display only the latest scoring play
 			scoreEmbed.add_field(name='Latest scoring play', value=scoringPlaysList[len(scoringPlaysList)], inline=False)
+			#Set the footer to inform the user about additional plays
+			scoreEmbed.set_footer(text='Reply with \'more\' to see all scoring plays')
 			#Send the message
 			await message.channel.send(content=liveScoreString, embed=scoreEmbed, tts=False)
 			#Wait for the user response
