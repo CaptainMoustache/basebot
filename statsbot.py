@@ -692,6 +692,33 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			return
 		return teamSelected
 	
+	async def wait_for_response(self, message, userResponse, waitTime)
+		#Wait defined time
+		for wait in range(1, waitTime):
+			if responseFound:
+				break;
+		
+			time.sleep(1)
+			#Get the last ten messages
+			messageList = await message.channel.history(limit=2).flatten()
+			
+			#if the name hasn't been selected yet
+			if responseFound:
+				#loop through the past 2 messages
+				for history in range (0, len(messageList)):
+					#The user who requested the list responded
+					if messageList[history].author == message.author:
+						#check if the message was sent after the list of names
+						if messageList[history].created_at > messageTime:
+							#The user responded with the matching prompt
+							if userResponse in messageList[history].content:
+								#The matching response was found
+								await message.channel.send('DEBUG: Response found!')
+								return
+							else:
+								await message.channel.send('DEBUG: Response Timeout Reached!')
+								return
+	
 	#Identify which team is being requested by prompting the users with all returned results
 	async def prompt_team(self, message, searchTerm, teams):
 		#Check that more than one team was passed in
@@ -924,8 +951,13 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			for plays in scoringPlaysList:
 				scoreEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=False)
 		
-		
+			#Display only the latest scoring play
+			scoreEmbed.add_field(name='Latest scoring play', value=scoringPlaysList[len(scoringPlaysList)], inline=False)
+			#Send the message
 			await message.channel.send(content=liveScoreString, embed=scoreEmbed, tts=False)
+			#Wait for the user response
+			await self.wait_for_response(message, 'TEST', 30)
+			
 		else:
 			await message.channel.send(content=liveScoreString, tts=False)
 
