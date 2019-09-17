@@ -438,6 +438,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							else:
 								await message.channel.send('Game Status = %s' % queriedSchedule[0]['status'])
 							'''
+							
 						elif messageArray[1].upper() == 'HIGHLIGHTS':
 							teamSelected = await self.get_team(messageArray[2], message)
 
@@ -636,7 +637,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							await message.channel.send(content=linescoreString, tts=False)
 							
 						
-						elif messageArray[1].upper() == 'GIBBY':
+						elif 'GIBBY' in messageArray[1].upper():
 							#Create the embed object
 							gibbyEmbed = discord.Embed()
 							gibbyEmbed.title = '**BRUDDA**'
@@ -904,6 +905,8 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		
 		if len(scoringPlays) > 0:
 		
+			#TODO Display only the last scoring play and prompt the user to display all of them
+		
 			#Create the embed object
 			scoreEmbed = discord.Embed()
 			scoreEmbed.title = '**Scoring Plays**'
@@ -919,8 +922,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			
 			scoringPlaysList = scoringPlays.split('\n\n')
 			for plays in scoringPlaysList:
-				scoreEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=True)
-		
+				scoreEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=False)
 		
 		
 			await message.channel.send(content=liveScoreString, embed=scoreEmbed, tts=False)
