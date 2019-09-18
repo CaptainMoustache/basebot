@@ -872,7 +872,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			await message.channel.send(content=finalScoreString, embed=finalEmbed, tts=False)
 			'''
 			#Create the final game embed object
-			finalGameEmbed = discord.embed()
+			finalGameEmbed = discord.Embed()
 			finalGameEmbed.type = 'rich'
 			finalGameEmbed.color = discord.Color.dark_blue()
 			
