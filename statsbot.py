@@ -513,10 +513,15 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							
 							print ('DEBUG: teamSelected in ROSTER = %s' % teamSelected)
 							
+							#Create the embed object
 							rosterEmbed = discord.Embed()
+							rosterEmbed.type = 'rich'
+							rosterEmbed.color = discord.Color.dark_blue()
+
+							rosterEmbed.add_field(name='Current Roster for the **' + teamSelected['name'] + '**', value='```' + statsapi.roster(int(teamSelected['id'])) + '```')
+							await message.channel.send(embed=rosterEmbed)
 							
-							
-							await message.channel.send('>>> Here is the current roster for the **' + teamSelected['name'] + '**:\n ' + statsapi.roster(int(teamSelected['id'])))
+							#await message.channel.send('>>> Here is the current roster for the **' + teamSelected['name'] + '**:\n ' + )
 							
 						elif messageArray[1].upper() == 'STANDINGS':
 						
