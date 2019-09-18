@@ -878,7 +878,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			
 			
 			#Add the fields with game info
-			finalGameEmbed.add_field(name='**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n', value='```js\n' + statsapi.linescore(game['game_id']) + '```')
+			finalGameEmbed.add_field(name='**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n', value='```js\n' + statsapi.linescore(game['game_id']) + '```', inline=False)
 						
 			finalGameEmbed.add_field(name='Winning Pitcher:', value=game['winning_pitcher'] , inline=True)
 			finalGameEmbed.add_field(name='Losing Pitcher:', value=game['losing_pitcher'] , inline=True)
