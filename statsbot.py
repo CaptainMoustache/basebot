@@ -629,6 +629,9 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 	
 	async def wait_for_response(self, message, userResponse, waitTime):
 		responseFound = False
+		#Set the start time
+		messageTime = datetime.datetime.utcnow()
+		
 		#Wait defined time
 		for wait in range(1, waitTime):
 			if responseFound:
@@ -654,12 +657,13 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							#The user responded with the matching prompt
 							if userResponse.upper() in messageList[history].content.upper():
 								#The matching response was found
-								await message.channel.send('DEBUG: Response found!')
+								print('DEBUG: Response found!')
 								responseFound = True
 								return True
 							else:
-								await message.channel.send('DEBUG: Response Timeout Reached!')
-								return False
+								print('DEBUG: No match found, checking again')
+		print('DEBUG: Response Timeout Reached!')
+			return False
 	
 	#Identify which team is being requested by prompting the users with all returned results
 	async def prompt_team(self, message, searchTerm, teams):
