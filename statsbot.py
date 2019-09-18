@@ -861,15 +861,31 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			if game['save_pitcher'] != None:
 				finalEmbed.add_field(name='Save:', value=game['save_pitcher'] , inline=False)
 			
-			
+			'''
 			#Build the content string
 			finalScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
 			
-			finalScoreString = 'Final score from ' + gameTimeLocal.strftime('%m/%d/%Y')
+			finalScoreString = finalScoreString + 'Final score from ' + gameTimeLocal.strftime('%m/%d/%Y')
 			
 			finalScoreString = finalScoreString + '```js\n' + statsapi.linescore(game['game_id']) + '```'
 			
 			await message.channel.send(content=finalScoreString, embed=finalEmbed, tts=False)
+			'''
+			#Create the final game embed object
+			finalGameEmbed = discard.embed()
+			finalGameEmbed.type = 'rich'
+			finalGameEmbed.color = discord.Color.dark_blue()
+			
+			
+			#Add the fields with game info
+			finalGameEmbed.add_field(name='**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n', value='```js\n' + statsapi.linescore(game['game_id']) + '```')
+						
+			finalGameEmbed.add_field(name='Winning Pitcher:', value=game['winning_pitcher'] , inline=True)
+			finalGameEmbed.add_field(name='Losing Pitcher:', value=game['losing_pitcher'] , inline=True)
+			if game['save_pitcher'] != None:
+				finalGameEmbed.add_field(name='Save:', value=game['save_pitcher'] , inline=False)
+			
+			await message.channel.send(content='Final score from ' + gameTimeLocal.strftime('%m/%d/%Y'), embed=finalGameEmbed, tts=False)
 		
 		else:
 			finalScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
@@ -900,7 +916,6 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		
 		await message.channel.send(content='Final Score from ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=finalEmbed)
 		'''
-	
 	
 	async def live_Game_Message(self, game, message):
 		'''
