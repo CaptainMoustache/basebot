@@ -652,7 +652,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							if userResponse.upper() in messageList[history].content.upper():
 								#The matching response was found
 								responseFound = True
-								return True)
+								return True
 		return False
 	
 	#Identify which team is being requested by prompting the users with all returned results
