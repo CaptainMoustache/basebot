@@ -632,24 +632,30 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		#Wait defined time
 		for wait in range(1, waitTime):
 			if responseFound:
+				print('DEBUG: Response detected, breaking loop')
 				break;
 		
 			time.sleep(1)
 			#Get the last ten messages
+			print('DEBUG: Getting the last 2 messages')
 			messageList = await message.channel.history(limit=2).flatten()
 			
+			
 			#if the name hasn't been selected yet
-			if responseFound:
+			if responseFound == False:
+				print('DEBUG: No reponse found yet, checking messages')
 				#loop through the past 2 messages
 				for history in range (0, len(messageList)):
 					#The user who requested the list responded
 					if messageList[history].author == message.author:
+						print('DEBUG: Author message detected')
 						#check if the message was sent after the list of names
 						if messageList[history].created_at > messageTime:
 							#The user responded with the matching prompt
-							if userResponse in messageList[history].content:
+							if userResponse.upper() in messageList[history].content.upper():
 								#The matching response was found
 								await message.channel.send('DEBUG: Response found!')
+								responseFound = True
 								return True
 							else:
 								await message.channel.send('DEBUG: Response Timeout Reached!')
@@ -903,14 +909,14 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			scoreEmbed.add_field(name='**Latest scoring play**', value=scoringPlaysList[len(scoringPlaysList) - 1], inline=False)
 			if len(scoringPlaysList) > 1:
 				#Set the footer to inform the user about additional plays
-				scoreEmbed.set_footer(text='Reply with \'**more**\' to see all scoring plays')
+				scoreEmbed.set_footer(text='Reply with \'\**more\**\' to see all scoring plays')
 		
 		#Send the message
 		await message.channel.send(embed=scoreEmbed, tts=False)
 		
 		if len(scoringPlaysList) > 1:
 			#Wait for the user response
-			await self.wait_for_response(message, 'TEST', 30)
+			await self.wait_for_response(message, 'more', 30)
 
 
 def ReadTokenFile(filename):
