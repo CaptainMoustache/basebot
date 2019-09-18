@@ -663,7 +663,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							else:
 								print('DEBUG: No match found, checking again')
 		print('DEBUG: Response Timeout Reached!')
-			return False
+		return False
 	
 	#Identify which team is being requested by prompting the users with all returned results
 	async def prompt_team(self, message, searchTerm, teams):
