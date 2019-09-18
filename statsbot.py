@@ -316,7 +316,6 @@ class MyClient(discord.Client):
 							
 							#Check for a double header
 							if len(queriedSchedule) == 2:
-								print('DEBUG: Doubleheader detected!')
 								#Game 1 is over
 								if queriedSchedule[0]['status'] == 'Final' or queriedSchedule[0]['status'] == 'Game Over':
 									await self.final_Game_Message(queriedSchedule[0], message)
@@ -342,7 +341,6 @@ class MyClient(discord.Client):
 									await message.channel.send('Game Status = %s' % queriedSchedule[1]['status'])
 							#A single game was returned
 							elif len(queriedSchedule) == 1:
-								print('DEBUG: Single game detected!')
 								if len(pastGames) > 0:
 									prev_game = pastGames[len(pastGames) - 1]
 							
@@ -362,6 +360,7 @@ class MyClient(discord.Client):
 									await self.live_Game_Message(queriedSchedule[0], message)
 								else:
 									await message.channel.send('Game Status = %s' % queriedSchedule[0]['status'])
+									print('DEBUG: Unknown game state returned. Game Status = %s' % queriedSchedule[0]['status'])
 							#Nothing was returned
 							elif len(queriedSchedule) == 0:
 								print('DEBUG: No games detected!')
@@ -521,8 +520,6 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							rosterEmbed.add_field(name='Current Roster for the **' + teamSelected['name'] + '**', value='```' + statsapi.roster(int(teamSelected['id'])) + '```')
 							await message.channel.send(embed=rosterEmbed)
 							
-							#await message.channel.send('>>> Here is the current roster for the **' + teamSelected['name'] + '**:\n ' + )
-							
 						elif messageArray[1].upper() == 'STANDINGS':
 						
 							#league IDs
@@ -604,8 +601,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							
 							#await message.channel.send('%s' % pewPewId)
 							await message.channel.send(embed=gibbyEmbed2)
-							
-
+						
 						#Display the help message
 						elif messageArray[1].upper() == 'HELP':
 							await message.channel.send('>>> use \'statsbot player PLAYERNAME\' to lookup a players stats. \n use \'statsbot highlights TEAMNAME\' to lookup the latest highlights. \n')
@@ -646,23 +642,17 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			
 			#if the name hasn't been selected yet
 			if responseFound == False:
-				print('DEBUG: No reponse found yet, checking messages')
 				#loop through the past 2 messages
 				for history in range (0, len(messageList)):
 					#The user who requested the list responded
 					if messageList[history].author == message.author:
-						print('DEBUG: Author message detected')
 						#check if the message was sent after the list of names
 						if messageList[history].created_at > messageTime:
 							#The user responded with the matching prompt
 							if userResponse.upper() in messageList[history].content.upper():
 								#The matching response was found
-								print('DEBUG: Response found!')
 								responseFound = True
-								return True
-							else:
-								print('DEBUG: No match found, checking again')
-		print('DEBUG: Response Timeout Reached!')
+								return True)
 		return False
 	
 	#Identify which team is being requested by prompting the users with all returned results
@@ -929,10 +919,6 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 					allPlaysEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=False)
 				await message.channel.send(embed=allPlaysEmbed, tts=False)
 				
-				
-				
-
-
 def ReadTokenFile(filename):
 	#Read the token from a file
 	try:
