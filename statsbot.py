@@ -902,7 +902,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 				scoreEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=False)
 		
 			#Display only the latest scoring play
-			scoreEmbed.add_field(name='Latest scoring play', value=scoringPlaysList[len(scoringPlaysList)], inline=False)
+			scoreEmbed.add_field(name='Latest scoring play', value=scoringPlaysList[len(scoringPlaysList) - 1], inline=False)
 			#Set the footer to inform the user about additional plays
 			scoreEmbed.set_footer(text='Reply with \'more\' to see all scoring plays')
 			
