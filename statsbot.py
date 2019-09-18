@@ -650,10 +650,10 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							if userResponse in messageList[history].content:
 								#The matching response was found
 								await message.channel.send('DEBUG: Response found!')
-								return
+								return True
 							else:
 								await message.channel.send('DEBUG: Response Timeout Reached!')
-								return
+								return False
 	
 	#Identify which team is being requested by prompting the users with all returned results
 	async def prompt_team(self, message, searchTerm, teams):
@@ -901,13 +901,14 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 	
 			#Display only the latest scoring play
 			scoreEmbed.add_field(name='**Latest scoring play**', value=scoringPlaysList[len(scoringPlaysList) - 1], inline=False)
-			#Set the footer to inform the user about additional plays
-			scoreEmbed.set_footer(text='Reply with **\'more\'** to see all scoring plays')
+			if len(scoringPlaysList) > 1:
+				#Set the footer to inform the user about additional plays
+				scoreEmbed.set_footer(text='Reply with \'**more**\' to see all scoring plays')
 		
 		#Send the message
 		await message.channel.send(embed=scoreEmbed, tts=False)
 		
-		if len(scoringPlays) > 1:
+		if len(scoringPlaysList) > 1:
 			#Wait for the user response
 			await self.wait_for_response(message, 'TEST', 30)
 
