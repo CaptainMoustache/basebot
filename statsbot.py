@@ -897,7 +897,6 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		scoreEmbed = discord.Embed()
 		scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
 		scoreEmbed.type = 'rich'
-		#testEmbed.colour = 
 		scoreEmbed.color = discord.Color.dark_blue()
 		
 		scoreEmbed.add_field(name='**' + game['inning_state'] + ' ' + str(game['current_inning']) + '**', value='```js\n' + statsapi.linescore(game['game_id']) + '```', inline=False)
@@ -913,14 +912,25 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			scoreEmbed.add_field(name='**Latest scoring play**', value=scoringPlaysList[len(scoringPlaysList) - 1], inline=False)
 			if len(scoringPlaysList) > 1:
 				#Set the footer to inform the user about additional plays
-				scoreEmbed.set_footer(text='Reply with \'\**more\**\' to see all scoring plays')
+				scoreEmbed.set_footer(text='Reply with \'more\' in 30 seconds to see all scoring plays')
 		
 		#Send the message
 		await message.channel.send(embed=scoreEmbed, tts=False)
 		
 		if len(scoringPlaysList) > 1:
 			#Wait for the user response
-			await self.wait_for_response(message, 'more', 30)
+			if await self.wait_for_response(message, 'more', 30):
+				#Create a new embed object to contain all scoring plays
+				allPlaysEmbed = discord.Embed()
+				allPlaysEmbed.title = '**All scoring plays**'
+				allPlaysEmbed.type = 'rich'
+				allPlaysEmbed.color = discord.Color.dark_blue()
+				for plays in scoringPlaysList:
+					allPlaysEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=False)
+				await message.channel.send(embed=allPlaysEmbed, tts=False)
+				
+				
+				
 
 
 def ReadTokenFile(filename):
