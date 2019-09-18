@@ -513,6 +513,9 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							
 							print ('DEBUG: teamSelected in ROSTER = %s' % teamSelected)
 							
+							rosterEmbed = discord.Embed()
+							
+							
 							await message.channel.send('>>> Here is the current roster for the **' + teamSelected['name'] + '**:\n ' + statsapi.roster(int(teamSelected['id'])))
 							
 						elif messageArray[1].upper() == 'STANDINGS':
@@ -563,79 +566,6 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							standingsEmbed.add_field(name='**NL West**',value='```' + nlStandingsArray[1] + '```', inline=False)
 							
 							await message.channel.send(embed=standingsEmbed)
-						
-						elif messageArray[1].upper() == 'BOXSCORE':
-							targetDateTime = datetime.datetime.now()
-						
-							#Get the team
-							teamSelected = await self.get_team(messageArray[2], message)
-							
-							#Get that teams most recent game
-							most_recent_game = statsapi.last_game(int(teamSelected['id']))
-							
-							#Set the target game to the value returned from statsapi.last_game
-							queriedSchedule[0] = statsapi.schedule(game_id=most_recent_game)
-							#Get the game previous to the returned game
-							
-							#Get a list of games a week in the past
-							pastDay = datetime.datetime.today()
-							pastWeek = datetime.datetime.today() - timedelta(7)
-							pastGames = statsapi.schedule(start_date=pastWeek.strftime('%m/%d/%Y'), end_date=pastDay.strftime('%m/%d/%Y'), team=teamSelected['id'])
-							
-							#Get a list of games a week in the future
-							nextDay = datetime.datetime.today() + timedelta(1)
-							NextWeek = datetime.datetime.today() + timedelta(7)
-							nextGames = statsapi.schedule(start_date=nextDay.strftime('%m/%d/%Y'), end_date=NextWeek.strftime('%m/%d/%Y'), team=teamSelected['id'])
-							
-							'''
-							#TODO handle no previous games returned
-							print('Past Games')
-							for games in pastGames:
-								print('game_id = %s | game_datetime = %s ' % (games['game_datetime'], games['game_datetime']))
-							
-							print('Next Games')
-							for games in nextGames:
-								print('game_id = %s | game_datetime = %s ' % (games['game_datetime'], games['game_datetime']))
-							'''
-							#TODO If the target game is the same as the most recent pastGames[n] then access pastGames[n - 1]
-							
-							if len(pastGames) > 0:
-								prev_game = pastGames[len(pastGames) - 1]
-							
-							#Check if the previous game is still 'In Progress' and if so set that as the target game
-							#Apparently the MLB api returns the next game sometimes
-							if prev_game['status'] == 'In Progress' and queriedSchedule[0][0]['status'] == 'Scheduled':
-								queriedSchedule[0] = prev_game
-							else:
-								queriedSchedule[0] = queriedSchedule[0][0]
-							'''
-							#Game is over
-							if queriedSchedule[0]['status'] == 'Final':
-								await self.final_Game_Embed(queriedSchedule[0], message)
-							#Game is scheduled	
-							elif queriedSchedule[0]['status'] == 'Scheduled' or queriedSchedule[0]['status'] == 'Pre-Game':	
-								await self.scheduled_Game_Embed(queriedSchedule[0], message)
-								await self.final_Game_Embed(pastGames[len(pastGames) - 1], message)
-							elif queriedSchedule[0]['status'] == 'In Progress':
-								await self.live_Game_Embed(queriedSchedule[0], message)
-							'''
-							
-							#Get the datetime of the target game and format it for the YYYYMMDD_HHMMSS
-							#
-							#
-							#
-							#
-							#linescoreString = statsapi.linescore(queriedSchedule[0]['game_id'], )
-							
-							
-							#print(queriedSchedule[0]['game_id'])
-							#boxScoreString = statsapi.boxscore(gamePk=queriedSchedule[0]['game_id'], battingBox=False, battingInfo=False, fieldingInfo=False, pitchingBox=False, gameInfo=True, timecode=None)
-							linescoreString = statsapi.linescore(queriedSchedule[0]['game_id'], )
-							print(linescoreString)
-							linescoreString = '```js\n' + linescoreString + '```'
-							
-							await message.channel.send(content=linescoreString, tts=False)
-							
 						
 						elif 'GIBBY' in messageArray[1].upper():
 							#Create the embed object
