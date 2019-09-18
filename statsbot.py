@@ -628,6 +628,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		return teamSelected
 	
 	async def wait_for_response(self, message, userResponse, waitTime):
+		responseFound = False
 		#Wait defined time
 		for wait in range(1, waitTime):
 			if responseFound:
@@ -872,48 +873,43 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		
 		'''
 		#Build the content string
-		liveScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
+		#liveScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
 		
-		liveScoreString = liveScoreString + game['inning_state'] + ' ' + str(game['current_inning']) + '\n'
+		#liveScoreString = liveScoreString + game['inning_state'] + ' ' + str(game['current_inning']) + '\n'
 		
-		liveScoreString = liveScoreString + '```js\n' + statsapi.linescore(game['game_id']) + '```'
+		#liveScoreString = liveScoreString + '```js\n' + statsapi.linescore(game['game_id']) + '```'
 		
+		
+		#Get the scoring plays
 		scoringPlays = statsapi.game_scoring_plays(game['game_id'])
 		
-		if len(scoringPlays) > 0:
+		#Create the embed object
+		scoreEmbed = discord.Embed()
+		scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
+		scoreEmbed.type = 'rich'
+		#testEmbed.colour = 
+		scoreEmbed.color = discord.Color.dark_blue()
 		
-			#TODO Display only the last scoring play and prompt the user to display all of them
+		scoreEmbed.add_field(name='**' + game['inning_state'] + ' ' + str(game['current_inning']) + '**', value='```js\n' + statsapi.linescore(game['game_id']) + '```', inline=False)
+		#scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
+		#scoreEmbed.add_field(name='Linescore', value='```' + statsapi.linescore(game['game_id']) + '```')
 		
-			#Create the embed object
-			scoreEmbed = discord.Embed()
-			scoreEmbed.title = '**Scoring Plays**'
-			scoreEmbed.type = 'rich'
-			#testEmbed.colour = 
-			scoreEmbed.color = discord.Color.dark_blue()
-			
-			#scoreEmbed.add_field(name='Inning:', value=game['inning_state'] + ' ' + str(game['current_inning']), inline=False)
-			#scoreEmbed.add_field(name=homeTeamShort , value=homeScoreString, inline=True)
-			#scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
-			#scoreEmbed.add_field(name='Linescore', value='```' + statsapi.linescore(game['game_id']) + '```')
-			
-			
+		if len(scoringPlays) > 1:
 			scoringPlaysList = scoringPlays.split('\n\n')
-			for plays in scoringPlaysList:
-				scoreEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=False)
-		
+			#for plays in scoringPlaysList:
+			#	scoreEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=False)
+	
 			#Display only the latest scoring play
-			scoreEmbed.add_field(name='Latest scoring play', value=scoringPlaysList[len(scoringPlaysList) - 1], inline=False)
+			scoreEmbed.add_field(name='**Latest scoring play**', value=scoringPlaysList[len(scoringPlaysList) - 1], inline=False)
 			#Set the footer to inform the user about additional plays
-			scoreEmbed.set_footer(text='Reply with \'more\' to see all scoring plays')
-			
-			#Send the message
-			await message.channel.send(content=liveScoreString, embed=scoreEmbed, tts=False)
-			
+			scoreEmbed.set_footer(text='Reply with **\'more\'** to see all scoring plays')
+		
+		#Send the message
+		await message.channel.send(embed=scoreEmbed, tts=False)
+		
+		if len(scoringPlays) > 1:
 			#Wait for the user response
 			await self.wait_for_response(message, 'TEST', 30)
-			
-		else:
-			await message.channel.send(content=liveScoreString, tts=False)
 
 
 def ReadTokenFile(filename):
