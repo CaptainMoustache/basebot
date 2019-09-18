@@ -692,7 +692,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			return
 		return teamSelected
 	
-	async def wait_for_response(self, message, userResponse, waitTime)
+	async def wait_for_response(self, message, userResponse, waitTime):
 		#Wait defined time
 		for wait in range(1, waitTime):
 			if responseFound:
@@ -872,7 +872,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			await message.channel.send(content=finalScoreString, embed=finalEmbed, tts=False)
 			'''
 			#Create the final game embed object
-			finalGameEmbed = discard.embed()
+			finalGameEmbed = discord.embed()
 			finalGameEmbed.type = 'rich'
 			finalGameEmbed.color = discord.Color.dark_blue()
 			
