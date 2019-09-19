@@ -28,7 +28,7 @@ class MyClient(discord.Client):
 					#Bot was called with enough arguments
 					if messageArray[0].upper() == 'STATSBOT' and len(messageArray) > 1:
 						#if the first message part is 'player' lookup the players stats
-						if messageArray[1].upper() == 'PLAYER':
+						if 'PLAYER' in messageArray[1].upper() :
 							#Set the year to lookup to the current year
 							now = datetime.datetime.now()
 							statYear = now.year
@@ -289,7 +289,7 @@ class MyClient(discord.Client):
 								' Games: %s\n' \
 								' WHIP: %s' % (playerGenInfo.name_display_first_last, seasonPitchingInfo.team_abbrev, statYear, seasonPitchingInfo.era, seasonPitchingInfo.w, seasonPitchingInfo.l, seasonPitchingInfo.gs, seasonPitchingInfo.whip))
 
-						elif messageArray[1].upper() == 'SCORE':
+						elif 'SCORE' in messageArray[1].upper():
 						
 							#Set the target day
 							targetDateTime = datetime.datetime.now()
@@ -396,17 +396,6 @@ class MyClient(discord.Client):
 								print('DEBUG: statsapi.schedule(date=' + targetDateTime.strftime('%Y-%m-%d') + ',team=' +
 								str(team=int(teamSelected['id'])) + ')) returned more than 2 games')
 							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
 							'''
 							
 							
@@ -465,7 +454,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 								await message.channel.send('Game Status = %s' % queriedSchedule[0]['status'])
 							'''
 							
-						elif messageArray[1].upper() == 'HIGHLIGHTS':
+						elif 'HIGHLIGHTS' in messageArray[1].upper():
 							teamSelected = await self.get_team(messageArray[2], message)
 
 							pastDay = datetime.datetime.today()
@@ -534,7 +523,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							else:
 								await message.channel.send('Sorry, I couldn\'t find any highlights for the past week')
 								
-						elif messageArray[1].upper() == 'ROSTER':
+						elif 'ROSTER' in messageArray[1].upper():
 							teamSelected = await self.get_team(messageArray[2], message)
 							
 							print ('DEBUG: teamSelected in ROSTER = %s' % teamSelected)
@@ -547,7 +536,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							rosterEmbed.add_field(name='Current Roster for the **' + teamSelected['name'] + '**', value='```' + statsapi.roster(int(teamSelected['id'])) + '```')
 							await message.channel.send(embed=rosterEmbed)
 							
-						elif messageArray[1].upper() == 'STANDINGS':
+						elif 'STANDINGS' in messageArray[1].upper():
 						
 							#league IDs
 						
