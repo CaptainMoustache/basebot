@@ -301,6 +301,7 @@ class MyClient(discord.Client):
 							queriedSchedule = statsapi.schedule(date=targetDateTime.strftime('%Y-%m-%d'), team=int(teamSelected['id']))
 							
 							
+							
 							#Get a list of games a week in the past
 							pastDay = datetime.datetime.today() - timedelta(1)
 							pastWeek = datetime.datetime.today() - timedelta(7)
@@ -313,9 +314,14 @@ class MyClient(discord.Client):
 							
 							if len(pastGames) > 0:
 								prev_game = pastGames[len(pastGames) - 1]
+								
+							
 							
 							#Check for a double header
 							if len(queriedSchedule) == 2:
+							
+							#TODO Handle games past midnight
+							
 								#Game 1 is over
 								if queriedSchedule[0]['status'] == 'Final' or queriedSchedule[0]['status'] == 'Game Over':
 									await self.final_Game_Message(queriedSchedule[0], message)
@@ -347,6 +353,7 @@ class MyClient(discord.Client):
 								#Check if the previous game is still 'In Progress' and if so set that as the target game
 								#Apparently the MLB api returns the next game sometimes
 								if prev_game['status'] == 'In Progress' and queriedSchedule[0]['status'] == 'Scheduled':
+									print('DEBUG: Previous game still in progress!')
 									queriedSchedule = prev_game
 							
 								#Game is over
@@ -361,9 +368,29 @@ class MyClient(discord.Client):
 								else:
 									await message.channel.send('Game Status = %s' % queriedSchedule[0]['status'])
 									print('DEBUG: Unknown game state returned. Game Status = %s' % queriedSchedule[0]['status'])
-							#Nothing was returned
-							elif len(queriedSchedule) == 0:
-								print('DEBUG: No games detected!')
+							#No games were returned for the day
+							elif len(queriedSchedule) <= 0:
+								if len(pastGames) > 0:
+									prev_game = pastGames[len(pastGames) - 1]
+							
+								#Check if the previous game is still 'In Progress' and if so set that as the target game
+								#Apparently the MLB api returns the next game sometimes
+								if prev_game['status'] == 'In Progress':
+									print('DEBUG: Previous game still in progress!')
+									queriedSchedule = prev_game
+							
+								#Game is over
+								if queriedSchedule['status'] == 'Final' or queriedSchedule['status'] == 'Game Over':
+									await self.final_Game_Message(queriedSchedule, message)
+								#Game is scheduled	
+								elif queriedSchedule['status'] == 'Scheduled' or queriedSchedule['status'] == 'Pre-Game':	
+									await self.scheduled_Game_Embed(queriedSchedule, message)
+									await self.final_Game_Message(prev_game, message)
+								elif queriedSchedule['status'] == 'In Progress':
+									await self.live_Game_Message(queriedSchedule, message)
+								else:
+									await message.channel.send('Game Status = %s' % queriedSchedule['status'])
+									print('DEBUG: Unknown game state returned. Game Status = %s' % queriedSchedule['status'])
 							#Uhh more than 2 games in a day?
 							else:
 								print('DEBUG: statsapi.schedule(date=' + targetDateTime.strftime('%Y-%m-%d') + ',team=' +
