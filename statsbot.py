@@ -26,9 +26,9 @@ class MyClient(discord.Client):
 				messageArray = message.content.split()
 				if len(messageArray) > 0:
 					#Bot was called with enough arguments
-					if messageArray[0].upper() == 'STATSBOT' and len(messageArray) > 1:
+					if 'STATSBOT' in messageArray[0].upper() and len(messageArray) > 1:
 						#if the first message part is 'player' lookup the players stats
-						if 'PLAYER' in messageArray[1].upper() :
+						if 'PLAYER' in messageArray[1].upper():
 							#Set the year to lookup to the current year
 							now = datetime.datetime.now()
 							statYear = now.year
@@ -619,7 +619,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							await message.channel.send(embed=gibbyEmbed2)
 						
 						#Display the help message
-						elif messageArray[1].upper() == 'HELP':
+						elif 'HELP' in messageArray[1].upper():
 							await message.channel.send('>>> use \'statsbot player PLAYERNAME\' to lookup a players stats. \n use \'statsbot highlights TEAMNAME\' to lookup the latest highlights. \n')
 						else:
 							await message.channel.send('Sorry all I support right now is player stats.')
