@@ -301,13 +301,14 @@ class MyClient(discord.Client):
 									pitcherEmbed.add_field(name=seasonPitchingInfo.team_abbrev[index], value=valueString)
 								
 								await message.channel.send(embed=pitcherEmbed)
-								
+								'''
 								#Send the message back to the channel
 								await message.channel.send('>>> **%s\'s** (%s) Stats for **%s**\n' \
 								' ERA: %s\n' \
 								' Wins/Losses: %s/%s\n' \
 								' Games: %s\n' \
 								' WHIP: %s' % (playerGenInfo.name_display_first_last, seasonPitchingInfo.team_abbrev[0], statYear, seasonPitchingInfo.era[0], seasonPitchingInfo.w[0], seasonPitchingInfo.l[0], seasonPitchingInfo.gs[0], seasonPitchingInfo.whip[0]))
+								'''
 								return
 
 						elif 'SCORE' in messageArray[1].upper():
