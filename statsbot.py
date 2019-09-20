@@ -376,16 +376,10 @@ class MyClient(discord.Client):
 								if prev_game['status'] == 'In Progress':
 									print('DEBUG: Previous game still in progress!')
 									queriedSchedule = prev_game
-							
 								#Game is over
-								if queriedSchedule['status'] == 'Final' or queriedSchedule['status'] == 'Game Over':
-									await self.final_Game_Message(queriedSchedule, message)
-								#Game is scheduled	
-								elif queriedSchedule['status'] == 'Scheduled' or queriedSchedule['status'] == 'Pre-Game':	
-									await self.scheduled_Game_Embed(queriedSchedule, message)
+								elif prev_game['status'] == 'Final' or prev_game['status'] == 'Game Over':
 									await self.final_Game_Message(prev_game, message)
-								elif queriedSchedule['status'] == 'In Progress':
-									await self.live_Game_Message(queriedSchedule, message)
+									
 								else:
 									print('ERROR: Unknown game state returned. Game Status = %s' % queriedSchedule['status'])
 							#Uhh more than 2 games in a day?
@@ -453,6 +447,8 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							
 						elif 'HIGHLIGHTS' in messageArray[1].upper():
 							teamSelected = await self.get_team(messageArray[2], message)
+
+							
 
 							pastDay = datetime.datetime.today()
 
