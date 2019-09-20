@@ -283,15 +283,14 @@ class MyClient(discord.Client):
 								#Parse the season batting stats
 								seasonPitchingInfo.ParseJson(playerStatsJson)
 								
-								print('DEBUG')
-								print(str(playerStatsJson))
+								
 								
 								#Send the message back to the channel
 								await message.channel.send('>>> **%s\'s** (%s) Stats for **%s**\n' \
 								' ERA: %s\n' \
 								' Wins/Losses: %s/%s\n' \
 								' Games: %s\n' \
-								' WHIP: %s' % (playerGenInfo.name_display_first_last, seasonPitchingInfo.team_abbrev, statYear, seasonPitchingInfo.era, seasonPitchingInfo.w, seasonPitchingInfo.l, seasonPitchingInfo.gs, seasonPitchingInfo.whip))
+								' WHIP: %s' % (playerGenInfo.name_display_first_last, seasonPitchingInfo.team_abbrev[0], statYear, seasonPitchingInfo.era[0], seasonPitchingInfo.w[0], seasonPitchingInfo.l[0], seasonPitchingInfo.gs[0], seasonPitchingInfo.whip[0]))
 
 						elif 'SCORE' in messageArray[1].upper():
 						
