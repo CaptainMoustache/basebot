@@ -235,9 +235,6 @@ class MyClient(discord.Client):
 								#Parse the json info and populate all the properties
 								playerGenInfo.ParseJson(playerInfoJson)
 								
-								print('DEBUG: playerGenInfo')
-								print(str(playerInfoJson))
-								
 							elif len(playerSearchResultsList) == 0:
 								await message.channel.send('I couldn\'t find any players with the name %s ' % displayNameToSearch)
 								return
@@ -287,7 +284,7 @@ class MyClient(discord.Client):
 								seasonPitchingInfo.ParseJson(playerStatsJson)
 								
 								print('DEBUG')
-								print(str(seasonPitchingInfo))
+								print(str(playerStatsJson))
 								
 								#Send the message back to the channel
 								await message.channel.send('>>> **%s\'s** (%s) Stats for **%s**\n' \
