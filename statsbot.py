@@ -129,9 +129,6 @@ class MyClient(discord.Client):
 							#parse the json response
 							playerSearchJson = json.loads(playerSearch.text)
 							
-							print('DEBUG:')
-							print(str(playerSearchJson))
-							
 							#get the number of players found
 							playersFoundCount = playerSearchJson['search_player_all']['queryResults']['totalSize']
 							
@@ -237,6 +234,10 @@ class MyClient(discord.Client):
 								
 								#Parse the json info and populate all the properties
 								playerGenInfo.ParseJson(playerInfoJson)
+								
+								print('DEBUG: playerGenInfo')
+								print(str(playerInfoJson))
+								
 							elif len(playerSearchResultsList) == 0:
 								await message.channel.send('I couldn\'t find any players with the name %s ' % displayNameToSearch)
 								return
