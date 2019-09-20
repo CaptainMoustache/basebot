@@ -550,7 +550,7 @@ class SeasonPitchingStats():
 		self.totalSize = int(jsonData['sport_pitching_tm']['queryResults']['totalSize'])
 		print('DEBUG: totalSize = %s' % str(self.totalSize))
 		#Loop through all returned stats
-		for index in range(0, self.totalSize - 1):
+		for index in range(0, self.totalSize):
 			print('DEBUG: Adding index (%s) to pitching stats' % str(index))
 			self.gidp.append(jsonData['sport_pitching_tm']['queryResults']['row'][index]['gidp'])
 			self.h9.append(jsonData['sport_pitching_tm']['queryResults']['row'][index]['h9'])
