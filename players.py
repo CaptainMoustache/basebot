@@ -788,7 +788,7 @@ class SeasonPitchingStats():
 			self.pip.append('N/A')
 			self.ab.append('N/A')
 			self.er.append('N/A')
-		'''
+		
 #class CareerBattingStats():
 #
 #class CareerPitchingStats():
