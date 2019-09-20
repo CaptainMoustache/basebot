@@ -285,6 +285,9 @@ class MyClient(discord.Client):
 								#Parse the season batting stats
 								seasonPitchingInfo.ParseJson(playerStatsJson)
 								
+								print('DEBUG')
+								print(str(seasonPitchingInfo))
+								
 								#Send the message back to the channel
 								await message.channel.send('>>> **%s\'s** (%s) Stats for **%s**\n' \
 								' ERA: %s\n' \
