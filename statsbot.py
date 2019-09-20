@@ -291,11 +291,13 @@ class MyClient(discord.Client):
 								#testEmbed.colour = 
 								pitcherEmbed.color = discord.Color.dark_blue()
 								
+								print('DEBUG: len(seasonPitchingInfo.team_abbrev) = %s' % str(len(seasonPitchingInfo.team_abbrev))) 
+								
 								for index in range(1, seasonPitchingInfo.totalSize):
-									pitcherEmbed.add_field(name=seasonPitchingInfo.team_abbrev[index], value= ' ERA: %s\n' \
-								' Wins/Losses: %s/%s\n' \
-								' Games: %s\n' \
-								' WHIP: %s' % (seasonPitchingInfo.era[index], seasonPitchingInfo.w[index], seasonPitchingInfo.l[index], seasonPitchingInfo.gs[index], seasonPitchingInfo.whip[index]))
+									pitcherEmbed.add_field(name=seasonPitchingInfo.team_abbrev[index], value=' ERA: %s\n' \
+									' Wins/Losses: %s/%s\n' \
+									' Games: %s\n' \
+									' WHIP: %s' % (seasonPitchingInfo.era[index], seasonPitchingInfo.w[index], seasonPitchingInfo.l[index], seasonPitchingInfo.gs[index], seasonPitchingInfo.whip[index]))
 								
 								await message.channel.send(embed=pitcherEmbed)
 								
