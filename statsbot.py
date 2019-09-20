@@ -283,6 +283,7 @@ class MyClient(discord.Client):
 								#Parse the season batting stats
 								seasonPitchingInfo.ParseJson(playerStatsJson)
 								
+								print('DEBUG: len(seasonPitchingInfo.team_abbrev) = %s' % str(len(seasonPitchingInfo.team_abbrev))) 
 								
 								#Create the embed object
 								pitcherEmbed = discord.Embed()
@@ -291,14 +292,13 @@ class MyClient(discord.Client):
 								#testEmbed.colour = 
 								pitcherEmbed.color = discord.Color.dark_blue()
 								
-								print('DEBUG: len(seasonPitchingInfo.team_abbrev) = %s' % str(len(seasonPitchingInfo.team_abbrev))) 
 								
 								for index in range(1, seasonPitchingInfo.totalSize):
 									valueString = ' ERA: %s\n' \
 									' Wins/Losses: %s/%s\n' \
 									' Games: %s\n' \
-									' WHIP: %s' % (seasonPitchingInfo.era[index], seasonPitchingInfo.w[index], seasonPitchingInfo.l[index], seasonPitchingInfo.gs[index], seasonPitchingInfo.whip[index])
-									pitcherEmbed.add_field(name=seasonPitchingInfo.team_abbrev[index], value=valueString)
+									' WHIP: %s' % (seasonPitchingInfo.era[index - 1], seasonPitchingInfo.w[index - 1], seasonPitchingInfo.l[index - 1], seasonPitchingInfo.gs[index - 1], seasonPitchingInfo.whip[index - 1])
+									pitcherEmbed.add_field(name=seasonPitchingInfo.team_abbrev[index - 1], value=valueString)
 								
 								await message.channel.send(embed=pitcherEmbed)
 								
