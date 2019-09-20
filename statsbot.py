@@ -291,7 +291,7 @@ class MyClient(discord.Client):
 								#testEmbed.colour = 
 								pitcherEmbed.color = discord.Color.dark_blue()
 								
-								for index in range(0, seasonPitchingInfo.totalSize):
+								for index in range(1, seasonPitchingInfo.totalSize):
 									pitcherEmbed.add_field(name=seasonPitchingInfo.team_abbrev[index], value= ' ERA: %s\n' \
 								' Wins/Losses: %s/%s\n' \
 								' Games: %s\n' \
