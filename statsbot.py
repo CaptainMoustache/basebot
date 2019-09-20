@@ -284,6 +284,20 @@ class MyClient(discord.Client):
 								seasonPitchingInfo.ParseJson(playerStatsJson)
 								
 								
+								#Create the embed object
+								pitcherEmbed = discord.Embed()
+								pitcherEmbed.title = '**' + playerGenInfo.name_display_first_last + '\'s** Stats for **' +  str(statYear) + '**'
+								pitcherEmbed.type = 'rich'
+								#testEmbed.colour = 
+								pitcherEmbed.color = discord.Color.dark_blue()
+								
+								for index in range(0, seasonPitchingInfo.totalSize)
+									pitcherEmbed.add_field(name=seasonPitchingInfo.team_abbrev[index], value= ' ERA: %s\n' \
+								' Wins/Losses: %s/%s\n' \
+								' Games: %s\n' \
+								' WHIP: %s' % (seasonPitchingInfo.era[index], seasonPitchingInfo.w[index], seasonPitchingInfo.l[index], seasonPitchingInfo.gs[index], seasonPitchingInfo.whip[index]))
+								
+								await message.channel.send(embed=pitcherEmbed)
 								
 								#Send the message back to the channel
 								await message.channel.send('>>> **%s\'s** (%s) Stats for **%s**\n' \
@@ -291,6 +305,7 @@ class MyClient(discord.Client):
 								' Wins/Losses: %s/%s\n' \
 								' Games: %s\n' \
 								' WHIP: %s' % (playerGenInfo.name_display_first_last, seasonPitchingInfo.team_abbrev[0], statYear, seasonPitchingInfo.era[0], seasonPitchingInfo.w[0], seasonPitchingInfo.l[0], seasonPitchingInfo.gs[0], seasonPitchingInfo.whip[0]))
+								return
 
 						elif 'SCORE' in messageArray[1].upper():
 						
