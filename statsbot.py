@@ -129,6 +129,9 @@ class MyClient(discord.Client):
 							#parse the json response
 							playerSearchJson = json.loads(playerSearch.text)
 							
+							print('DEBUG:')
+							print(str(playerSearchJson))
+							
 							#get the number of players found
 							playersFoundCount = playerSearchJson['search_player_all']['queryResults']['totalSize']
 							
@@ -685,7 +688,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 								homeTeamShort = homeTeam[0]['fileCode'].upper() 
 								awayTeamShort = awayTeam[0]['fileCode'].upper()
 								gameTimeLocal = self.get_Local_Time(games['game_datetime'])
-								scheduleEmbed.add_field(name=gameTimeLocal.strftime('%m/%d/%Y'), value=homeTeamShort + ' vs ' + awayTeamShort, inline=False)
+								scheduleEmbed.add_field(name=gameTimeLocal.strftime('%m/%d/%Y') + ' @ ' + gameTimeLocal.strftime('%-I:%M%p') + ' EST', value=homeTeamShort + ' vs ' + awayTeamShort, inline=False)
 								
 							await message.channel.send(embed=scheduleEmbed)
 							
