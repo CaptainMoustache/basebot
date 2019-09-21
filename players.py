@@ -299,170 +299,280 @@ class PlayerInfo():
 class SeasonBattingStats():
 	jsonString = ''
 	totalSize = ''
-	gidp = ''
-	sac = ''
-	np = ''
-	sport_code = ''
-	hgnd = ''
-	tb = ''
-	gidp_opp = ''
-	sport_id = ''
-	bb = ''
-	avg = ''
-	slg = ''
-	team_full = ''
-	ops = ''
-	hbp = ''
-	league_full = ''
-	team_abbrev = ''
-	so = ''
-	hfly = ''
-	wo = ''
-	league_id = ''
-	sf = ''
-	team_seq = ''
-	league = ''
-	hpop = ''
-	cs = ''
-	season = ''
-	sb = ''
-	go_ao = ''
-	ppa = ''
-	player_id = ''
-	ibb = ''
-	team_id = ''
-	go = ''
-	hr = ''
-	rbi = ''
-	babip = ''
-	lob = ''
-	end_date = ''
-	xbh = ''
-	league_short = ''
-	g = ''
-	d = ''
-	sport = ''
-	team_short = ''
-	tpa = ''
-	h = ''
-	obp = ''
-	hldr = ''
-	t = ''
-	ao = ''
-	r = ''
-	ab = ''
+	gidp = []
+	sac = []
+	np = []
+	sport_code = []
+	hgnd = []
+	tb = []
+	gidp_opp = []
+	sport_id = []
+	bb = []
+	avg = []
+	slg = []
+	team_full = []
+	ops = []
+	hbp = []
+	league_full = []
+	team_abbrev = []
+	so = []
+	hfly = []
+	wo = []
+	league_id = []
+	sf = []
+	team_seq = []
+	league = []
+	hpop = []
+	cs = []
+	season = []
+	sb = []
+	go_ao = []
+	ppa = []
+	player_id = []
+	ibb = []
+	team_id = []
+	go = []
+	hr = []
+	rbi = []
+	babip = []
+	lob = []
+	end_date = []
+	xbh = []
+	league_short = []
+	g = []
+	d = []
+	sport = []
+	team_short = []
+	tpa = []
+	h = []
+	obp = []
+	hldr = []
+	t = []
+	ao = []
+	r = []
+	ab = []
+	def __init__(self):
+		self.jsonString = ''
+		self.totalSize = ''
+		self.gidp = []
+		self.sac = []
+		self.np = []
+		self.sport_code = []
+		self.hgnd = []
+		self.tb = []
+		self.gidp_opp = []
+		self.sport_id = []
+		self.bb = []
+		self.avg = []
+		self.slg = []
+		self.team_full = []
+		self.ops = []
+		self.hbp = []
+		self.league_full = []
+		self.team_abbrev = []
+		self.so = []
+		self.hfly = []
+		self.wo = []
+		self.league_id = []
+		self.sf = []
+		self.team_seq = []
+		self.league = []
+		self.hpop = []
+		self.cs = []
+		self.season = []
+		self.sb = []
+		self.go_ao = []
+		self.ppa = []
+		self.player_id = []
+		self.ibb = []
+		self.team_id = []
+		self.go = []
+		self.hr = []
+		self.rbi = []
+		self.babip = []
+		self.lob = []
+		self.end_date = []
+		self.xbh = []
+		self.league_short = []
+		self.g = []
+		self.d = []
+		self.sport = []
+		self.team_short = []
+		self.tpa = []
+		self.h = []
+		self.obp = []
+		self.hldr = []
+		self.t = []
+		self.ao = []
+		self.r = []
+		self.ab = []
 	#Parse out json info from the API response
 	def ParseJson(self, jsonData):
 		self.jsonString = str(jsonData)
 		self.totalSize = int(jsonData['sport_hitting_tm']['queryResults']['totalSize'])
+		#Loop through all returned stats
+		if self.totalSize > 1:
+			for index in range(0, self.totalSize):
+				self.gidp.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['gidp'])
+				self.sac.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['sac'])
+				self.np.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['np'])
+				self.sport_code.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['sport_code'])
+				self.hgnd.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['hgnd'])
+				self.tb.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['tb'])
+				self.gidp_opp.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['gidp_opp'])
+				self.sport_id.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['sport_id'])
+				self.bb.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['bb'])
+				self.avg.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['avg'])
+				self.slg.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['slg'])
+				self.team_full.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['team_full'])
+				self.ops.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['ops'])
+				self.hbp.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['hbp'])
+				self.league_full.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['league_full'])
+				self.team_abbrev.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['team_abbrev'])
+				self.so.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['so'])
+				self.hfly.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['hfly'])
+				self.wo.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['wo'])
+				self.league_id.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['league_id'])
+				self.sf.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['sf'])
+				self.team_seq.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['team_seq'])
+				self.league.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['league'])
+				self.hpop.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['hpop'])
+				self.cs.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['cs'])
+				self.season.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['season'])
+				self.sb.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['sb'])
+				self.go_ao.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['go_ao'])
+				self.ppa.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['ppa'])
+				self.player_id.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['player_id'])
+				self.ibb.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['ibb'])
+				self.team_id.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['team_id'])
+				self.go.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['go'])
+				self.hr.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['hr'])
+				self.rbi.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['rbi'])
+				self.babip.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['babip'])
+				self.lob.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['lob'])
+				self.end_date.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['end_date'])
+				self.xbh.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['xbh'])
+				self.league_short.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['league_short'])
+				self.g.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['g'])
+				self.d.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['d'])
+				self.sport.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['sport'])
+				self.team_short.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['team_short'])
+				self.tpa.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['tpa'])
+				self.h.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['h'])
+				self.obp.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['obp'])
+				self.hldr.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['hldr'])
+				self.t.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['t'])
+				self.ao.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['ao'])
+				self.r.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['r'])
+				self.ab.append(jsonData['sport_hitting_tm']['queryResults']['row'][index]['ab'])
 		#If there is only one player in the data
-		if self.totalSize == 1:
-			self.gidp = jsonData['sport_hitting_tm']['queryResults']['row']['gidp']
-			self.sac = jsonData['sport_hitting_tm']['queryResults']['row']['sac']
-			self.np = jsonData['sport_hitting_tm']['queryResults']['row']['np']
-			self.sport_code = jsonData['sport_hitting_tm']['queryResults']['row']['sport_code']
-			self.hgnd = jsonData['sport_hitting_tm']['queryResults']['row']['hgnd']
-			self.tb = jsonData['sport_hitting_tm']['queryResults']['row']['tb']
-			self.gidp_opp = jsonData['sport_hitting_tm']['queryResults']['row']['gidp_opp']
-			self.sport_id = jsonData['sport_hitting_tm']['queryResults']['row']['sport_id']
-			self.bb = jsonData['sport_hitting_tm']['queryResults']['row']['bb']
-			self.avg = jsonData['sport_hitting_tm']['queryResults']['row']['avg']
-			self.slg = jsonData['sport_hitting_tm']['queryResults']['row']['slg']
-			self.team_full = jsonData['sport_hitting_tm']['queryResults']['row']['team_full']
-			self.ops = jsonData['sport_hitting_tm']['queryResults']['row']['ops']
-			self.hbp = jsonData['sport_hitting_tm']['queryResults']['row']['hbp']
-			self.league_full = jsonData['sport_hitting_tm']['queryResults']['row']['league_full']
-			self.team_abbrev = jsonData['sport_hitting_tm']['queryResults']['row']['team_abbrev']
-			self.so = jsonData['sport_hitting_tm']['queryResults']['row']['so']
-			self.hfly = jsonData['sport_hitting_tm']['queryResults']['row']['hfly']
-			self.wo = jsonData['sport_hitting_tm']['queryResults']['row']['wo']
-			self.league_id = jsonData['sport_hitting_tm']['queryResults']['row']['league_id']
-			self.sf = jsonData['sport_hitting_tm']['queryResults']['row']['sf']
-			self.team_seq = jsonData['sport_hitting_tm']['queryResults']['row']['team_seq']
-			self.league = jsonData['sport_hitting_tm']['queryResults']['row']['league']
-			self.hpop = jsonData['sport_hitting_tm']['queryResults']['row']['hpop']
-			self.cs = jsonData['sport_hitting_tm']['queryResults']['row']['cs']
-			self.season = jsonData['sport_hitting_tm']['queryResults']['row']['season']
-			self.sb = jsonData['sport_hitting_tm']['queryResults']['row']['sb']
-			self.go_ao = jsonData['sport_hitting_tm']['queryResults']['row']['go_ao']
-			self.ppa = jsonData['sport_hitting_tm']['queryResults']['row']['ppa']
-			self.player_id = jsonData['sport_hitting_tm']['queryResults']['row']['player_id']
-			self.ibb = jsonData['sport_hitting_tm']['queryResults']['row']['ibb']
-			self.team_id = jsonData['sport_hitting_tm']['queryResults']['row']['team_id']
-			self.go = jsonData['sport_hitting_tm']['queryResults']['row']['go']
-			self.hr = jsonData['sport_hitting_tm']['queryResults']['row']['hr']
-			self.rbi = jsonData['sport_hitting_tm']['queryResults']['row']['rbi']
-			self.babip = jsonData['sport_hitting_tm']['queryResults']['row']['babip']
-			self.lob = jsonData['sport_hitting_tm']['queryResults']['row']['lob']
-			self.end_date = jsonData['sport_hitting_tm']['queryResults']['row']['end_date']
-			self.xbh = jsonData['sport_hitting_tm']['queryResults']['row']['xbh']
-			self.league_short = jsonData['sport_hitting_tm']['queryResults']['row']['league_short']
-			self.g = jsonData['sport_hitting_tm']['queryResults']['row']['g']
-			self.d = jsonData['sport_hitting_tm']['queryResults']['row']['d']
-			self.sport = jsonData['sport_hitting_tm']['queryResults']['row']['sport']
-			self.team_short = jsonData['sport_hitting_tm']['queryResults']['row']['team_short']
-			self.tpa = jsonData['sport_hitting_tm']['queryResults']['row']['tpa']
-			self.h = jsonData['sport_hitting_tm']['queryResults']['row']['h']
-			self.obp = jsonData['sport_hitting_tm']['queryResults']['row']['obp']
-			self.hldr = jsonData['sport_hitting_tm']['queryResults']['row']['hldr']
-			self.t = jsonData['sport_hitting_tm']['queryResults']['row']['t']
-			self.ao = jsonData['sport_hitting_tm']['queryResults']['row']['ao']
-			self.r = jsonData['sport_hitting_tm']['queryResults']['row']['r']
-			self.ab = jsonData['sport_hitting_tm']['queryResults']['row']['ab']
+		elif self.totalSize == 1:
+			self.gidp.append(jsonData['sport_hitting_tm']['queryResults']['row']['gidp'])
+			self.sac.append(jsonData['sport_hitting_tm']['queryResults']['row']['sac'])
+			self.np.append(jsonData['sport_hitting_tm']['queryResults']['row']['np'])
+			self.sport_code.append(jsonData['sport_hitting_tm']['queryResults']['row']['sport_code'])
+			self.hgnd.append(jsonData['sport_hitting_tm']['queryResults']['row']['hgnd'])
+			self.tb.append(jsonData['sport_hitting_tm']['queryResults']['row']['tb'])
+			self.gidp_opp.append(jsonData['sport_hitting_tm']['queryResults']['row']['gidp_opp'])
+			self.sport_id.append(jsonData['sport_hitting_tm']['queryResults']['row']['sport_id'])
+			self.bb.append(jsonData['sport_hitting_tm']['queryResults']['row']['bb'])
+			self.avg.append(jsonData['sport_hitting_tm']['queryResults']['row']['avg'])
+			self.slg.append(jsonData['sport_hitting_tm']['queryResults']['row']['slg'])
+			self.team_full.append(jsonData['sport_hitting_tm']['queryResults']['row']['team_full'])
+			self.ops.append(jsonData['sport_hitting_tm']['queryResults']['row']['ops'])
+			self.hbp.append(jsonData['sport_hitting_tm']['queryResults']['row']['hbp'])
+			self.league_full.append(jsonData['sport_hitting_tm']['queryResults']['row']['league_full'])
+			self.team_abbrev.append(jsonData['sport_hitting_tm']['queryResults']['row']['team_abbrev'])
+			self.so.append(jsonData['sport_hitting_tm']['queryResults']['row']['so'])
+			self.hfly.append(jsonData['sport_hitting_tm']['queryResults']['row']['hfly'])
+			self.wo.append(jsonData['sport_hitting_tm']['queryResults']['row']['wo'])
+			self.league_id.append(jsonData['sport_hitting_tm']['queryResults']['row']['league_id'])
+			self.sf.append(jsonData['sport_hitting_tm']['queryResults']['row']['sf'])
+			self.team_seq.append(jsonData['sport_hitting_tm']['queryResults']['row']['team_seq'])
+			self.league.append(jsonData['sport_hitting_tm']['queryResults']['row']['league'])
+			self.hpop.append(jsonData['sport_hitting_tm']['queryResults']['row']['hpop'])
+			self.cs.append(jsonData['sport_hitting_tm']['queryResults']['row']['cs'])
+			self.season.append(jsonData['sport_hitting_tm']['queryResults']['row']['season'])
+			self.sb.append(jsonData['sport_hitting_tm']['queryResults']['row']['sb'])
+			self.go_ao.append(jsonData['sport_hitting_tm']['queryResults']['row']['go_ao'])
+			self.ppa.append(jsonData['sport_hitting_tm']['queryResults']['row']['ppa'])
+			self.player_id.append(jsonData['sport_hitting_tm']['queryResults']['row']['player_id'])
+			self.ibb.append(jsonData['sport_hitting_tm']['queryResults']['row']['ibb'])
+			self.team_id.append(jsonData['sport_hitting_tm']['queryResults']['row']['team_id'])
+			self.go.append(jsonData['sport_hitting_tm']['queryResults']['row']['go'])
+			self.hr.append(jsonData['sport_hitting_tm']['queryResults']['row']['hr'])
+			self.rbi.append(jsonData['sport_hitting_tm']['queryResults']['row']['rbi'])
+			self.babip.append(jsonData['sport_hitting_tm']['queryResults']['row']['babip'])
+			self.lob.append(jsonData['sport_hitting_tm']['queryResults']['row']['lob'])
+			self.end_date.append(jsonData['sport_hitting_tm']['queryResults']['row']['end_date'])
+			self.xbh.append(jsonData['sport_hitting_tm']['queryResults']['row']['xbh'])
+			self.league_short.append(jsonData['sport_hitting_tm']['queryResults']['row']['league_short'])
+			self.g.append(jsonData['sport_hitting_tm']['queryResults']['row']['g'])
+			self.d.append(jsonData['sport_hitting_tm']['queryResults']['row']['d'])
+			self.sport.append(jsonData['sport_hitting_tm']['queryResults']['row']['sport'])
+			self.team_short.append(jsonData['sport_hitting_tm']['queryResults']['row']['team_short'])
+			self.tpa.append(jsonData['sport_hitting_tm']['queryResults']['row']['tpa'])
+			self.h.append(jsonData['sport_hitting_tm']['queryResults']['row']['h'])
+			self.obp.append(jsonData['sport_hitting_tm']['queryResults']['row']['obp'])
+			self.hldr.append(jsonData['sport_hitting_tm']['queryResults']['row']['hldr'])
+			self.t.append(jsonData['sport_hitting_tm']['queryResults']['row']['t'])
+			self.ao.append(jsonData['sport_hitting_tm']['queryResults']['row']['ao'])
+			self.r.append(jsonData['sport_hitting_tm']['queryResults']['row']['r'])
+			self.ab.append(jsonData['sport_hitting_tm']['queryResults']['row']['ab'])
 		#Error condition
 		else:
-			self.gidp = 'N/A'
-			self.sac = 'N/A'
-			self.np = 'N/A'
-			self.sport_code = 'N/A'
-			self.hgnd = 'N/A'
-			self.tb = 'N/A'
-			self.gidp_opp = 'N/A'
-			self.sport_id = 'N/A'
-			self.bb = 'N/A'
-			self.avg = 'N/A'
-			self.slg = 'N/A'
-			self.team_full = 'N/A'
-			self.ops = 'N/A'
-			self.hbp = 'N/A'
-			self.league_full = 'N/A'
-			self.team_abbrev = 'N/A'
-			self.so = 'N/A'
-			self.hfly = 'N/A'
-			self.wo = 'N/A'
-			self.league_id = 'N/A'
-			self.sf = 'N/A'
-			self.team_seq = 'N/A'
-			self.league = 'N/A'
-			self.hpop = 'N/A'
-			self.cs = 'N/A'
-			self.season = 'N/A'
-			self.sb = 'N/A'
-			self.go_ao = 'N/A'
-			self.ppa = 'N/A'
-			self.player_id = 'N/A'
-			self.ibb = 'N/A'
-			self.team_id = 'N/A'
-			self.go = 'N/A'
-			self.hr = 'N/A'
-			self.rbi = 'N/A'
-			self.babip = 'N/A'
-			self.lob = 'N/A'
-			self.end_date = 'N/A'
-			self.xbh = 'N/A'
-			self.league_short = 'N/A'
-			self.g = 'N/A'
-			self.d = 'N/A'
-			self.sport = 'N/A'
-			self.team_short = 'N/A'
-			self.tpa = 'N/A'
-			self.h = 'N/A'
-			self.obp = 'N/A'
-			self.hldr = 'N/A'
-			self.t = 'N/A'
-			self.ao = 'N/A'
-			self.r = 'N/A'
-			self.ab = 'N/A'
+			self.gidp.append('N/A')
+			self.sac.append('N/A')
+			self.np.append('N/A')
+			self.sport_code.append('N/A')
+			self.hgnd.append('N/A')
+			self.tb.append('N/A')
+			self.gidp_opp.append('N/A')
+			self.sport_id.append('N/A')
+			self.bb.append('N/A')
+			self.avg.append('N/A')
+			self.slg.append('N/A')
+			self.team_full.append('N/A')
+			self.ops.append('N/A')
+			self.hbp.append('N/A')
+			self.league_full.append('N/A')
+			self.team_abbrev.append('N/A')
+			self.so.append('N/A')
+			self.hfly.append('N/A')
+			self.wo.append('N/A')
+			self.league_id.append('N/A')
+			self.sf.append('N/A')
+			self.team_seq.append('N/A')
+			self.league.append('N/A')
+			self.hpop.append('N/A')
+			self.cs.append('N/A')
+			self.season.append('N/A')
+			self.sb.append('N/A')
+			self.go_ao.append('N/A')
+			self.ppa.append('N/A')
+			self.player_id.append('N/A')
+			self.ibb.append('N/A')
+			self.team_id.append('N/A')
+			self.go.append('N/A')
+			self.hr.append('N/A')
+			self.rbi.append('N/A')
+			self.babip.append('N/A')
+			self.lob.append('N/A')
+			self.end_date.append('N/A')
+			self.xbh.append('N/A')
+			self.league_short.append('N/A')
+			self.g.append('N/A')
+			self.d.append('N/A')
+			self.sport.append('N/A')
+			self.team_short.append('N/A')
+			self.tpa.append('N/A')
+			self.h.append('N/A')
+			self.obp.append('N/A')
+			self.hldr.append('N/A')
+			self.t.append('N/A')
+			self.ao.append('N/A')
+			self.r.append('N/A')
+			self.ab.append('N/A')
 
 class SeasonPitchingStats():
 	jsonString = ''
@@ -544,15 +654,93 @@ class SeasonPitchingStats():
 	pip = []
 	ab = []
 	er = []
+	def __init__(self):
+		self.jsonString = ''
+		self.totalSize = ''
+		self.gidp = []
+		self.h9 = []
+		self.np = []
+		self.tr = []
+		self.gf = []
+		self.sport_code = []
+		self.bqs = []
+		self.hgnd = []
+		self.sho = []
+		self.bq = []
+		self.gidp_opp = []
+		self.bk = []
+		self.kbb = []
+		self.sport_id = []
+		self.hr9 = []
+		self.sv = []
+		self.slg = []
+		self.bb = []
+		self.whip = []
+		self.avg = []
+		self.ops = []
+		self.team_full = []
+		self.db = []
+		self.league_full = []
+		self.team_abbrev = []
+		self.hfly = []
+		self.so = []
+		self.bf = []
+		self.bb9 = []
+		self.league_id = []
+		self.wp = []
+		self.team_seq = []
+		self.hpop = []
+		self.league = []
+		self.hb = []
+		self.cs = []
+		self.pgs = []
+		self.season = []
+		self.sb = []
+		self.go_ao = []
+		self.ppa = []
+		self.cg = []
+		self.player_id = []
+		self.gs = []
+		self.ibb = []
+		self.team_id = []
+		self.pk = []
+		self.go = []
+		self.hr = []
+		self.irs = []
+		self.wpct = []
+		self.era = []
+		self.babip = []
+		self.end_date = []
+		self.rs9 = []
+		self.qs = []
+		self.league_short = []
+		self.g = []
+		self.ir = []
+		self.hld = []
+		self.k9 = []
+		self.sport = []
+		self.team_short = []
+		self.l = []
+		self.svo = []
+		self.h = []
+		self.ip = []
+		self.obp = []
+		self.w = []
+		self.hldr = []
+		self.ao = []
+		self.s = []
+		self.r = []
+		self.spct = []
+		self.pip = []
+		self.ab = []
+		self.er = []
 	#Parse out json info from the API response
 	def ParseJson(self, jsonData):
 		self.jsonString = str(jsonData)
 		self.totalSize = int(jsonData['sport_pitching_tm']['queryResults']['totalSize'])
-		print('DEBUG: totalSize = %s' % str(self.totalSize))
 		#Loop through all returned stats
 		if self.totalSize > 1:
 			for index in range(0, self.totalSize):
-				print('DEBUG: Adding index (%s) to pitching stats' % str(index))
 				self.gidp.append(jsonData['sport_pitching_tm']['queryResults']['row'][index]['gidp'])
 				self.h9.append(jsonData['sport_pitching_tm']['queryResults']['row'][index]['h9'])
 				self.np.append(jsonData['sport_pitching_tm']['queryResults']['row'][index]['np'])
@@ -788,7 +976,7 @@ class SeasonPitchingStats():
 			self.pip.append('N/A')
 			self.ab.append('N/A')
 			self.er.append('N/A')
-		
+	
 #class CareerBattingStats():
 #
 #class CareerPitchingStats():

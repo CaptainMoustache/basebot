@@ -259,6 +259,23 @@ class MyClient(discord.Client):
 								#Parse the season batting stats
 								seasonBattingInfo.ParseJson(playerStatsJson)
 								
+								#Create the embed object
+								playerEmbed = discord.Embed()
+								playerEmbed.title = '**' + playerGenInfo.name_display_first_last + '\'s** Stats for **' +  str(statYear) + '**'
+								playerEmbed.type = 'rich'
+								#testEmbed.colour = 
+								playerEmbed.color = discord.Color.dark_blue()
+								
+								for index in range(0, seasonBattingInfo.totalSize):
+									valueString = ' Batting Avg: %s\n' \
+									' HomeRuns: %s\n' \
+									' Slugging: %s\n' \
+									' OPS: %s\n' \
+									' RBI: %s' % (seasonBattingInfo.avg[index], seasonBattingInfo.hr[index], seasonBattingInfo.slg[index], seasonBattingInfo.ops[index], seasonBattingInfo.rbi[index])
+									playerEmbed.add_field(name=seasonBattingInfo.team_abbrev[index], value=valueString)
+								
+								await message.channel.send(embed=playerEmbed)
+								'''
 								#Send the message back to the channel
 								await message.channel.send('>>> **%s\'s** (%s) Stats for **%s**\n' \
 								' Batting Avg: %s\n' \
@@ -266,6 +283,7 @@ class MyClient(discord.Client):
 								' Slugging: %s\n' \
 								' OPS: %s\n' \
 								' RBI: %s' % (playerGenInfo.name_display_first_last, seasonBattingInfo.team_abbrev, statYear, seasonBattingInfo.avg, seasonBattingInfo.hr, seasonBattingInfo.slg, seasonBattingInfo.ops, seasonBattingInfo.rbi))
+								'''
 							else:
 								#Get their stats
 								#Right now this is hardcoded for the regular season
@@ -282,16 +300,13 @@ class MyClient(discord.Client):
 								seasonPitchingInfo = players.SeasonPitchingStats()
 								#Parse the season batting stats
 								seasonPitchingInfo.ParseJson(playerStatsJson)
-								
-								print('DEBUG: len(seasonPitchingInfo.team_abbrev) = %s' % str(len(seasonPitchingInfo.team_abbrev))) 
-								
+																				
 								#Create the embed object
 								pitcherEmbed = discord.Embed()
 								pitcherEmbed.title = '**' + playerGenInfo.name_display_first_last + '\'s** Stats for **' +  str(statYear) + '**'
 								pitcherEmbed.type = 'rich'
 								#testEmbed.colour = 
 								pitcherEmbed.color = discord.Color.dark_blue()
-								
 								
 								for index in range(0, seasonPitchingInfo.totalSize):
 									valueString = ' ERA: %s\n' \
