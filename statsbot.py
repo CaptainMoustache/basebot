@@ -41,7 +41,7 @@ class MyClient(discord.Client):
 								#search for the playerid
 								#create a list of mention strings
 								mentionList = []
-								for users in self.guilds[0].members:
+								for users in message.channel.members:
 									mentionList.append(users.mention)
 								
 								#if someone is being a smartass
