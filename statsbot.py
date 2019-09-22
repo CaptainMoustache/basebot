@@ -42,7 +42,8 @@ class MyClient(discord.Client):
 								#create a list of mention strings
 								mentionList = []
 								for users in message.channel.members:
-									mentionList.append(users.mention)
+                                    if users.bot == False:
+                                        mentionList.append(users.mention)
 								
 								#if someone is being a smartass
 								if messageArray[2].upper() == 'PENIS':
