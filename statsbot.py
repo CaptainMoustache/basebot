@@ -897,15 +897,29 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		homeTeam = statsapi.lookup_team(game['home_name'])
 		awayTeam = statsapi.lookup_team(game['away_name'])
 		
-		homeTeamShort = homeTeam[0]['fileCode'].upper() 
-		awayTeamShort = awayTeam[0]['fileCode'].upper()
 		
-		#Get the probable pitchers
-		homeProbable = game['home_probable_pitcher']
-		awayProbable = game['away_probable_pitcher']
+		#If the teams have been announced then read the info
+		if len(homeTeam) > 0:
+			homeTeamShort = homeTeam[0]['fileCode'].upper()
+			#Get the probable pitchers
+			homeProbable = game['home_probable_pitcher']
+			homeNote = game['home_pitcher_note']
+			homeNote = game['home_pitcher_note']
+		else:
+			homeTeamShort = 'N/A'
+			homeProbable = 'N/A'
+			homeNote = 'N/A'
+			
+		if len(awayTeam) > 0
+			awayTeamShort = awayTeam[0]['fileCode'].upper()
+			#Get the probable pitchers
+			awayProbable = game['away_probable_pitcher']
+			awayNote = game['away_pitcher_note']
+		else:
+			awayTeamShort = 'N/A'
+			awayProbable = 'N/A'
+			awayNote = 'N/A'
 		
-		homeNote = game['home_pitcher_note']
-		awayNote = game['away_pitcher_note']
 		
 		#Create the embed object
 		scheduledEmbed = discord.Embed()
