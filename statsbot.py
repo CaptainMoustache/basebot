@@ -720,8 +720,14 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							for games in nextGames:
 								homeTeam = statsapi.lookup_team(games['home_name'])
 								awayTeam = statsapi.lookup_team(games['away_name'])
-								homeTeamShort = homeTeam[0]['fileCode'].upper() 
-								awayTeamShort = awayTeam[0]['fileCode'].upper()
+								if len(homeTeam) > 0:
+									homeTeamShort = homeTeam[0]['fileCode'].upper()
+								else:
+									homeTeamShort = 'N/A'
+								if len(awayTeam)
+									awayTeamShort = awayTeam[0]['fileCode'].upper()
+								else:
+									awayTeamShort = 'N/A'
 								gameTimeLocal = self.get_Local_Time(games['game_datetime'])
 								scheduleEmbed.add_field(name=gameTimeLocal.strftime('%m/%d/%Y') + ' @ ' + gameTimeLocal.strftime('%-I:%M%p') + ' EST', value=homeTeamShort + ' vs ' + awayTeamShort, inline=False)
 								
