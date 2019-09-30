@@ -724,7 +724,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 									homeTeamShort = homeTeam[0]['fileCode'].upper()
 								else:
 									homeTeamShort = 'N/A'
-								if len(awayTeam)
+								if len(awayTeam) > 0:
 									awayTeamShort = awayTeam[0]['fileCode'].upper()
 								else:
 									awayTeamShort = 'N/A'
