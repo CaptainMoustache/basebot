@@ -940,7 +940,6 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			awayProbable = 'Unannounced'
 		scheduledEmbed.add_field(name=awayTeamShort+ ' Probable:' , value=awayProbable, inline=True)
 		#Check for returned values
-		print(len(homeNote))
 		if not homeNote:
 			homeNote = 'None'
 
