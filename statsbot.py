@@ -910,7 +910,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			homeProbable = 'N/A'
 			homeNote = 'N/A'
 			
-		if len(awayTeam) > 0
+		if len(awayTeam) > 0:
 			awayTeamShort = awayTeam[0]['fileCode'].upper()
 			#Get the probable pitchers
 			awayProbable = game['away_probable_pitcher']
