@@ -396,6 +396,9 @@ class MyClient(discord.Client):
 								#Game is over
 								if queriedSchedule[0]['status'] == 'Final' or queriedSchedule[0]['status'] == 'Game Over':
 									await self.final_Game_Message(queriedSchedule[0], message)
+									#If there is a game in the next week, return it
+									if len(nextGames) > 0:
+										await self.scheduled_Game_Embed(nextGames[0], message)
 								#Game is scheduled	
 								elif queriedSchedule[0]['status'] == 'Scheduled' or queriedSchedule[0]['status'] == 'Pre-Game':	
 									await self.scheduled_Game_Embed(queriedSchedule[0], message)
@@ -421,7 +424,9 @@ class MyClient(discord.Client):
 								#Game is over
 								elif prev_game['status'] == 'Final' or prev_game['status'] == 'Game Over':
 									await self.final_Game_Message(prev_game, message)
-									
+									#If there is a game in the next week, return it
+									if len(nextGames) > 0:
+										await self.scheduled_Game_Embed(nextGames[0], message)
 								else:
 									print('ERROR: Unknown game state returned. Game Status = %s' % queriedSchedule['status'])
 							#Uhh more than 2 games in a day?
