@@ -788,6 +788,10 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							#
 							#print('DEBUG: %s', statsapi.get(endpoint='game_contextMetrics', params=parameters))
 						
+						elif 'META' in messageArray[1].upper():
+							print('DEBUG: Getting meta response for %s' % messageArray[2])
+							print('DEBUG: %s' % statsapi.meta(messageArray[2]))
+						
 						#Display the help message
 						elif 'HELP' in messageArray[1].upper():
 							
@@ -934,6 +938,15 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		homeTeam = statsapi.lookup_team(game['home_name'])
 		awayTeam = statsapi.lookup_team(game['away_name'])
 		
+		#Get the game type
+		'''
+		[{'id': 'S', 'description': 'Spring Training'}, {'id': 'R', 'description': 'Regular season'}, {'id': 'F', 'description': 'Wild Card Game'}, {'id': 'D', 'description': 'Division Series'}, {'id': 'L', 'description': 'League Championship Series'}, {'id': 'W', 'description': 'World Series'}, {'id': 'C', 'description': 'Championship'}, {'id': 'N', 'description': 'Nineteenth Century Series'}, {'id': 'P', 'description': 'Playoffs'}, {'id': 'A', 'description': 'All-Star game'}, {'id': 'I', 'description': 'Intrasquad'}, {'id': 'E', 'description': 'Exhibition'}]
+		'''
+		contextParams = {'gamePk': game['game_id']}
+		game_contextMetrics = statsapi.get(endpoint='game_contextMetrics', params=contextParams)
+		gameType = game_contextMetrics['game']['gameType']
+		
+		
 		
 		#If the teams have been announced then read the info
 		if len(homeTeam) > 0:
@@ -957,10 +970,41 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 			awayProbable = 'N/A'
 			awayNote = 'N/A'
 		
-		
 		#Create the embed object
 		scheduledEmbed = discord.Embed()
-		scheduledEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		#Regular Season
+		if gameType == 'R':
+			scheduledEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		#Wildcard
+		elif gameType == 'F':
+			#Check if the game is a tiebreaker
+			if game_contextMetrics['game']['tiebreaker'] == 'N':
+				scheduledEmbed.title = '**Wildcard Game**\n\n**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+			else:
+				scheduledEmbed.title = '**Wildcard Tiebreaker Game**\n\n**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		#Division Series
+		elif gameType == 'D':
+			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
+			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
+			scheduledEmbed.title = '**Division Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['home_name'] + '**(' + homeRecordString + ') vs ' + '**' + game['away_name'] + '**(' + awayRecordString + ')'
+		#League Championship Series
+		elif gameType == 'L':
+			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
+			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
+			scheduledEmbed.title = '**League Championship Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['home_name'] + '**(' + homeRecordString + ') vs ' + '**' + game['away_name'] + '**(' + awayRecordString + ')'
+		#World Series
+		elif gameType == 'W':
+			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
+			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
+			scheduledEmbed.title = '**World Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['home_name'] + '**(' + homeRecordString + ') vs ' + '**' + game['away_name'] + '**(' + awayRecordString + ')'
+		#Spring Training
+		elif gameType == 'S':
+			scheduledEmbed.title = '**Spring Training**\n\n**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		else:
+			scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		
+		
+			
 		scheduledEmbed.type = 'rich'
 		#testEmbed.colour = 
 		scheduledEmbed.color = discord.Color.dark_blue()
@@ -1104,9 +1148,47 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		#Get the scoring plays
 		scoringPlays = statsapi.game_scoring_plays(game['game_id'])
 		
+		contextParams = {'gamePk': game['game_id']}
+		game_contextMetrics = statsapi.get(endpoint='game_contextMetrics', params=contextParams)
+		gameType = game_contextMetrics['game']['gameType']
+		
 		#Create the embed object
 		scoreEmbed = discord.Embed()
-		scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
+		
+		#Regular Season
+		if gameType == 'R':
+			scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		#Wildcard
+		elif gameType == 'F':
+			#Check if the game is a tiebreaker
+			if game_contextMetrics['game']['tiebreaker'] == 'N':
+				scoreEmbed.title = '**Wildcard Game**\n\n**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+			else:
+				scoreEmbed.title = '**Wildcard Tiebreaker Game**\n\n**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		#Division Series
+		elif gameType == 'D':
+			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
+			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
+			scoreEmbed.title = '**Division Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['home_name'] + '**(' + homeRecordString + ') vs ' + '**' + game['away_name'] + '**(' + awayRecordString + ')'
+		#League Championship Series
+		elif gameType == 'L':
+			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
+			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
+			scoreEmbed.title = '**League Championship Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['home_name'] + '**(' + homeRecordString + ') vs ' + '**' + game['away_name'] + '**(' + awayRecordString + ')'
+		#World Series
+		elif gameType == 'W':
+			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
+			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
+			scoreEmbed.title = '**World Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['home_name'] + '**(' + homeRecordString + ') vs ' + '**' + game['away_name'] + '**(' + awayRecordString + ')'
+		#Spring Training
+		elif gameType == 'S':
+			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
+			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
+			scoreEmbed.title = '**Spring Training**\n\n**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		else:
+			scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+		
+		
 		scoreEmbed.type = 'rich'
 		scoreEmbed.color = discord.Color.dark_blue()
 		
@@ -1114,13 +1196,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		#scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
 		#scoreEmbed.add_field(name='Linescore', value='```' + statsapi.linescore(game['game_id']) + '```')
 		
-		#Get the win probabilities
-		contextParams = { 
-						'gamePk': game['game_id']
-						}
-		game_contextMetrics = await statsapi.get(endpoint='game_contextMetrics', params=contextParams)
-	
-		
+		#Show the win %
 		scoreEmbed.add_field(name=homeTeamShort + ' win %', value=game_contextMetrics['homeWinProbability'], inline=True)
 		scoreEmbed.add_field(name=awayTeamShort + ' win %', value=game_contextMetrics['awayWinProbability'], inline=True)
 		
