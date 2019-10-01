@@ -772,6 +772,22 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							#await message.channel.send('%s' % pewPewId)
 							await message.channel.send(embed=gibbyEmbed2)
 						
+						elif 'NOTES' in messageArray[1].upper():
+							print('DEBUG: Capturing Notes')
+							print('DEBUG: game_winProbability')
+							print('DEBUG: %s', statsapi.notes('game_winProbability'))
+							
+							print('DEBUG: game_contextMetrics')
+							print('DEBUG: %s', statsapi.notes('game_contextMetrics'))
+							
+							
+							print('DEBUG: game_contextMetrics')
+							parameters = { 
+										'gamePk': 55555
+										}
+							
+							print('DEBUG: %s', statsapi.get(endpoint='game_contextMetrics', params=parameters))
+						
 						#Display the help message
 						elif 'HELP' in messageArray[1].upper():
 							
@@ -1058,13 +1074,14 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		'''
 	
 	async def live_Game_Message(self, game, message):
-		'''
+		
 		homeTeam = statsapi.lookup_team(game['home_name'])
 		awayTeam = statsapi.lookup_team(game['away_name'])
 		
 		homeTeamShort = homeTeam[0]['fileCode'].upper() 
 		awayTeamShort = awayTeam[0]['fileCode'].upper()
 	
+		'''
 		homeScore = game['home_score']
 		homeScoreString = str(homeScore)
 		awayScore = game['away_score']
@@ -1096,6 +1113,22 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		scoreEmbed.add_field(name='**' + game['inning_state'] + ' ' + str(game['current_inning']) + '**', value='```js\n' + statsapi.linescore(game['game_id']) + '```', inline=False)
 		#scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
 		#scoreEmbed.add_field(name='Linescore', value='```' + statsapi.linescore(game['game_id']) + '```')
+		
+		#Get the win probabilities
+		contextParams = { 
+						'gamePk': game['game_id']
+						}
+		game_contextMetrics = await statsapi.get(endpoint='game_contextMetrics', params=contextParams))
+	
+		
+		scoreEmbed.add_field(name=homeTeamShort + ' win %', value=game_contextMetrics['homeWinProbability'], inline=True)
+		scoreEmbed.add_field(name=awayTeamShort + ' win %', value=game_contextMetrics['awayWinProbability'], inline=True)
+		
+		'''
+		DEBUG: game_contextMetrics
+		DEBUG: %s {'game': {'gamePk': 55555, 'link': '/api/v1/game/55555/feed/live', 'gameType': 'R', 'season': '2006', 'gameDate': '2006-06-10T03:33:00Z', 'status': {'abstractGameState': 'Final', 'codedGameState': 'F', 'detailedState': 'Final', 'statusCode': 'F', 'startTimeTBD': True, 'abstractGameCode': 'F'}, 'teams': {'away': {'leagueRecord': {'wins': 7, 'losses': 0, 'pct': '1.000'}, 'score': 5, 'team': {'id': 604, 'name': 'DSL Blue Jays', 'link': '/api/v1/teams/604'}, 'isWinner': True, 'splitSquad': False, 'seriesNumber': 7}, 'home': {'leagueRecord': {'wins': 2, 'losses': 4, 'pct': '.333'}, 'score': 3, 'team': {'id': 616, 'name': 'DSL Indians', 'link': '/api/v1/teams/616'}, 'isWinner': False, 'splitSquad': False, 'seriesNumber': 6}}, 'venue': {'id': 401, 'name': 'Generic', 'link': '/api/v1/venues/401'}, 'content': {'link': '/api/v1/game/55555/content'}, 'isTie': False, 'gameNumber': 1, 'publicFacing': True, 'doubleHeader': 'N', 'gamedayType': 'N', 'tiebreaker': 'N', 'calendarEventID': '44-55555-2006-06-10', 'seasonDisplay': '2006', 'dayNight': 'day', 'scheduledInnings': 9, 'inningBreakLength': 0, 'gamesInSeries': 1, 'seriesGameNumber': 1, 'seriesDescription': 'Regular Season', 'recordSource': 'S', 'ifNecessary': 'N', 'ifNecessaryDescription': 'Normal Game', 'gameId': '2006/06/10/dblrok-dinrok-1'}, 'expectedStatisticsData': {}, 'leftFieldSacFlyProbability': {}, 'centerFieldSacFlyProbability': {}, 'rightFieldSacFlyProbability': {}, 'awayWinProbability': 100.0, 'homeWinProbability': 0.0}
+		'''
+							
 		
 		if len(scoringPlays) > 1:
 			scoringPlaysList = scoringPlays.split('\n\n')
