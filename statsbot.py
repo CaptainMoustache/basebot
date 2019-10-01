@@ -774,9 +774,30 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 						
 						#Display the help message
 						elif 'HELP' in messageArray[1].upper():
-							await message.channel.send('>>> use \'statsbot player PLAYERNAME\' to lookup a players stats. \n use \'statsbot highlights TEAMNAME\' to lookup the latest highlights. \n')
+							
+							helpEmbed = discord.Embed()
+							helpEmbed.title = 'Statsbot Help'
+							helpEmbed.type = 'rich'
+							helpEmbed.color = discord.Color.dark_blue()
+							
+							helpEmbed.add_field(name='statsbot player $PLAYERNAME', value='Lookup a players stats')
+							helpEmbed.add_field(name='statsbot score $TEAMNAME', value='Lookup the latest game')
+							helpEmbed.add_field(name='statsbot highlights $TEAMNAME', value='Lookup the latest highlights')
+							helpEmbed.add_field(name='statsbot roster $TEAMNAME', value='Display the team\'s current roster')
+							helpEmbed.add_field(name='statsbot standings', value='Show the current league standing')
+							helpEmbed.add_field(name='statsbot schedule $TEAMNAME', value='Show the team\'s scheduled games')
+							
+							await message.channel.send(embed=helpEmbed)
+							'''
+							await message.channel.send('>>> use \'statsbot player $PLAYERNAME\' to lookup a players stats. \n' \
+							'use \'statsbot score $TEAMNAME\' to lookup the latest game. \n' \
+							'use \'statsbot highlights $TEAMNAME\' to lookup the latest highlights. \n' \
+							'use \'statsbot roster $TEAMNAME\' to display the teams current roster. \n' \
+							'use \'statsbot standings\' to show the current league standings. \n' \
+							'use \'statsbot standings\' to show the current league standings. \n' \
+							'''
 						else:
-							await message.channel.send('Sorry all I support right now is player stats.')
+							await message.channel.send('Sorry I don\'t understand, try saying \'Statsbot HELP\' for a list of available commands.')
 					#Bot was called without enough arguments
 					elif messageArray[0].upper() == 'STATSBOT' and len(messageArray) == 1:
 						await message.channel.send('I like it when you say my name, but I need more instructions.')
