@@ -781,12 +781,12 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							print('DEBUG: %s', statsapi.notes('game_contextMetrics'))
 							
 							
-							print('DEBUG: game_contextMetrics')
-							parameters = { 
-										'gamePk': 55555
-										}
-							
-							print('DEBUG: %s', statsapi.get(endpoint='game_contextMetrics', params=parameters))
+							#print('DEBUG: game_contextMetrics')
+							#parameters = { 
+							#			'gamePk': 55555
+							#			}
+							#
+							#print('DEBUG: %s', statsapi.get(endpoint='game_contextMetrics', params=parameters))
 						
 						#Display the help message
 						elif 'HELP' in messageArray[1].upper():
@@ -1118,7 +1118,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		contextParams = { 
 						'gamePk': game['game_id']
 						}
-		game_contextMetrics = await statsapi.get(endpoint='game_contextMetrics', params=contextParams))
+		game_contextMetrics = await statsapi.get(endpoint='game_contextMetrics', params=contextParams)
 	
 		
 		scoreEmbed.add_field(name=homeTeamShort + ' win %', value=game_contextMetrics['homeWinProbability'], inline=True)
