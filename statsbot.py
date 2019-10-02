@@ -9,6 +9,8 @@ import statsapi
 import re
 import dateutil.parser
 import requests
+import base64
+from ohmysportsfeedspy import MySportsFeeds
 
 class MyClient(discord.Client):
 	async def on_ready(self):
@@ -881,10 +883,6 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 								if len(finalGameList) > 0:
 									await message.channel.send(embed=finalEmbed)
 								
-									
-
-								
-						
 						elif 'GIBBY' in messageArray[1].upper():
 							#Create the embed object
 							gibbyEmbed = discord.Embed()
@@ -937,6 +935,27 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 						elif 'META' in messageArray[1].upper():
 							print('DEBUG: Getting meta response for %s' % messageArray[2])
 							print('DEBUG: %s' % statsapi.meta(messageArray[2]))
+						
+						elif 'HOCKEY' in messageArray[1].upper():
+							try:
+								
+								sportsFeedToken = ReadTokenFile('sportsAuth')
+								
+								response = requests.get(
+									url='https://api.mysportsfeeds.com/v2.1/pull/nhl/2019-2020-regular/date/20200326/games.json',
+									params={
+										"fordate": "20191002"
+									},
+									headers={
+										"Authorization": "Basic " + base64.b64encode('{}:{}'.format(sportsFeedToken,'MYSPORTSFEEDS').encode('utf-8')).decode('ascii')
+									}
+								)
+								print('Response HTTP Status Code: {status_code}'.format(
+									status_code=response.status_code))
+								print('Response HTTP Response Body: {content}'.format(
+									content=response.content))
+							except requests.exceptions.RequestException:
+								print('HTTP Request failed')
 						
 						#Display the help message
 						elif 'HELP' in messageArray[1].upper():
@@ -1394,6 +1413,7 @@ def ReadTokenFile(filename):
 def main():
 	client = MyClient()
 	token = ReadTokenFile('auth')
+	
 	client.run(token)
 	
 if __name__ == "__main__":
