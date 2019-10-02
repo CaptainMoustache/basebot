@@ -9,8 +9,6 @@ import statsapi
 import re
 import dateutil.parser
 import requests
-import base64
-from ohmysportsfeedspy import MySportsFeeds
 
 class MyClient(discord.Client):
 	async def on_ready(self):
@@ -937,25 +935,33 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							print('DEBUG: %s' % statsapi.meta(messageArray[2]))
 						
 						elif 'HOCKEY' in messageArray[1].upper():
-							try:
-								
-								sportsFeedToken = ReadTokenFile('sportsAuth')
-								
-								response = requests.get(
-									url='https://api.mysportsfeeds.com/v2.1/pull/nhl/2019-2020-regular/date/20200326/games.json',
-									params={
-										"fordate": "20191002"
-									},
-									headers={
-										"Authorization": "Basic " + base64.b64encode('{}:{}'.format(sportsFeedToken,'MYSPORTSFEEDS').encode('utf-8')).decode('ascii')
-									}
-								)
-								print('Response HTTP Status Code: {status_code}'.format(
-									status_code=response.status_code))
-								print('Response HTTP Response Body: {content}'.format(
-									content=response.content))
-							except requests.exceptions.RequestException:
-								print('HTTP Request failed')
+							hockeyEmbed = discord.Embed()
+							hockeyEmbed.title = 'Brrr its getting cold in here...'
+							hockeyEmbed.type = 'rich'
+							hockeyEmbed.color = discord.Color.dark_blue()
+							hockeyEmbed.set_image(url='https://i.imgur.com/yn7efui.png')
+							
+							#Get the NHL schedule
+							scheduleResponse = await self.sendGetRequest('https://statsapi.web.nhl.com/api/v1/schedule')
+							
+							#Parse the JSON
+							scheduleJson = json.loads(scheduleResponse.text)
+							
+							print('DEBUG: totalGames = %s' % scheduleJson['totalGames'])
+							
+							games = scheduleJson['dates'][0]['games']
+							
+							print('DEBUG: I found %s games' % str(len(games)))
+							
+							for hockeyGame in games:
+								gameTimeLocal = self.get_Local_Time(hockeyGame['gameDate'])
+								nameString = hockeyGame['teams']['away']['team']['name'] + ' vs ' + hockeyGame['teams']['home']['team']['name']
+								valueString = gameTimeLocal.strftime('%-I:%M%p') + ' EST' + ' @ ' + hockeyGame['venue']['name']
+								hockeyEmbed.add_field(name=nameString, value=valueString)
+							
+							contentString = 'Statsbot hipchecked ' + message.author.mention + ' into the boards! Savage! \n Anyway here are the games for ' + gameTimeLocal.strftime('%m/%d/%Y')
+							await message.channel.send(content=contentString, embed=hockeyEmbed)
+							
 						
 						#Display the help message
 						elif 'HELP' in messageArray[1].upper():
@@ -1396,7 +1402,20 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 				for plays in scoringPlaysList:
 					allPlaysEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=False)
 				await message.channel.send(embed=allPlaysEmbed, tts=False)
-				
+		
+	async def sendGetRequest(self, url):
+		try:
+			print('DEBUG: Sending HTTP request...')				
+			#build the headers
+			requestsHeaders = {'Content-Type': 'application/json'}
+			#Send the get request
+			response = requests.get(url, requestsHeaders)   
+			print('DEBUG: Response HTTP Status Code: %s' % response.status_code)
+			print('DEBUG: Response HTTP Response Body: %s' % response.content)
+			return response
+		except requests.exceptions.RequestException:
+			print('DEBUG: HTTP Request failed')
+		
 def ReadTokenFile(filename):
 	#Read the token from a file
 	try:
