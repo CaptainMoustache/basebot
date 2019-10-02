@@ -1035,7 +1035,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		#Get the UTC datetime string
 		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
 		
-		if game['status'] == 'Final':
+		if game['status'] == 'Final' or game['status'] == 'Game Over':
 			'''
 			homeTeam = statsapi.lookup_team(game['home_name'])
 			awayTeam = statsapi.lookup_team(game['away_name'])
