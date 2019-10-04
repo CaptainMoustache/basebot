@@ -10,7 +10,7 @@ import re
 import dateutil.parser
 import requests
 
-class MyClient(discord.Client):
+class BaseballBot(discord.Client):
 	async def on_ready(self):
 		print('Logged on as', self.user)
 		await self.change_presence(activity=discord.Game(name='with myself'))
@@ -1493,7 +1493,7 @@ def ReadTokenFile(filename):
 		print("No %s file found!" % filename)
 
 def main():
-	client = MyClient()
+	client = BaseballBot()
 	token = ReadTokenFile('auth')
 	
 	client.run(token)
