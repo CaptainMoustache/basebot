@@ -439,9 +439,13 @@ class CommonFunctions():
 		#scoreEmbed.add_field(name=awayTeamShort , value=awayScoreString, inline=True)
 		#scoreEmbed.add_field(name='Linescore', value='```' + statsapi.linescore(game['game_id']) + '```')
 		
+		homeWinProb = '{:.1f}'.format(game_contextMetrics['homeWinProbability'])
+		awayWinPro = '{:.1f}'.format(game_contextMetrics['awayWinProbability'])
+		
 		#Show the win %
-		scoreEmbed.add_field(name=homeTeamShort + ' win %', value=game_contextMetrics['homeWinProbability'], inline=True)
-		scoreEmbed.add_field(name=awayTeamShort + ' win %', value=game_contextMetrics['awayWinProbability'], inline=True)
+		scoreEmbed.add_field(name='**Win Probability**', value=homeTeamShort + ' ' + homeWinProb + ' - ' + awayTeamShort + ' ' + awayWinPro + '%')
+		#scoreEmbed.add_field(name=homeTeamShort + ' win %', value=game_contextMetrics['homeWinProbability'].format(1), inline=True)
+		#scoreEmbed.add_field(name=awayTeamShort + ' win %', value=game_contextMetrics['awayWinProbability'].format(1), inline=True)
 		
 		'''
 		DEBUG: game_contextMetrics
