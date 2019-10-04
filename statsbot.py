@@ -120,13 +120,11 @@ class MyClient(discord.Client):
 								await message.channel.send('I didn\'t get a name to search. Something went wrong, Sorry')
 								return
 							
-								
 							#build the playerSearchURL
 							activePlayerSearchURL = 'http://lookup-service-prod.mlb.com/json/named.search_player_all.bam?sport_code=\'mlb\'&active_sw=\'Y\'&name_part=\'' + nameToSearch + '\''
-							#build the headers
-							playerSearchHeaders = {'Content-Type': 'application/json'}
-							#Send the get request
-							playerSearch = requests.get(activePlayerSearchURL, playerSearchHeaders)
+							
+							#Send the GET
+							playerSearch = await self.sendGetRequest(activePlayerSearchURL)
 							#parse the json response
 							playerSearchJson = json.loads(playerSearch.text)
 							
@@ -153,16 +151,17 @@ class MyClient(discord.Client):
 								playerGenInfoList = []
 								
 								for player in playerSearchResultsList:
-									playerGenInfoLoop = players.PlayerInfo()
+									playerGenInfo = players.PlayerInfo()
 									#Send GET to download player info
 									# http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code='mlb'&player_id='493316'
+									
 									playerInfoURL = 'http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code=\'mlb\'&player_id=\'' + player.player_id + '\''
-									playerInfoHeader = {'Content-Type': 'application/json'}
-									playerInfoRequest = requests.get(playerInfoURL, playerInfoHeader)
+									#Send the GET
+									playerInfoRequest = await self.sendGetRequest(playerInfoURL)
 									playerInfoJson = json.loads(playerInfoRequest.text)
-									playerGenInfoLoop.ParseJson(playerInfoJson)
+									playerGenInfo.ParseJson(playerInfoJson)
 									#Append the playerInfo to the list
-									playerGenInfoList.append(playerGenInfoLoop)
+									playerGenInfoList.append(playerGenInfo)
 								
 
 								#Build the display string
@@ -186,6 +185,10 @@ class MyClient(discord.Client):
 								#Initialize a new PlayerInfo object
 								playerGenInfo = players.PlayerInfo()
 								
+								
+								
+								
+								'''
 								#Wait 10 seconds to get an answer
 								for wait in range(1, 10):
 									if playerGenInfo.player_id != '':
@@ -222,6 +225,14 @@ class MyClient(discord.Client):
 								if 	playerGenInfo.player_id == '':
 										await message.channel.send('I\'m getting bored waiting for you, start over when you\'re ready.')
 										return
+								'''	
+								playerSelectedIndex = await self.wait_for_number(message, len(playerSearchResultsList), 30)
+								
+								if playerSelectedIndex:
+									playerGenInfo = playerGenInfoList[playerSelectedIndex - 1]
+								else:
+									return
+								
 								
 							#Only one player was returned from the search
 							elif len(playerSearchResultsList) == 1:
@@ -1009,18 +1020,22 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 		responseFound = False
 		#Set the start time
 		messageTime = datetime.datetime.utcnow()
+		#Give a buffer of 5 seconds back for play in the system time and discord time
+		messageTime = messageTime - timedelta(seconds=5)
 		
 		#Wait defined time
 		for wait in range(1, waitTime):
 			if responseFound:
-				print('DEBUG: Response detected, breaking loop')
 				break;
 		
 			time.sleep(1)
-			#Get the last ten messages
-			print('DEBUG: Getting the last 2 messages')
-			messageList = await message.channel.history(limit=2).flatten()
+			#Get the last messages
+			rawMessageList = await message.channel.history(limit=5).flatten()
 			
+			#Prune all messages by bots
+			for messages in rawMessageList:
+				if messages.author.bot == False:
+					messageList.append(messages)
 			
 			#if the name hasn't been selected yet
 			if responseFound == False:
@@ -1036,6 +1051,54 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 								responseFound = True
 								return True
 		return False
+	
+	async def wait_for_number(self, message, limit, waitTime):
+		responseNumber = -1
+		#Set the start time
+		messageTime = datetime.datetime.utcnow()
+		#Give a buffer of 5 seconds back for play in the system time and discord time
+		messageTime = messageTime - timedelta(seconds=5)
+	
+		#Wait defined time
+		for wait in range(1, waitTime):
+			if responseNumber != -1:
+				break;
+			#Get the last messages
+			rawMessageList = await message.channel.history(limit=5).flatten()
+			
+			messageList = []
+			
+			#Prune all messages by bots
+			for messages in rawMessageList:
+				if messages.author.bot == False:
+					messageList.append(messages)
+			
+			#if the number hasn't been selected yet
+			if responseNumber == -1 and len(messageList) > 0:
+				#loop through the past messages
+				for history in range (0, len(messageList)):
+					#The user who requested the list responded
+					if messageList[history].author == message.author:
+						#check if the message was sent after the list of names
+						if messageList[history].created_at > messageTime:
+							#The user responded with a number
+							if messageList[history].content.isdigit():
+								#The number is valid
+								if int(messageList[history].content) <= limit and int(messageList[history].content) > 0:
+									responseNumber = int(messageList[history].content)
+									return responseNumber
+								else:
+									await message.channel.send('%s is not a valid number, start over' % str(messageList[history].content))
+									return
+							else:
+								await message.channel.send('%s is not a number, start over' % messageList[history].content)
+								return
+			#number has not been selected, wait
+			time.sleep(1)
+		#if the loop completes without a selection inform the user
+		if 	responseNumber == -1:
+				await message.channel.send('I\'m getting bored waiting for you, start over when you\'re ready.')
+				return
 	
 	#Identify which team is being requested by prompting the users with all returned results
 	async def prompt_team(self, message, searchTerm, teams):
