@@ -1,0 +1,3420 @@
+{
+	"copyright": "Copyright 2019 MLB Advanced Media, L.P.  Use of any content on this page acknowledges agreement to the terms posted here http://gdx.mlb.com/components/copyright.txt",
+	"totalItems": 43,
+	"totalEvents": 0,
+	"totalGames": 43,
+	"totalGamesInProgress": 0,
+	"wait": 10,
+	"dates": [
+		{
+			"date": "2019-10-01",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599336,
+					"link": "/api/v1/game/599336/feed/live",
+					"gameType": "F",
+					"season": "2019",
+					"gameDate": "2019-10-02T00:08:00Z",
+					"status": {
+						"abstractGameState": "Final",
+						"codedGameState": "F",
+						"detailedState": "Final",
+						"statusCode": "F",
+						"abstractGameCode": "F"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 1,
+								"pct": ".000"
+							},
+							"score": 3,
+							"team": {
+								"id": 158,
+								"name": "Milwaukee Brewers",
+								"link": "/api/v1/teams/158"
+							},
+							"isWinner": false,
+							"splitSquad": false,
+							"seriesNumber": 2,
+							"seedNumber": 5
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"score": 4,
+							"team": {
+								"id": 120,
+								"name": "Washington Nationals",
+								"link": "/api/v1/teams/120"
+							},
+							"isWinner": true,
+							"splitSquad": false,
+							"seriesNumber": 2,
+							"seedNumber": 4
+						}
+					},
+					"venue": {
+						"id": 3309,
+						"name": "Nationals Park",
+						"link": "/api/v1/venues/3309"
+					},
+					"content": {
+						"link": "/api/v1/game/599336/content"
+					},
+					"isTie": false,
+					"isFeaturedGame": true,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599336-2019-10-01",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "NL Wild Card Game",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 1,
+					"seriesGameNumber": 1,
+					"seriesDescription": "NL Wild Card Game",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-02",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599335,
+					"link": "/api/v1/game/599335/feed/live",
+					"gameType": "F",
+					"season": "2019",
+					"gameDate": "2019-10-03T00:09:00Z",
+					"status": {
+						"abstractGameState": "Final",
+						"codedGameState": "F",
+						"detailedState": "Final",
+						"statusCode": "F",
+						"abstractGameCode": "F"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"score": 5,
+							"team": {
+								"id": 139,
+								"name": "Tampa Bay Rays",
+								"link": "/api/v1/teams/139"
+							},
+							"isWinner": true,
+							"splitSquad": false,
+							"seriesNumber": 1,
+							"seedNumber": 5
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 1,
+								"pct": ".000"
+							},
+							"score": 1,
+							"team": {
+								"id": 133,
+								"name": "Oakland Athletics",
+								"link": "/api/v1/teams/133"
+							},
+							"isWinner": false,
+							"splitSquad": false,
+							"seriesNumber": 1,
+							"seedNumber": 4
+						}
+					},
+					"venue": {
+						"id": 10,
+						"name": "Oakland Coliseum",
+						"link": "/api/v1/venues/10"
+					},
+					"content": {
+						"link": "/api/v1/game/599335/content"
+					},
+					"isTie": false,
+					"isFeaturedGame": true,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599335-2019-10-02",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "AL Wild Card Game",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 1,
+					"seriesGameNumber": 1,
+					"seriesDescription": "AL Wild Card Game",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-03",
+			"totalItems": 2,
+			"totalEvents": 0,
+			"totalGames": 2,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599352,
+					"link": "/api/v1/game/599352/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-03T21:02:00Z",
+					"status": {
+						"abstractGameState": "Final",
+						"codedGameState": "F",
+						"detailedState": "Final",
+						"statusCode": "F",
+						"abstractGameCode": "F"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"score": 7,
+							"team": {
+								"id": 138,
+								"name": "St. Louis Cardinals",
+								"link": "/api/v1/teams/138"
+							},
+							"isWinner": true,
+							"splitSquad": false,
+							"seriesNumber": 4,
+							"seedNumber": 3
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 1,
+								"pct": ".000"
+							},
+							"score": 6,
+							"team": {
+								"id": 144,
+								"name": "Atlanta Braves",
+								"link": "/api/v1/teams/144"
+							},
+							"isWinner": false,
+							"splitSquad": false,
+							"seriesNumber": 4,
+							"seedNumber": 2
+						}
+					},
+					"venue": {
+						"id": 4705,
+						"name": "SunTrust Park",
+						"link": "/api/v1/venues/4705"
+					},
+					"content": {
+						"link": "/api/v1/game/599352/content"
+					},
+					"isTie": false,
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599352-2019-10-03",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "NLDS Game 1",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 1,
+					"seriesDescription": "NL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				},
+				{
+					"gamePk": 599347,
+					"link": "/api/v1/game/599347/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-04T00:37:00Z",
+					"status": {
+						"abstractGameState": "Final",
+						"codedGameState": "F",
+						"detailedState": "Final",
+						"statusCode": "F",
+						"abstractGameCode": "F"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 1,
+								"pct": ".000"
+							},
+							"score": 0,
+							"team": {
+								"id": 120,
+								"name": "Washington Nationals",
+								"link": "/api/v1/teams/120"
+							},
+							"isWinner": false,
+							"splitSquad": false,
+							"seriesNumber": 3,
+							"seedNumber": 4
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"score": 6,
+							"team": {
+								"id": 119,
+								"name": "Los Angeles Dodgers",
+								"link": "/api/v1/teams/119"
+							},
+							"isWinner": true,
+							"splitSquad": false,
+							"seriesNumber": 3,
+							"seedNumber": 1
+						}
+					},
+					"venue": {
+						"id": 22,
+						"name": "Dodger Stadium",
+						"link": "/api/v1/venues/22"
+					},
+					"content": {
+						"link": "/api/v1/game/599347/content"
+					},
+					"isTie": false,
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599347-2019-10-03",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "NLDS Game 1",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 1,
+					"seriesDescription": "NL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-04",
+			"totalItems": 4,
+			"totalEvents": 0,
+			"totalGames": 4,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599337,
+					"link": "/api/v1/game/599337/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-04T18:05:00Z",
+					"status": {
+						"abstractGameState": "Final",
+						"codedGameState": "F",
+						"detailedState": "Final",
+						"statusCode": "F",
+						"abstractGameCode": "F"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 1,
+								"pct": ".000"
+							},
+							"score": 2,
+							"team": {
+								"id": 139,
+								"name": "Tampa Bay Rays",
+								"link": "/api/v1/teams/139"
+							},
+							"isWinner": false,
+							"splitSquad": false,
+							"seriesNumber": 1,
+							"seedNumber": 5
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"score": 6,
+							"team": {
+								"id": 117,
+								"name": "Houston Astros",
+								"link": "/api/v1/teams/117"
+							},
+							"isWinner": true,
+							"splitSquad": false,
+							"seriesNumber": 1,
+							"seedNumber": 1
+						}
+					},
+					"venue": {
+						"id": 2392,
+						"name": "Minute Maid Park",
+						"link": "/api/v1/venues/2392"
+					},
+					"content": {
+						"link": "/api/v1/game/599337/content"
+					},
+					"isTie": false,
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599337-2019-10-04",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "ALDS Game 1",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 1,
+					"seriesDescription": "AL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				},
+				{
+					"gamePk": 599353,
+					"link": "/api/v1/game/599353/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-04T20:37:00Z",
+					"status": {
+						"abstractGameState": "Final",
+						"codedGameState": "F",
+						"detailedState": "Final",
+						"statusCode": "F",
+						"abstractGameCode": "F"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 1,
+								"pct": ".500"
+							},
+							"score": 0,
+							"team": {
+								"id": 138,
+								"name": "St. Louis Cardinals",
+								"link": "/api/v1/teams/138"
+							},
+							"isWinner": false,
+							"splitSquad": false,
+							"seriesNumber": 4,
+							"seedNumber": 3
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 1,
+								"pct": ".500"
+							},
+							"score": 3,
+							"team": {
+								"id": 144,
+								"name": "Atlanta Braves",
+								"link": "/api/v1/teams/144"
+							},
+							"isWinner": true,
+							"splitSquad": false,
+							"seriesNumber": 4,
+							"seedNumber": 2
+						}
+					},
+					"venue": {
+						"id": 4705,
+						"name": "SunTrust Park",
+						"link": "/api/v1/venues/4705"
+					},
+					"content": {
+						"link": "/api/v1/game/599353/content"
+					},
+					"isTie": false,
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599353-2019-10-04",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "NLDS Game 2",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 2,
+					"seriesDescription": "NL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				},
+				{
+					"gamePk": 599342,
+					"link": "/api/v1/game/599342/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-04T23:07:00Z",
+					"status": {
+						"abstractGameState": "Final",
+						"codedGameState": "F",
+						"detailedState": "Final",
+						"statusCode": "F",
+						"abstractGameCode": "F"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 1,
+								"pct": ".000"
+							},
+							"score": 4,
+							"team": {
+								"id": 142,
+								"name": "Minnesota Twins",
+								"link": "/api/v1/teams/142"
+							},
+							"isWinner": false,
+							"splitSquad": false,
+							"seriesNumber": 2,
+							"seedNumber": 3
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"score": 10,
+							"team": {
+								"id": 147,
+								"name": "New York Yankees",
+								"link": "/api/v1/teams/147"
+							},
+							"isWinner": true,
+							"splitSquad": false,
+							"seriesNumber": 2,
+							"seedNumber": 2
+						}
+					},
+					"venue": {
+						"id": 3313,
+						"name": "Yankee Stadium",
+						"link": "/api/v1/venues/3313"
+					},
+					"content": {
+						"link": "/api/v1/game/599342/content"
+					},
+					"isTie": false,
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599342-2019-10-04",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "ALDS Game 1",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 1,
+					"seriesDescription": "AL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				},
+				{
+					"gamePk": 599348,
+					"link": "/api/v1/game/599348/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-05T01:37:00Z",
+					"status": {
+						"abstractGameState": "Final",
+						"codedGameState": "F",
+						"detailedState": "Final",
+						"statusCode": "F",
+						"abstractGameCode": "F"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 1,
+								"pct": ".500"
+							},
+							"score": 4,
+							"team": {
+								"id": 120,
+								"name": "Washington Nationals",
+								"link": "/api/v1/teams/120"
+							},
+							"isWinner": true,
+							"splitSquad": false,
+							"seriesNumber": 3,
+							"seedNumber": 4
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 1,
+								"pct": ".500"
+							},
+							"score": 2,
+							"team": {
+								"id": 119,
+								"name": "Los Angeles Dodgers",
+								"link": "/api/v1/teams/119"
+							},
+							"isWinner": false,
+							"splitSquad": false,
+							"seriesNumber": 3,
+							"seedNumber": 1
+						}
+					},
+					"venue": {
+						"id": 22,
+						"name": "Dodger Stadium",
+						"link": "/api/v1/venues/22"
+					},
+					"content": {
+						"link": "/api/v1/game/599348/content"
+					},
+					"isTie": false,
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599348-2019-10-04",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "NLDS Game 2",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 2,
+					"seriesDescription": "NL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-05",
+			"totalItems": 2,
+			"totalEvents": 0,
+			"totalGames": 2,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599343,
+					"link": "/api/v1/game/599343/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-05T21:07:00Z",
+					"status": {
+						"abstractGameState": "Final",
+						"codedGameState": "F",
+						"detailedState": "Final",
+						"statusCode": "F",
+						"abstractGameCode": "F"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 2,
+								"pct": ".000"
+							},
+							"score": 2,
+							"team": {
+								"id": 142,
+								"name": "Minnesota Twins",
+								"link": "/api/v1/teams/142"
+							},
+							"isWinner": false,
+							"splitSquad": false,
+							"seriesNumber": 2,
+							"seedNumber": 3
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"score": 8,
+							"team": {
+								"id": 147,
+								"name": "New York Yankees",
+								"link": "/api/v1/teams/147"
+							},
+							"isWinner": true,
+							"splitSquad": false,
+							"seriesNumber": 2,
+							"seedNumber": 2
+						}
+					},
+					"venue": {
+						"id": 3313,
+						"name": "Yankee Stadium",
+						"link": "/api/v1/venues/3313"
+					},
+					"content": {
+						"link": "/api/v1/game/599343/content"
+					},
+					"isTie": false,
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599343-2019-10-05",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "ALDS Game 2",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 2,
+					"seriesDescription": "AL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				},
+				{
+					"gamePk": 599338,
+					"link": "/api/v1/game/599338/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-06T01:07:00Z",
+					"status": {
+						"abstractGameState": "Final",
+						"codedGameState": "F",
+						"detailedState": "Final",
+						"statusCode": "F",
+						"abstractGameCode": "F"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 2,
+								"pct": ".000"
+							},
+							"score": 1,
+							"team": {
+								"id": 139,
+								"name": "Tampa Bay Rays",
+								"link": "/api/v1/teams/139"
+							},
+							"isWinner": false,
+							"splitSquad": false,
+							"seriesNumber": 1,
+							"seedNumber": 5
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"score": 3,
+							"team": {
+								"id": 117,
+								"name": "Houston Astros",
+								"link": "/api/v1/teams/117"
+							},
+							"isWinner": true,
+							"splitSquad": false,
+							"seriesNumber": 1,
+							"seedNumber": 1
+						}
+					},
+					"venue": {
+						"id": 2392,
+						"name": "Minute Maid Park",
+						"link": "/api/v1/venues/2392"
+					},
+					"content": {
+						"link": "/api/v1/game/599338/content"
+					},
+					"isTie": false,
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599338-2019-10-05",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "ALDS Game 2",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 2,
+					"seriesDescription": "AL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-06",
+			"totalItems": 2,
+			"totalEvents": 0,
+			"totalGames": 2,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599354,
+					"link": "/api/v1/game/599354/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-06T20:10:00Z",
+					"status": {
+						"abstractGameState": "Final",
+						"codedGameState": "F",
+						"detailedState": "Final",
+						"statusCode": "F",
+						"abstractGameCode": "F"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 1,
+								"pct": ".667"
+							},
+							"score": 3,
+							"team": {
+								"id": 144,
+								"name": "Atlanta Braves",
+								"link": "/api/v1/teams/144"
+							},
+							"isWinner": true,
+							"splitSquad": false,
+							"seriesNumber": 4,
+							"seedNumber": 2
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 2,
+								"pct": ".333"
+							},
+							"score": 1,
+							"team": {
+								"id": 138,
+								"name": "St. Louis Cardinals",
+								"link": "/api/v1/teams/138"
+							},
+							"isWinner": false,
+							"splitSquad": false,
+							"seriesNumber": 4,
+							"seedNumber": 3
+						}
+					},
+					"venue": {
+						"id": 2889,
+						"name": "Busch Stadium",
+						"link": "/api/v1/venues/2889"
+					},
+					"content": {
+						"link": "/api/v1/game/599354/content"
+					},
+					"isTie": false,
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599354-2019-10-06",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "NLDS Game 3",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 3,
+					"seriesDescription": "NL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				},
+				{
+					"gamePk": 599349,
+					"link": "/api/v1/game/599349/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-06T23:45:00Z",
+					"status": {
+						"abstractGameState": "Final",
+						"codedGameState": "F",
+						"detailedState": "Final",
+						"statusCode": "F",
+						"abstractGameCode": "F"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 1,
+								"pct": ".667"
+							},
+							"score": 10,
+							"team": {
+								"id": 119,
+								"name": "Los Angeles Dodgers",
+								"link": "/api/v1/teams/119"
+							},
+							"isWinner": true,
+							"splitSquad": false,
+							"seriesNumber": 3,
+							"seedNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 2,
+								"pct": ".333"
+							},
+							"score": 4,
+							"team": {
+								"id": 120,
+								"name": "Washington Nationals",
+								"link": "/api/v1/teams/120"
+							},
+							"isWinner": false,
+							"splitSquad": false,
+							"seriesNumber": 3,
+							"seedNumber": 4
+						}
+					},
+					"venue": {
+						"id": 3309,
+						"name": "Nationals Park",
+						"link": "/api/v1/venues/3309"
+					},
+					"content": {
+						"link": "/api/v1/game/599349/content"
+					},
+					"isTie": false,
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599349-2019-10-06",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "NLDS Game 3",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 3,
+					"seriesDescription": "NL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-07",
+			"totalItems": 4,
+			"totalEvents": 0,
+			"totalGames": 4,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599339,
+					"link": "/api/v1/game/599339/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-07T17:05:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "P",
+						"detailedState": "Pre-Game",
+						"statusCode": "P",
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"score": 0,
+							"team": {
+								"id": 117,
+								"name": "Houston Astros",
+								"link": "/api/v1/teams/117"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1,
+							"seedNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 2,
+								"pct": ".000"
+							},
+							"score": 0,
+							"team": {
+								"id": 139,
+								"name": "Tampa Bay Rays",
+								"link": "/api/v1/teams/139"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1,
+							"seedNumber": 5
+						}
+					},
+					"venue": {
+						"id": 12,
+						"name": "Tropicana Field",
+						"link": "/api/v1/venues/12"
+					},
+					"content": {
+						"link": "/api/v1/game/599339/content"
+					},
+					"isDefaultGame": true,
+					"isFeaturedGame": true,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599339-2019-10-07",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "ALDS Game 3",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 3,
+					"seriesDescription": "AL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				},
+				{
+					"gamePk": 599355,
+					"link": "/api/v1/game/599355/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-07T19:07:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "P",
+						"detailedState": "Pre-Game",
+						"statusCode": "P",
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 1,
+								"pct": ".667"
+							},
+							"score": 0,
+							"team": {
+								"id": 144,
+								"name": "Atlanta Braves",
+								"link": "/api/v1/teams/144"
+							},
+							"splitSquad": false,
+							"seriesNumber": 4,
+							"seedNumber": 2
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 2,
+								"pct": ".333"
+							},
+							"score": 0,
+							"team": {
+								"id": 138,
+								"name": "St. Louis Cardinals",
+								"link": "/api/v1/teams/138"
+							},
+							"splitSquad": false,
+							"seriesNumber": 4,
+							"seedNumber": 3
+						}
+					},
+					"venue": {
+						"id": 2889,
+						"name": "Busch Stadium",
+						"link": "/api/v1/venues/2889"
+					},
+					"content": {
+						"link": "/api/v1/game/599355/content"
+					},
+					"isFeaturedGame": true,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599355-2019-10-07",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "NLDS Game 4",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 4,
+					"seriesDescription": "NL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				},
+				{
+					"gamePk": 599350,
+					"link": "/api/v1/game/599350/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-07T22:40:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 1,
+								"pct": ".667"
+							},
+							"team": {
+								"id": 119,
+								"name": "Los Angeles Dodgers",
+								"link": "/api/v1/teams/119"
+							},
+							"splitSquad": false,
+							"seriesNumber": 3,
+							"seedNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 2,
+								"pct": ".333"
+							},
+							"team": {
+								"id": 120,
+								"name": "Washington Nationals",
+								"link": "/api/v1/teams/120"
+							},
+							"splitSquad": false,
+							"seriesNumber": 3,
+							"seedNumber": 4
+						}
+					},
+					"venue": {
+						"id": 3309,
+						"name": "Nationals Park",
+						"link": "/api/v1/venues/3309"
+					},
+					"content": {
+						"link": "/api/v1/game/599350/content"
+					},
+					"isFeaturedGame": true,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599350-2019-10-07",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "NLDS Game 4",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 4,
+					"seriesDescription": "NL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				},
+				{
+					"gamePk": 599344,
+					"link": "/api/v1/game/599344/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-08T00:40:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"team": {
+								"id": 147,
+								"name": "New York Yankees",
+								"link": "/api/v1/teams/147"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2,
+							"seedNumber": 2
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 2,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 142,
+								"name": "Minnesota Twins",
+								"link": "/api/v1/teams/142"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2,
+							"seedNumber": 3
+						}
+					},
+					"venue": {
+						"id": 3312,
+						"name": "Target Field",
+						"link": "/api/v1/venues/3312"
+					},
+					"content": {
+						"link": "/api/v1/game/599344/content"
+					},
+					"isFeaturedGame": true,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599344-2019-10-07",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "ALDS Game 3",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 3,
+					"seriesDescription": "AL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-08",
+			"totalItems": 2,
+			"totalEvents": 0,
+			"totalGames": 2,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599340,
+					"link": "/api/v1/game/599340/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-08T20:15:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"team": {
+								"id": 117,
+								"name": "Houston Astros",
+								"link": "/api/v1/teams/117"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1,
+							"seedNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 2,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 139,
+								"name": "Tampa Bay Rays",
+								"link": "/api/v1/teams/139"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1,
+							"seedNumber": 5
+						}
+					},
+					"venue": {
+						"id": 12,
+						"name": "Tropicana Field",
+						"link": "/api/v1/venues/12"
+					},
+					"content": {
+						"link": "/api/v1/game/599340/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599340-2019-10-08",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "ALDS Game 4 (7:07pm ET if only game)",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 4,
+					"seriesDescription": "AL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				},
+				{
+					"gamePk": 599345,
+					"link": "/api/v1/game/599345/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-09T00:07:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"team": {
+								"id": 147,
+								"name": "New York Yankees",
+								"link": "/api/v1/teams/147"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2,
+							"seedNumber": 2
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 2,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 142,
+								"name": "Minnesota Twins",
+								"link": "/api/v1/teams/142"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2,
+							"seedNumber": 3
+						}
+					},
+					"venue": {
+						"id": 3312,
+						"name": "Target Field",
+						"link": "/api/v1/venues/3312"
+					},
+					"content": {
+						"link": "/api/v1/game/599345/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599345-2019-10-08",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "ALDS Game 4",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 4,
+					"seriesDescription": "AL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-09",
+			"totalItems": 2,
+			"totalEvents": 0,
+			"totalGames": 2,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599356,
+					"link": "/api/v1/game/599356/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-09T21:02:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 2,
+								"pct": ".333"
+							},
+							"team": {
+								"id": 138,
+								"name": "St. Louis Cardinals",
+								"link": "/api/v1/teams/138"
+							},
+							"splitSquad": false,
+							"seriesNumber": 4,
+							"seedNumber": 3
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 1,
+								"pct": ".667"
+							},
+							"team": {
+								"id": 144,
+								"name": "Atlanta Braves",
+								"link": "/api/v1/teams/144"
+							},
+							"splitSquad": false,
+							"seriesNumber": 4,
+							"seedNumber": 2
+						}
+					},
+					"venue": {
+						"id": 4705,
+						"name": "SunTrust Park",
+						"link": "/api/v1/venues/4705"
+					},
+					"content": {
+						"link": "/api/v1/game/599356/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599356-2019-10-09",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "NLDS Game 5, 8:07 ET if WSH/LAD is complete.",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 5,
+					"seriesDescription": "NL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				},
+				{
+					"gamePk": 599351,
+					"link": "/api/v1/game/599351/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-10T00:37:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 1,
+								"losses": 2,
+								"pct": ".333"
+							},
+							"team": {
+								"id": 120,
+								"name": "Washington Nationals",
+								"link": "/api/v1/teams/120"
+							},
+							"splitSquad": false,
+							"seriesNumber": 3,
+							"seedNumber": 4
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 1,
+								"pct": ".667"
+							},
+							"team": {
+								"id": 119,
+								"name": "Los Angeles Dodgers",
+								"link": "/api/v1/teams/119"
+							},
+							"splitSquad": false,
+							"seriesNumber": 3,
+							"seedNumber": 1
+						}
+					},
+					"venue": {
+						"id": 22,
+						"name": "Dodger Stadium",
+						"link": "/api/v1/venues/22"
+					},
+					"content": {
+						"link": "/api/v1/game/599351/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599351-2019-10-09",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "NLDS Game 5, 8:07 ET if STL/ATL is complete.",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 5,
+					"seriesDescription": "NL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-10",
+			"totalItems": 2,
+			"totalEvents": 0,
+			"totalGames": 2,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599346,
+					"link": "/api/v1/game/599346/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-10T21:07:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 2,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 142,
+								"name": "Minnesota Twins",
+								"link": "/api/v1/teams/142"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2,
+							"seedNumber": 3
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"team": {
+								"id": 147,
+								"name": "New York Yankees",
+								"link": "/api/v1/teams/147"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2,
+							"seedNumber": 2
+						}
+					},
+					"venue": {
+						"id": 3313,
+						"name": "Yankee Stadium",
+						"link": "/api/v1/venues/3313"
+					},
+					"content": {
+						"link": "/api/v1/game/599346/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599346-2019-10-10",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "ALDS Game 5. 7:07 ET if TBR/HOU is complete.",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 5,
+					"seriesDescription": "AL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				},
+				{
+					"gamePk": 599341,
+					"link": "/api/v1/game/599341/feed/live",
+					"gameType": "D",
+					"season": "2019",
+					"gameDate": "2019-10-11T00:37:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 2,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 139,
+								"name": "Tampa Bay Rays",
+								"link": "/api/v1/teams/139"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1,
+							"seedNumber": 5
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 2,
+								"losses": 0,
+								"pct": "1.000"
+							},
+							"team": {
+								"id": 117,
+								"name": "Houston Astros",
+								"link": "/api/v1/teams/117"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1,
+							"seedNumber": 1
+						}
+					},
+					"venue": {
+						"id": 2392,
+						"name": "Minute Maid Park",
+						"link": "/api/v1/venues/2392"
+					},
+					"content": {
+						"link": "/api/v1/game/599341/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599341-2019-10-10",
+					"seasonDisplay": "2019",
+					"dayNight": "night",
+					"description": "ALDS Game 5. 7:07 ET if MIN/NYY is complete.",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 5,
+					"seriesGameNumber": 5,
+					"seriesDescription": "AL Division Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-11",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599364,
+					"link": "/api/v1/game/599364/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-11T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4947,
+								"name": "NL Lower Seed",
+								"link": "/api/v1/teams/4947"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4946,
+								"name": "NL Higher Seed",
+								"link": "/api/v1/teams/4946"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						}
+					},
+					"venue": {
+						"id": 3833,
+						"name": "NL City",
+						"link": "/api/v1/venues/3833"
+					},
+					"content": {
+						"link": "/api/v1/game/599364/content"
+					},
+					"isFeaturedGame": true,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599364-2019-10-11",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "NLCS Game 1",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 1,
+					"seriesDescription": "NL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-12",
+			"totalItems": 2,
+			"totalEvents": 0,
+			"totalGames": 2,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599357,
+					"link": "/api/v1/game/599357/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-12T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4945,
+								"name": "AL Lower Seed",
+								"link": "/api/v1/teams/4945"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4944,
+								"name": "AL Higher Seed",
+								"link": "/api/v1/teams/4944"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 3832,
+						"name": "AL City",
+						"link": "/api/v1/venues/3832"
+					},
+					"content": {
+						"link": "/api/v1/game/599357/content"
+					},
+					"isFeaturedGame": true,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599357-2019-10-12",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "ALCS Game 1",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 1,
+					"seriesDescription": "AL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				},
+				{
+					"gamePk": 599365,
+					"link": "/api/v1/game/599365/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-12T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4947,
+								"name": "NL Lower Seed",
+								"link": "/api/v1/teams/4947"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4946,
+								"name": "NL Higher Seed",
+								"link": "/api/v1/teams/4946"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						}
+					},
+					"venue": {
+						"id": 3833,
+						"name": "NL City",
+						"link": "/api/v1/venues/3833"
+					},
+					"content": {
+						"link": "/api/v1/game/599365/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599365-2019-10-12",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "NLCS Game 2",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 2,
+					"seriesDescription": "NL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-13",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599358,
+					"link": "/api/v1/game/599358/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-13T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4945,
+								"name": "AL Lower Seed",
+								"link": "/api/v1/teams/4945"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4944,
+								"name": "AL Higher Seed",
+								"link": "/api/v1/teams/4944"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 3832,
+						"name": "AL City",
+						"link": "/api/v1/venues/3832"
+					},
+					"content": {
+						"link": "/api/v1/game/599358/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599358-2019-10-13",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "ALCS Game 2",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 2,
+					"seriesDescription": "AL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-14",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599366,
+					"link": "/api/v1/game/599366/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-14T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4946,
+								"name": "NL Higher Seed",
+								"link": "/api/v1/teams/4946"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4947,
+								"name": "NL Lower Seed",
+								"link": "/api/v1/teams/4947"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						}
+					},
+					"venue": {
+						"id": 3833,
+						"name": "NL City",
+						"link": "/api/v1/venues/3833"
+					},
+					"content": {
+						"link": "/api/v1/game/599366/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599366-2019-10-14",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "NLCS Game 3",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 3,
+					"seriesDescription": "NL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-15",
+			"totalItems": 2,
+			"totalEvents": 0,
+			"totalGames": 2,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599359,
+					"link": "/api/v1/game/599359/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-15T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4944,
+								"name": "AL Higher Seed",
+								"link": "/api/v1/teams/4944"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4945,
+								"name": "AL Lower Seed",
+								"link": "/api/v1/teams/4945"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 3832,
+						"name": "AL City",
+						"link": "/api/v1/venues/3832"
+					},
+					"content": {
+						"link": "/api/v1/game/599359/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599359-2019-10-15",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "ALCS Game 3",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 3,
+					"seriesDescription": "AL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				},
+				{
+					"gamePk": 599367,
+					"link": "/api/v1/game/599367/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-15T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4946,
+								"name": "NL Higher Seed",
+								"link": "/api/v1/teams/4946"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4947,
+								"name": "NL Lower Seed",
+								"link": "/api/v1/teams/4947"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						}
+					},
+					"venue": {
+						"id": 3833,
+						"name": "NL City",
+						"link": "/api/v1/venues/3833"
+					},
+					"content": {
+						"link": "/api/v1/game/599367/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599367-2019-10-15",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "NLCS Game 4",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 4,
+					"seriesDescription": "NL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-16",
+			"totalItems": 2,
+			"totalEvents": 0,
+			"totalGames": 2,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599360,
+					"link": "/api/v1/game/599360/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-16T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4944,
+								"name": "AL Higher Seed",
+								"link": "/api/v1/teams/4944"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4945,
+								"name": "AL Lower Seed",
+								"link": "/api/v1/teams/4945"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 3832,
+						"name": "AL City",
+						"link": "/api/v1/venues/3832"
+					},
+					"content": {
+						"link": "/api/v1/game/599360/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599360-2019-10-16",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "ALCS Game 4",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 4,
+					"seriesDescription": "AL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				},
+				{
+					"gamePk": 599368,
+					"link": "/api/v1/game/599368/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-16T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4946,
+								"name": "NL Higher Seed",
+								"link": "/api/v1/teams/4946"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4947,
+								"name": "NL Lower Seed",
+								"link": "/api/v1/teams/4947"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						}
+					},
+					"venue": {
+						"id": 3833,
+						"name": "NL City",
+						"link": "/api/v1/venues/3833"
+					},
+					"content": {
+						"link": "/api/v1/game/599368/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599368-2019-10-16",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "NLCS Game 5",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 5,
+					"seriesDescription": "NL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-17",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599361,
+					"link": "/api/v1/game/599361/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-17T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4944,
+								"name": "AL Higher Seed",
+								"link": "/api/v1/teams/4944"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4945,
+								"name": "AL Lower Seed",
+								"link": "/api/v1/teams/4945"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 3832,
+						"name": "AL City",
+						"link": "/api/v1/venues/3832"
+					},
+					"content": {
+						"link": "/api/v1/game/599361/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599361-2019-10-17",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "ALCS Game 5",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 5,
+					"seriesDescription": "AL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-18",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599369,
+					"link": "/api/v1/game/599369/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-18T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4947,
+								"name": "NL Lower Seed",
+								"link": "/api/v1/teams/4947"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4946,
+								"name": "NL Higher Seed",
+								"link": "/api/v1/teams/4946"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						}
+					},
+					"venue": {
+						"id": 3833,
+						"name": "NL City",
+						"link": "/api/v1/venues/3833"
+					},
+					"content": {
+						"link": "/api/v1/game/599369/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599369-2019-10-18",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "NLCS Game 6",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 6,
+					"seriesDescription": "NL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-19",
+			"totalItems": 2,
+			"totalEvents": 0,
+			"totalGames": 2,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599362,
+					"link": "/api/v1/game/599362/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-19T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4945,
+								"name": "AL Lower Seed",
+								"link": "/api/v1/teams/4945"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4944,
+								"name": "AL Higher Seed",
+								"link": "/api/v1/teams/4944"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 3832,
+						"name": "AL City",
+						"link": "/api/v1/venues/3832"
+					},
+					"content": {
+						"link": "/api/v1/game/599362/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599362-2019-10-19",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "ALCS Game 6",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 6,
+					"seriesDescription": "AL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				},
+				{
+					"gamePk": 599370,
+					"link": "/api/v1/game/599370/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-19T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4947,
+								"name": "NL Lower Seed",
+								"link": "/api/v1/teams/4947"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4946,
+								"name": "NL Higher Seed",
+								"link": "/api/v1/teams/4946"
+							},
+							"splitSquad": false,
+							"seriesNumber": 2
+						}
+					},
+					"venue": {
+						"id": 3833,
+						"name": "NL City",
+						"link": "/api/v1/venues/3833"
+					},
+					"content": {
+						"link": "/api/v1/game/599370/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599370-2019-10-19",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "NLCS Game 7",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 7,
+					"seriesDescription": "NL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-20",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599363,
+					"link": "/api/v1/game/599363/feed/live",
+					"gameType": "L",
+					"season": "2019",
+					"gameDate": "2019-10-20T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4945,
+								"name": "AL Lower Seed",
+								"link": "/api/v1/teams/4945"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 4944,
+								"name": "AL Higher Seed",
+								"link": "/api/v1/teams/4944"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 3832,
+						"name": "AL City",
+						"link": "/api/v1/venues/3832"
+					},
+					"content": {
+						"link": "/api/v1/game/599363/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599363-2019-10-20",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "ALCS Game 7",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 7,
+					"seriesDescription": "AL Championship Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-22",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599371,
+					"link": "/api/v1/game/599371/feed/live",
+					"gameType": "W",
+					"season": "2019",
+					"gameDate": "2019-10-22T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2711,
+								"name": "Lg Champ #2",
+								"link": "/api/v1/teams/2711"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2710,
+								"name": "Lg Champ #1",
+								"link": "/api/v1/teams/2710"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 401,
+						"name": "TBD",
+						"link": "/api/v1/venues/401"
+					},
+					"content": {
+						"link": "/api/v1/game/599371/content"
+					},
+					"isFeaturedGame": true,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599371-2019-10-22",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "World Series Game 1",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 1,
+					"seriesDescription": "World Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-23",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599372,
+					"link": "/api/v1/game/599372/feed/live",
+					"gameType": "W",
+					"season": "2019",
+					"gameDate": "2019-10-23T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2711,
+								"name": "Lg Champ #2",
+								"link": "/api/v1/teams/2711"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2710,
+								"name": "Lg Champ #1",
+								"link": "/api/v1/teams/2710"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 401,
+						"name": "TBD",
+						"link": "/api/v1/venues/401"
+					},
+					"content": {
+						"link": "/api/v1/game/599372/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599372-2019-10-23",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "World Series Game 2",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 2,
+					"seriesDescription": "World Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-25",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599373,
+					"link": "/api/v1/game/599373/feed/live",
+					"gameType": "W",
+					"season": "2019",
+					"gameDate": "2019-10-25T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2710,
+								"name": "Lg Champ #1",
+								"link": "/api/v1/teams/2710"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2711,
+								"name": "Lg Champ #2",
+								"link": "/api/v1/teams/2711"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 401,
+						"name": "TBD",
+						"link": "/api/v1/venues/401"
+					},
+					"content": {
+						"link": "/api/v1/game/599373/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599373-2019-10-25",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "World Series Game 3",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 3,
+					"seriesDescription": "World Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-26",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599374,
+					"link": "/api/v1/game/599374/feed/live",
+					"gameType": "W",
+					"season": "2019",
+					"gameDate": "2019-10-26T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2710,
+								"name": "Lg Champ #1",
+								"link": "/api/v1/teams/2710"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2711,
+								"name": "Lg Champ #2",
+								"link": "/api/v1/teams/2711"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 401,
+						"name": "TBD",
+						"link": "/api/v1/venues/401"
+					},
+					"content": {
+						"link": "/api/v1/game/599374/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599374-2019-10-26",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "World Series Game 4",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 4,
+					"seriesDescription": "World Series",
+					"recordSource": "S",
+					"ifNecessary": "N",
+					"ifNecessaryDescription": "Normal Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-27",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599375,
+					"link": "/api/v1/game/599375/feed/live",
+					"gameType": "W",
+					"season": "2019",
+					"gameDate": "2019-10-27T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2710,
+								"name": "Lg Champ #1",
+								"link": "/api/v1/teams/2710"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2711,
+								"name": "Lg Champ #2",
+								"link": "/api/v1/teams/2711"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 401,
+						"name": "TBD",
+						"link": "/api/v1/venues/401"
+					},
+					"content": {
+						"link": "/api/v1/game/599375/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599375-2019-10-27",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "World Series Game 5",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 5,
+					"seriesDescription": "World Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-29",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599376,
+					"link": "/api/v1/game/599376/feed/live",
+					"gameType": "W",
+					"season": "2019",
+					"gameDate": "2019-10-29T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2711,
+								"name": "Lg Champ #2",
+								"link": "/api/v1/teams/2711"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2710,
+								"name": "Lg Champ #1",
+								"link": "/api/v1/teams/2710"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 401,
+						"name": "TBD",
+						"link": "/api/v1/venues/401"
+					},
+					"content": {
+						"link": "/api/v1/game/599376/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599376-2019-10-29",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "World Series Game 6",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 6,
+					"seriesDescription": "World Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				}
+			],
+			"events": []
+		},
+		{
+			"date": "2019-10-30",
+			"totalItems": 1,
+			"totalEvents": 0,
+			"totalGames": 1,
+			"totalGamesInProgress": 0,
+			"games": [
+				{
+					"gamePk": 599377,
+					"link": "/api/v1/game/599377/feed/live",
+					"gameType": "W",
+					"season": "2019",
+					"gameDate": "2019-10-30T03:33:00Z",
+					"status": {
+						"abstractGameState": "Preview",
+						"codedGameState": "S",
+						"detailedState": "Scheduled",
+						"statusCode": "S",
+						"startTimeTBD": true,
+						"abstractGameCode": "P"
+					},
+					"teams": {
+						"away": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2711,
+								"name": "Lg Champ #2",
+								"link": "/api/v1/teams/2711"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						},
+						"home": {
+							"leagueRecord": {
+								"wins": 0,
+								"losses": 0,
+								"pct": ".000"
+							},
+							"team": {
+								"id": 2710,
+								"name": "Lg Champ #1",
+								"link": "/api/v1/teams/2710"
+							},
+							"splitSquad": false,
+							"seriesNumber": 1
+						}
+					},
+					"venue": {
+						"id": 401,
+						"name": "TBD",
+						"link": "/api/v1/venues/401"
+					},
+					"content": {
+						"link": "/api/v1/game/599377/content"
+					},
+					"isFeaturedGame": false,
+					"gameNumber": 1,
+					"publicFacing": true,
+					"doubleHeader": "N",
+					"gamedayType": "P",
+					"tiebreaker": "N",
+					"calendarEventID": "14-599377-2019-10-30",
+					"seasonDisplay": "2019",
+					"dayNight": "day",
+					"description": "World Series Game 7",
+					"scheduledInnings": 9,
+					"inningBreakLength": 0,
+					"gamesInSeries": 7,
+					"seriesGameNumber": 7,
+					"seriesDescription": "World Series",
+					"recordSource": "S",
+					"ifNecessary": "Y",
+					"ifNecessaryDescription": "If Necessary Game"
+				}
+			],
+			"events": []
+		}
+	]
+}
