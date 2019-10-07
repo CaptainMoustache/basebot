@@ -928,13 +928,17 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							await message.channel.send(embed=gibbyEmbed2)
 						
 						elif 'NOTES' in messageArray[1].upper():
+							#print('DEBUG: Capturing Notes')
+							#print('DEBUG: game_winProbability')
+							#print('DEBUG: %s', statsapi.notes('game_winProbability'))
+							
+							#print('DEBUG: game_contextMetrics')
+							#print('DEBUG: %s', statsapi.notes('game_contextMetrics'))
+							
+							
 							print('DEBUG: Capturing Notes')
-							print('DEBUG: game_winProbability')
-							print('DEBUG: %s', statsapi.notes('game_winProbability'))
-							
-							print('DEBUG: game_contextMetrics')
-							print('DEBUG: %s', statsapi.notes('game_contextMetrics'))
-							
+							print('DEBUG: standings')
+							print('DEBUG: %s', statsapi.notes('standings'))
 							
 							#print('DEBUG: game_contextMetrics')
 							#parameters = { 
@@ -952,6 +956,267 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 						#	teamSelected = await commonFunctions.get_team('phi', message)
 						#	print('DEBUG: teamSelected = %s' % teamSelected)
 						
+						elif 'PLAYOFFS' in messageArray[1].upper():
+							playoffEmbed = discord.Embed()
+							playoffEmbed.title = 'Postseason Standings'
+							playoffEmbed.type = 'rich'
+							playoffEmbed.color = discord.Color.dark_blue()
+							
+							#def standings(	leagueId='103,104', division='all', include_wildcard=True, season=None, standingsTypes=None, date=None)
+							
+							#playoffStandingsString = statsapi.standings(leagueId='103', division='all', season=None, standingsTypes='postseason', include_wildcard=False)
+							
+							
+							#parameters = {'leagueId':'103'}
+							
+							#playoffStandingsString = statsapi.get(endpoint='schedule_postseason', params=parameters)
+							#print('DEBUG: playoffStandingsString:')
+							#print(playoffStandingsString)
+							
+							
+							
+							'''
+							DEBUG: Getting meta response for gameTypes
+							DEBUG: [{'id': 'S', 'description': 'Spring Training'}, {'id': 'R', 'description': 'Regular season'}, {'id': 'F', 'description': 'Wild Card Game'}, {'id': 'D', 'description': 'Division Series'}, {'id': 'L', 'description': 'League Championship Series'}, {'id': 'W', 'description': 'World Series'}, {'id': 'C', 'description': 'Championship'}, {'id': 'N', 'description': 'Nineteenth Century Series'}, {'id': 'P', 'description': 'Playoffs'}, {'id': 'A', 'description': 'All-Star game'}, {'id': 'I', 'description': 'Intrasquad'}, {'id': 'E', 'description': 'Exhibition'}]
+							'''
+							parameters = {'leagueId':'103,104'}
+							seriesStandingsDict = statsapi.get(endpoint='schedule_postseason_series', params=parameters)
+							#print('DEBUG: seriesStandingsString:')
+							#print(seriesStandingsString)
+							
+							
+							aldsAEmbed = discord.Embed()
+							aldsAEmbed.title = 'American League Division Series'
+							aldsAEmbed.type = 'rich'
+							aldsAEmbed.color = discord.Color.dark_blue()
+							
+							#Get short team names
+							homeTeam = statsapi.lookup_team(seriesStandingsDict['series'][0]['games'][0]['teams']['home']['team']['name'])
+							awayTeam = statsapi.lookup_team(seriesStandingsDict['series'][0]['games'][0]['teams']['away']['team']['name'])
+							
+							homeTeamShort = homeTeam[0]['fileCode'].upper() 
+							awayTeamShort = awayTeam[0]['fileCode'].upper()
+							
+							
+							for games in seriesStandingsDict['series'][0]['games']:
+								if games['status']['detailedState'] == 'Final' or games['status']['detailedState'] == 'Game Over':
+									homeScore = games['teams']['home']['score']
+									homeScoreString = str(homeScore)
+									awayScore = games['teams']['away']['score']
+									awayScoreString = str(awayScore)
+									
+									if homeScore > awayScore:
+										homeScoreString = '**' + homeScoreString + '**'
+									elif awayScore > homeScore:
+										awayScoreString = '**' + awayScoreString + '**'
+									
+									finalGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + \
+									homeTeamShort + '(' + str(games['teams']['home']['leagueRecord']['wins']) + ' - ' + str(games['teams']['home']['leagueRecord']['losses']) + ')' + \
+									awayTeamShort + '(' + str(games['teams']['away']['leagueRecord']['wins']) + ' - ' + str(games['teams']['away']['leagueRecord']['losses']) + ')'
+									
+									aldsAEmbed.add_field(name=games['description'], value=finalGameString)
+								elif games['status']['detailedState'] == 'Scheduled' or games['status']['detailedState'] == 'Pre-Game':	
+									aldsAEmbed.add_field(name=games['description'] + ' Scheduled Game', value='DateTime ' + games['gameDate'] + '\nifNecessary = ' + str(games['ifNecessary']))
+								elif games['status']['detailedState'] == 'In Progress' or games['status']['detailedState'] == 'Live':
+									homeScore = games['teams']['home']['score']
+									homeScoreString = str(homeScore)
+									awayScore = games['teams']['away']['score']
+									awayScoreString = str(awayScore)
+									
+									if homeScore > awayScore:
+										homeScoreString = '**' + homeScoreString + '**'
+									elif awayScore > homeScore:
+										awayScoreString = '**' + awayScoreString + '**'
+									
+									liveGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + games['status']['detailedState']
+									aldsAEmbed.add_field(name=games['description'] + '\nLive Game', value=finalGameString)
+							
+							
+							
+							await message.channel.send(embed=aldsAEmbed)
+							
+							
+							
+							
+							aldsBEmbed = discord.Embed()
+							aldsBEmbed.title = 'American League Division Series'
+							aldsBEmbed.type = 'rich'
+							aldsBEmbed.color = discord.Color.dark_blue()
+							
+							#Get short team names
+							homeTeam = statsapi.lookup_team(seriesStandingsDict['series'][3]['games'][0]['teams']['home']['team']['name'])
+							awayTeam = statsapi.lookup_team(seriesStandingsDict['series'][3]['games'][0]['teams']['away']['team']['name'])
+							
+							homeTeamShort = homeTeam[0]['fileCode'].upper() 
+							awayTeamShort = awayTeam[0]['fileCode'].upper()
+							
+							
+							for games in seriesStandingsDict['series'][3]['games']:
+								if games['status']['detailedState'] == 'Final' or games['status']['detailedState'] == 'Game Over':
+									homeScore = games['teams']['home']['score']
+									homeScoreString = str(homeScore)
+									awayScore = games['teams']['away']['score']
+									awayScoreString = str(awayScore)
+									
+									if homeScore > awayScore:
+										homeScoreString = '**' + homeScoreString + '**'
+									elif awayScore > homeScore:
+										awayScoreString = '**' + awayScoreString + '**'
+									
+									finalGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + \
+									homeTeamShort + '(' + str(games['teams']['home']['leagueRecord']['wins']) + ' - ' + str(games['teams']['home']['leagueRecord']['losses']) + ')' + \
+									awayTeamShort + '(' + str(games['teams']['away']['leagueRecord']['wins']) + ' - ' + str(games['teams']['away']['leagueRecord']['losses']) + ')'
+									
+									aldsBEmbed.add_field(name=games['description'], value=finalGameString)
+								elif games['status']['detailedState'] == 'Scheduled' or games['status']['detailedState'] == 'Pre-Game':	
+									aldsBEmbed.add_field(name=games['description'] + ' Scheduled Game', value='DateTime ' + games['gameDate'] + '\nifNecessary = ' + str(games['ifNecessary']))
+								elif games['status']['detailedState'] == 'In Progress' or games['status']['detailedState'] == 'Live':
+									homeScore = games['teams']['home']['score']
+									homeScoreString = str(homeScore)
+									awayScore = games['teams']['away']['score']
+									awayScoreString = str(awayScore)
+									
+									if homeScore > awayScore:
+										homeScoreString = '**' + homeScoreString + '**'
+									elif awayScore > homeScore:
+										awayScoreString = '**' + awayScoreString + '**'
+									
+									liveGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + games['status']['detailedState']
+									aldsBEmbed.add_field(name=games['description'] + '\nLive Game', value=finalGameString)
+							
+							
+							
+							await message.channel.send(embed=aldsBEmbed)
+							
+							nldsAEmbed = discord.Embed()
+							nldsAEmbed.title = 'National League Division Series'
+							nldsAEmbed.type = 'rich'
+							nldsAEmbed.color = discord.Color.dark_blue()
+							
+							#Get short team names
+							homeTeam = statsapi.lookup_team(seriesStandingsDict['series'][1]['games'][0]['teams']['home']['team']['name'])
+							awayTeam = statsapi.lookup_team(seriesStandingsDict['series'][1]['games'][0]['teams']['away']['team']['name'])
+							
+							homeTeamShort = homeTeam[0]['fileCode'].upper() 
+							awayTeamShort = awayTeam[0]['fileCode'].upper()
+							
+							
+							for games in seriesStandingsDict['series'][1]['games']:
+								if games['status']['detailedState'] == 'Final' or games['status']['detailedState'] == 'Game Over':
+									homeScore = games['teams']['home']['score']
+									homeScoreString = str(homeScore)
+									awayScore = games['teams']['away']['score']
+									awayScoreString = str(awayScore)
+									
+									if homeScore > awayScore:
+										homeScoreString = '**' + homeScoreString + '**'
+									elif awayScore > homeScore:
+										awayScoreString = '**' + awayScoreString + '**'
+									
+									finalGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + \
+									homeTeamShort + '(' + str(games['teams']['home']['leagueRecord']['wins']) + ' - ' + str(games['teams']['home']['leagueRecord']['losses']) + ')' + \
+									awayTeamShort + '(' + str(games['teams']['away']['leagueRecord']['wins']) + ' - ' + str(games['teams']['away']['leagueRecord']['losses']) + ')'
+									
+									nldsAEmbed.add_field(name=games['description'], value=finalGameString)
+								elif games['status']['detailedState'] == 'Scheduled' or games['status']['detailedState'] == 'Pre-Game':	
+									nldsAEmbed.add_field(name=games['description'] + ' Scheduled Game', value='DateTime ' + games['gameDate'] + '\nifNecessary = ' + str(games['ifNecessary']))
+								elif games['status']['detailedState'] == 'In Progress' or games['status']['detailedState'] == 'Live':
+									homeScore = games['teams']['home']['score']
+									homeScoreString = str(homeScore)
+									awayScore = games['teams']['away']['score']
+									awayScoreString = str(awayScore)
+									
+									if homeScore > awayScore:
+										homeScoreString = '**' + homeScoreString + '**'
+									elif awayScore > homeScore:
+										awayScoreString = '**' + awayScoreString + '**'
+									
+									liveGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + games['status']['detailedState']
+									nldsAEmbed.add_field(name=games['description'] + '\nLive Game', value=finalGameString)
+							
+							
+							
+							await message.channel.send(embed=nldsAEmbed)
+							
+							
+							
+							
+							nldsBEmbed = discord.Embed()
+							nldsBEmbed.title = 'National League Division Series'
+							nldsBEmbed.type = 'rich'
+							nldsBEmbed.color = discord.Color.dark_blue()
+							
+							#Get short team names
+							homeTeam = statsapi.lookup_team(seriesStandingsDict['series'][2]['games'][0]['teams']['home']['team']['name'])
+							awayTeam = statsapi.lookup_team(seriesStandingsDict['series'][2]['games'][0]['teams']['away']['team']['name'])
+							
+							homeTeamShort = homeTeam[0]['fileCode'].upper() 
+							awayTeamShort = awayTeam[0]['fileCode'].upper()
+							
+							
+							for games in seriesStandingsDict['series'][2]['games']:
+								if games['status']['detailedState'] == 'Final' or games['status']['detailedState'] == 'Game Over':
+									homeScore = games['teams']['home']['score']
+									homeScoreString = str(homeScore)
+									awayScore = games['teams']['away']['score']
+									awayScoreString = str(awayScore)
+									
+									if homeScore > awayScore:
+										homeScoreString = '**' + homeScoreString + '**'
+									elif awayScore > homeScore:
+										awayScoreString = '**' + awayScoreString + '**'
+									
+									finalGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + \
+									homeTeamShort + '(' + str(games['teams']['home']['leagueRecord']['wins']) + '-' + str(games['teams']['home']['leagueRecord']['losses']) + ')' + \
+									+ ' - ' + awayTeamShort + '(' + str(games['teams']['away']['leagueRecord']['wins']) + '-' + str(games['teams']['away']['leagueRecord']['losses']) + ')'
+									
+									nldsBEmbed.add_field(name=games['description'], value=finalGameString)
+								elif games['status']['detailedState'] == 'Scheduled' or games['status']['detailedState'] == 'Pre-Game':	
+									nldsBEmbed.add_field(name=games['description'] + ' Scheduled Game', value='DateTime ' + games['gameDate'] + '\nifNecessary = ' + str(games['ifNecessary']))
+								elif games['status']['detailedState'] == 'In Progress' or games['status']['detailedState'] == 'Live':
+									homeScore = games['teams']['home']['score']
+									homeScoreString = str(homeScore)
+									awayScore = games['teams']['away']['score']
+									awayScoreString = str(awayScore)
+									
+									if homeScore > awayScore:
+										homeScoreString = '**' + homeScoreString + '**'
+									elif awayScore > homeScore:
+										awayScoreString = '**' + awayScoreString + '**'
+									
+									liveGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + games['status']['detailedState']
+									nldsBEmbed.add_field(name=games['description'] + '\nLive Game', value=finalGameString)
+							
+							
+							
+							await message.channel.send(embed=nldsBEmbed)
+							
+							
+							#print(statsapi.get('standings',{'leagueId':'103','sportId':1,'hydrate':'hydrations','fields':'hydrations'}))
+							
+							#(leagueId='103', standingsTypes='byDivision', include_wildcard=False)
+							#playoffEmbed.add_field(name='Current Standings', value=playoffStandingsString)
+							#await message.channel.send(embed=playoffEmbed)
+							
+							
+							'''
+							DEBUG: Getting meta response for standingsTypes
+							DEBUG: [{'name': 'regularSeason', 'description': 'Regular Season Standings'}, {'name': 'wildCard', 'description': 'Wild card standings'}, {'name': 'divisionLeaders', 'description': 'Division Leader standings'}, {'name': 'wildCardWithLeaders', 'description': 'Wild card standings with Division Leaders'}, {'name': 'firstHalf', 'description': 'First half standings.  Only valid for leagues with a split season.'}, {'name': 'secondHalf', 'description': 'Second half standings. Only valid for leagues with a split season.'}, {'name': 'springTraining', 'description': 'Spring Training Standings'}, {'name': 'postseason', 'description': 'Postseason Standings'}, {'name': 'byDivision', 'description': 'Standings by Division'}, {'name': 'byConference', 'description': 'Standings by Conference'}, {'name': 'byLeague', 'description': 'Standings by League'}, {'name': 'byOrganization', 'description': 'Standing by Organization'}]
+							
+							DEBUG: standings
+							DEBUG: %s Endpoint: standings
+							All path parameters: ['ver'].
+							Required path parameters (note: ver will be included by default): ['ver'].
+							All query parameters: ['leagueId', 'season', 'standingsTypes', 'date', 'hydrate', 'fields'].
+							Required query parameters: [['leagueId']].
+							The hydrate function is supported by this endpoint. Call the endpoint with {'hydrate':'hydrations'} in the parameters to return a list of available hydrations. For example, statsapi.get('schedule',{'sportId':1,'hydrate':'hydrations','fields':'hydrations'})
+
+							
+							
+							
+							'''
+							
+							
 						elif 'HOCKEY' in messageArray[1].upper():
 							hockeyEmbed = discord.Embed()
 							hockeyEmbed.title = 'Brrr its getting cold in here...'
