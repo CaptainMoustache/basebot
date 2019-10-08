@@ -10,6 +10,7 @@ import re
 import dateutil.parser
 import requests
 import commonfunctions
+import embedfunctions
 
 class BaseballBot(discord.Client):
 	commonFunctions = commonfunctions.CommonFunctions()
@@ -980,10 +981,10 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							DEBUG: Getting meta response for gameTypes
 							DEBUG: [{'id': 'S', 'description': 'Spring Training'}, {'id': 'R', 'description': 'Regular season'}, {'id': 'F', 'description': 'Wild Card Game'}, {'id': 'D', 'description': 'Division Series'}, {'id': 'L', 'description': 'League Championship Series'}, {'id': 'W', 'description': 'World Series'}, {'id': 'C', 'description': 'Championship'}, {'id': 'N', 'description': 'Nineteenth Century Series'}, {'id': 'P', 'description': 'Playoffs'}, {'id': 'A', 'description': 'All-Star game'}, {'id': 'I', 'description': 'Intrasquad'}, {'id': 'E', 'description': 'Exhibition'}]
 							'''
-							parameters = {'leagueId':'103,104'}
+							parameters = {'leagueId':'103'}
 							seriesStandingsDict = statsapi.get(endpoint='schedule_postseason_series', params=parameters)
-							#print('DEBUG: seriesStandingsString:')
-							#print(seriesStandingsString)
+							print('DEBUG: seriesStandingsString:')
+							print(seriesStandingsString)
 							
 							
 							aldsAEmbed = discord.Embed()
