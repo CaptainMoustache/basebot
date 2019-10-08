@@ -11,7 +11,7 @@ import dateutil.parser
 import requests
 
 
-class CommonFunctions():
+class EmbedFunctions():
 	async def scheduled_Game_Embed(self, game, message):
 		#Get the UTC datetime string
 		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
