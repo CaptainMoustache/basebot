@@ -22,6 +22,9 @@ class BaseballBot(discord.Client):
 		await self.change_presence(activity=discord.Game(name='with myself'))
 	
 	async def on_message(self, message):
+	
+		print('DEBUG: Got a message on %s Server!' % message.channel.guild.name)
+		print('DEBUG: User = %s' % message.author.name)
 		# don't respond to ourselves
 		if message.author == self.user:
 			return
@@ -69,14 +72,17 @@ class BaseballBot(discord.Client):
 									insultList.append('A toaster throws more heat than %s')
 									insultList.append('Yoko Ono has better pitch control than %s')
 									insultList.append('%s couldn\'t even save a word file')
-									insultList.append('%s couldn\'t buy a cup of coffee with their batting average')
-									insultList.append('I just named my new dog %s, because he gets beaten every day')
+									insultList.append('%s is a jerk')
+									insultList.append('I just named my new dog %s, because they get beaten every day')
 									insultList.append('%s couldn\'t beat the Helen Keller School Team')
 									insultList.append('%s is a Butterface Cock Box')
-									insultList.append('%s is a triple bagger, one for me, one for them, and one for anyone walking by')
+									insultList.append('%s is a triple bagger, one for me, one for them, and one for anyone who happens to be walking by')
 									insultList.append('%s is so ugly their mother breast fed them through a straw')
 									insultList.append('%s looks like they were drawn with my left hand')
 									insultList.append('I would call %s\'s aim cancer, but cancer kills people')
+									insultList.append('%s smells like an old jizz rag')
+									insultList.append('%s is so ugly if they laid down on the beach not even the tide would take them')
+									insultList.append('%s is so ugly, when their mom dropped them off at school she got a fine for littering')
 
 									await message.channel.send(insultList[random.randint(0, len(insultList) - 1)] % messageArray[2])
 									return
@@ -1284,8 +1290,12 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							helpEmbed.add_field(name='statsbot score $TEAMNAME', value='Lookup the latest game')
 							helpEmbed.add_field(name='statsbot highlights $TEAMNAME', value='Lookup the latest highlights')
 							helpEmbed.add_field(name='statsbot roster $TEAMNAME', value='Display the team\'s current roster')
-							helpEmbed.add_field(name='statsbot standings', value='Show the current league standing')
-							helpEmbed.add_field(name='statsbot schedule $TEAMNAME', value='Show the team\'s scheduled games')
+							helpEmbed.add_field(name='statsbot standings', value='Show the current league standings')
+							helpEmbed.add_field(name='statsbot schedule $TEAMNAME', value='Show the team\'s scheduled games for the next week')
+							helpEmbed.add_field(name='statsbot schedule', value='Show today\'s scheduled games')
+							helpEmbed.add_field(name='statsbot playoffs', value='Get an overview of the playoffs')
+							helpEmbed.add_field(name='statsbot hockey', value='Show the current days hockey games. NOTE: This will move to a new bot soon')
+							
 							
 							await message.channel.send(embed=helpEmbed)
 							'''
