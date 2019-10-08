@@ -9,12 +9,15 @@ import statsapi
 import re
 import dateutil.parser
 import requests
+import commonfunctions
 
 
 class EmbedFunctions():
+	commonFunctions = commonfunctions.CommonFunctions()
+	
 	async def scheduled_Game_Embed(self, game, message):
 		#Get the UTC datetime string
-		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
+		gameTimeLocal = self.commonFunctions.get_Local_Time(game['game_datetime'])
 		
 		homeTeam = statsapi.lookup_team(game['home_name'])
 		awayTeam = statsapi.lookup_team(game['away_name'])
@@ -114,7 +117,7 @@ class EmbedFunctions():
 		
 	async def final_Game_Embed(self, game, message):
 		#Get the UTC datetime string
-		gameTimeLocal = self.get_Local_Time(game['game_datetime'])
+		gameTimeLocal = self.commonFunctions.get_Local_Time(game['game_datetime'])
 		
 		if game['status'] == 'Final' or game['status'] == 'Game Over':
 			'''
