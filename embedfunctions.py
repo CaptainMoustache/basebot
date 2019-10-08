@@ -319,3 +319,71 @@ class EmbedFunctions():
 				for plays in scoringPlaysList:
 					allPlaysEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=False)
 				await message.channel.send(embed=allPlaysEmbed, tts=False)
+						
+	async def playoff_Series_Embed(self, series, message):
+		print('DEBUG: Playoff Series Embed')
+		#Read games in series
+		
+		#Get the team names from the first game
+		homeTeam = statsapi.lookup_team(series['games'][0]['teams']['home']['team']['name'])
+		awayTeam = statsapi.lookup_team(series['games'][0]['teams']['away']['team']['name'])
+		#Get the short team names
+		if homeTeam:
+			homeTeamShort = homeTeam[0]['fileCode'].upper()
+		else:
+			homeTeamShort = 'N/A'
+			
+		if awayTeam:
+			awayTeamShort = awayTeam[0]['fileCode'].upper()
+		else:
+			awayTeamShort = 'N/A'
+		
+		#Create a list of the games in the series
+		seriesGames = series['games']
+		
+		playoffEmbed = discord.Embed()
+		playoffEmbed.title = seriesGames[0]['seriesDescription']
+		playoffEmbed.type = 'rich'
+		playoffEmbed.color = discord.Color.dark_blue()
+		
+		for games in seriesGames:			
+			if games['status']['detailedState'] == 'Final' or games['status']['detailedState'] == 'Game Over':
+				homeScore = games['teams']['home']['score']
+				homeScoreString = str(homeScore)
+				awayScore = games['teams']['away']['score']
+				awayScoreString = str(awayScore)
+				
+				if homeScore > awayScore:
+					homeScoreString = '**' + homeScoreString + '**'
+				elif awayScore > homeScore:
+					awayScoreString = '**' + awayScoreString + '**'
+				
+				finalGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + \
+				homeTeamShort + '(' + str(games['teams']['home']['leagueRecord']['wins']) + ' - ' + str(games['teams']['home']['leagueRecord']['losses']) + ')' + \
+				awayTeamShort + '(' + str(games['teams']['away']['leagueRecord']['wins']) + ' - ' + str(games['teams']['away']['leagueRecord']['losses']) + ')'
+				
+				playoffEmbed.add_field(name=games['description'], value=finalGameString)
+			elif games['status']['detailedState'] == 'Scheduled' or games['status']['detailedState'] == 'Pre-Game':	
+				playoffEmbed.add_field(name=games['description'] + ' Scheduled Game', value='DateTime ' + games['gameDate'] + '\nifNecessary = ' + str(games['ifNecessary']))
+			elif games['status']['detailedState'] == 'In Progress' or games['status']['detailedState'] == 'Live':
+				homeScore = games['teams']['home']['score']
+				homeScoreString = str(homeScore)
+				awayScore = games['teams']['away']['score']
+				awayScoreString = str(awayScore)
+				
+				if homeScore > awayScore:
+					homeScoreString = '**' + homeScoreString + '**'
+				elif awayScore > homeScore:
+					awayScoreString = '**' + awayScoreString + '**'
+				
+				liveGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + games['status']['detailedState']
+				playoffEmbed.add_field(name=games['description'] + '\nLive Game', value=finalGameString)
+				
+		await message.channel.send(embed=playoffEmbed)
+			#If game in progress
+			
+			#If game over
+			
+			#If game scheduled
+			
+		#If the series is over, write a message indicating such

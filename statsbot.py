@@ -959,10 +959,10 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 						#	print('DEBUG: teamSelected = %s' % teamSelected)
 						
 						elif 'PLAYOFFS' in messageArray[1].upper():
-							playoffEmbed = discord.Embed()
-							playoffEmbed.title = 'Postseason Standings'
-							playoffEmbed.type = 'rich'
-							playoffEmbed.color = discord.Color.dark_blue()
+							#playoffEmbed = discord.Embed()
+							#playoffEmbed.title = 'Postseason Standings'
+							#playoffEmbed.type = 'rich'
+							#playoffEmbed.color = discord.Color.dark_blue()
 							
 							#def standings(	leagueId='103,104', division='all', include_wildcard=True, season=None, standingsTypes=None, date=None)
 							
@@ -983,9 +983,33 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							'''
 							parameters = {'leagueId':'103'}
 							seriesStandingsDict = statsapi.get(endpoint='schedule_postseason_series', params=parameters)
-							print('DEBUG: seriesStandingsString:')
-							print(seriesStandingsString)
+							#print('DEBUG: seriesStandingsDict:')
+							#print(seriesStandingsDict)
 							
+							
+							#Series Lists
+							aldsA = seriesStandingsDict['series'][0]
+							await self.embedFunctions.playoff_Series_Embed(aldsA, message)
+							
+							nsldB = seriesStandingsDict['series'][1]
+							await self.embedFunctions.playoff_Series_Embed(nsldB, message)
+							nsldA = seriesStandingsDict['series'][2]
+							await self.embedFunctions.playoff_Series_Embed(nsldA, message)
+							aldsB = seriesStandingsDict['series'][3]
+							await self.embedFunctions.playoff_Series_Embed(aldsB, message)
+							nlcs = seriesStandingsDict['series'][4]
+							await self.embedFunctions.playoff_Series_Embed(nlcs, message)
+							alcs = seriesStandingsDict['series'][5]
+							await self.embedFunctions.playoff_Series_Embed(alcs, message)
+							worldSeries = seriesStandingsDict['series'][6]
+							await self.embedFunctions.playoff_Series_Embed(worldSeries, message)
+							alwildCard = seriesStandingsDict['series'][7]
+							await self.embedFunctions.playoff_Series_Embed(alwildCard, message)
+							nlwildCard = seriesStandingsDict['series'][8]
+							await self.embedFunctions.playoff_Series_Embed(nlwildCard, message)
+							
+							
+							'''
 							
 							aldsAEmbed = discord.Embed()
 							aldsAEmbed.title = 'American League Division Series'
@@ -1193,7 +1217,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							
 							await message.channel.send(embed=nldsBEmbed)
 							
-							
+							'''
 							#print(statsapi.get('standings',{'leagueId':'103','sportId':1,'hydrate':'hydrations','fields':'hydrations'}))
 							
 							#(leagueId='103', standingsTypes='byDivision', include_wildcard=False)
