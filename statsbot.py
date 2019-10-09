@@ -22,9 +22,6 @@ class BaseballBot(discord.Client):
 		await self.change_presence(activity=discord.Game(name='with myself'))
 	
 	async def on_message(self, message):
-	
-		print('DEBUG: Got a message on %s Server!' % message.channel.guild.name)
-		print('DEBUG: User = %s' % message.author.name)
 		# don't respond to ourselves
 		if message.author == self.user:
 			return
@@ -34,6 +31,9 @@ class BaseballBot(discord.Client):
 				if len(messageArray) > 0:
 					#Bot was called with enough arguments
 					if 'STATSBOT' in messageArray[0].upper() and len(messageArray) > 1:
+						print('DEBUG: Got a message on %s Server!' % message.channel.guild.name)
+						print('DEBUG: User = %s' % message.author.name)
+						print('DEBUG: Message = %s' % message.content)
 						#if the first message part is 'player' lookup the players stats
 						if 'PLAYER' in messageArray[1].upper():
 							#Set the year to lookup to the current year

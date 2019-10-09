@@ -176,13 +176,13 @@ class CommonFunctions():
 	
 	async def sendGetRequest(self, url):
 		try:
-			print('DEBUG: Sending HTTP request...')				
+			#print('DEBUG: Sending HTTP request...')				
 			#build the headers
 			requestsHeaders = {'Content-Type': 'application/json'}
 			#Send the get request
 			response = requests.get(url, requestsHeaders)   
-			print('DEBUG: Response HTTP Status Code: %s' % response.status_code)
-			print('DEBUG: Response HTTP Response Body: %s' % response.content)
+			#print('DEBUG: Response HTTP Status Code: %s' % response.status_code)
+			#print('DEBUG: Response HTTP Response Body: %s' % response.content)
 			return response
 		except requests.exceptions.RequestException:
 			print('DEBUG: HTTP Request failed')

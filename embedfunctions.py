@@ -311,7 +311,7 @@ class EmbedFunctions():
 		
 		if len(scoringPlaysList) > 1:
 			#Wait for the user response
-			if await self.wait_for_response(message, 'more', 30):
+			if await self.commonFunctions.wait_for_response(message, 'more', 30):
 				#Create a new embed object to contain all scoring plays
 				allPlaysEmbed = discord.Embed()
 				allPlaysEmbed.title = '**All scoring plays**'
@@ -387,7 +387,7 @@ class EmbedFunctions():
 					awayScoreString = '**' + awayScoreString + '**'
 				
 				liveGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + games['status']['detailedState']
-				playoffEmbed.add_field(name=games['description'] + '\nLive Game', value=finalGameString)
+				playoffEmbed.add_field(name=games['description'] + '\nLive Game', value=liveGameString)
 		
 		await message.channel.send(embed=playoffEmbed)
 		
