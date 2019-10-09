@@ -335,7 +335,7 @@ class EmbedFunctions():
 		awayRecordString = '(' + str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' + str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses']) + ')'
 		
 		titleString = seriesGames[0]['seriesDescription'] + '\n**' + game_contextMetrics['game']['teams']['home']['team']['name'] + homeRecordString + '** vs **' \
-		+ seriesGames[0]['teams']['away']['team']['name'] + awayRecordString + '**'
+		+ game_contextMetrics['game']['teams']['away']['team']['name'] + awayRecordString + '**'
 		
 		
 		#game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']
