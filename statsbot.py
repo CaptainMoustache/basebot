@@ -30,7 +30,7 @@ class BaseballBot(discord.Client):
 				messageArray = message.content.split()
 				if len(messageArray) > 0:
 					#Bot was called with enough arguments
-					if 'STATSBOT' in messageArray[0].upper() and len(messageArray) > 1:
+					if ('STATSBOT' in messageArray[0].upper() and len(messageArray) > 1)  or (self.user.mention in messageArray[0].upper()): 
 						print('DEBUG: Got a message on %s Server!' % message.channel.guild.name)
 						print('DEBUG: User = %s' % message.author.name)
 						print('DEBUG: Message = %s' % message.content)
