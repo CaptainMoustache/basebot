@@ -325,8 +325,23 @@ class EmbedFunctions():
 		#Create a list of the games in the series
 		seriesGames = series['games']
 		
+		#Get the game ID of the last game in the series
+		lastGameId = seriesGames[len(seriesGames) - 1]['gamePk']
+		contextParams = {'gamePk': lastGameId}
+		game_contextMetrics = statsapi.get(endpoint='game_contextMetrics', params=contextParams)
+		
+		homeRecordString = '(' + str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' + str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses']) + ')'
+		
+		awayRecordString = '(' + str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' + str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses']) + ')'
+		
+		titleString = seriesGames[0]['seriesDescription'] + '\n**' + game_contextMetrics['game']['teams']['home']['team']['name'] + homeRecordString + '** vs **' \
+		+ seriesGames[0]['teams']['away']['team']['name'] + awayRecordString + '**'
+		
+		
+		#game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']
+		
 		playoffEmbed = discord.Embed()
-		playoffEmbed.title = seriesGames[0]['seriesDescription']
+		playoffEmbed.title = titleString
 		playoffEmbed.type = 'rich'
 		playoffEmbed.color = discord.Color.dark_blue()
 		
@@ -359,11 +374,11 @@ class EmbedFunctions():
 				elif awayScore > homeScore:
 					awayScoreString = '**' + awayScoreString + '**'
 				
-				finalGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + ' **F** \n' + \
-				homeTeamShort + '(' + str(games['teams']['home']['leagueRecord']['wins']) + '-' + str(games['teams']['home']['leagueRecord']['losses']) + ') - ' + \
-				awayTeamShort + '(' + str(games['teams']['away']['leagueRecord']['wins']) + '-' + str(games['teams']['away']['leagueRecord']['losses']) + ')'
+				finalGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + ' **F**'# \n' + \
+				#homeTeamShort + '(' + str(games['teams']['home']['leagueRecord']['wins']) + '-' + str(games['teams']['home']['leagueRecord']['losses']) + ') - ' + \
+				#awayTeamShort + '(' + str(games['teams']['away']['leagueRecord']['wins']) + '-' + str(games['teams']['away']['leagueRecord']['losses']) + ')'
 				
-				playoffEmbed.add_field(name=games['description'], value=finalGameString)
+				playoffEmbed.add_field(name='Game ' + str(games['seriesGameNumber']), value=finalGameString, inline=False)
 			elif games['status']['detailedState'] == 'Scheduled' or games['status']['detailedState'] == 'Pre-Game':
 				
 				gameLocalTime = self.commonFunctions.get_Local_Time(games['gameDate'])
@@ -372,9 +387,9 @@ class EmbedFunctions():
 				valueString = valueString + calendar.day_name[gameLocalTime.weekday()] + '\n' + gameLocalTime.strftime('%m/%d/%Y') + ' at ' + gameLocalTime.strftime('%-I:%M%p') + ' EST'
 				
 				if games['ifNecessary'] == 'N':
-					playoffEmbed.add_field(name=games['description'], value=valueString)
+					playoffEmbed.add_field(name='Game ' + str(games['seriesGameNumber']), value=valueString, inline=False)
 				else:
-					playoffEmbed.add_field(name=games['description'] + ' (If Necessary)', value=valueString)
+					playoffEmbed.add_field(name=games['description'] + ' (If Necessary)', value=valueString, inline=False)
 			elif games['status']['detailedState'] == 'In Progress' or games['status']['detailedState'] == 'Live':
 				homeScore = games['teams']['home']['score']
 				homeScoreString = str(homeScore)
@@ -387,8 +402,8 @@ class EmbedFunctions():
 					awayScoreString = '**' + awayScoreString + '**'
 				
 				liveGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + games['status']['detailedState']
-				playoffEmbed.add_field(name=games['description'] + '\nLive Game', value=liveGameString)
-		
+				playoffEmbed.add_field(name='Game ' + str(games['seriesGameNumber']) + '\nLive Game', value=liveGameString, inline=False)
+
 		await message.channel.send(embed=playoffEmbed)
 		
 			#If game in progress

@@ -166,6 +166,48 @@ class CommonFunctions():
 			else:
 				return teamSelected
 	
+	async def playoffSeriesOver(self, series):
+		#Check for number of games
+		
+		'''
+		DEBUG: [{'id': 'S', 'description': 'Spring Training'}, {'id': 'R', 'description': 'Regular season'}, {'id': 'F', 'description': 'Wild Card Game'}, {'id': 'D', 'description': 'Division Series'}, {'id': 'L', 'description': 'League Championship Series'}, {'id': 'W', 'description': 'World Series'}, {'id': 'C', 'description': 'Championship'}, {'id': 'N', 'description': 'Nineteenth Century Series'}, {'id': 'P', 'description': 'Playoffs'}, {'id': 'A', 'description': 'All-Star game'}, {'id': 'I', 'description': 'Intrasquad'}, {'id': 'E', 'description': 'Exhibition'}]
+		'''
+		
+		#Wild card series
+		if series['series']['gameType'] == 'F':
+			if series['games'][0]['teams']['home']['leagueRecord']['wins'] > 0 or series['games'][0]['teams']['away']['leagueRecord']['wins'] > 0:
+				return True
+			else:
+				return False
+		#Division series
+		elif series['series']['gameType'] == 'D':
+			#Loop through all the games
+			for games in series['games']:
+				if games['teams']['home']['leagueRecord']['wins'] > 2 or games['teams']['away']['leagueRecord']['wins'] > 2:
+					return True
+				else:
+					return False
+					
+		#Championship Series
+		elif series['series']['gameType'] == 'L':
+			#Loop through all the games
+			for games in series['games']:
+				if games['teams']['home']['leagueRecord']['wins'] > 4 or games['teams']['away']['leagueRecord']['wins'] > 4:
+					return True
+				else:
+					return False
+		#World Series
+		elif series['series']['gameType'] == 'W':
+			#Loop through all the games
+			for games in series['games']:
+				if games['teams']['home']['leagueRecord']['wins'] > 4 or games['teams']['away']['leagueRecord']['wins'] > 4:
+					return True
+				else:
+					return False
+		else:
+			print('DEBUG: ERROR playoffSeriesOver() failed with series type of %s' % series['series']['gameType'])
+			return False
+	
 	def get_Local_Time(self, dateTimeString):
 		gameTimeUTC = dateutil.parser.parse(dateTimeString)
 		# Tell the datetime object that it's in UTC time zone since 
