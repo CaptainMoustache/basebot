@@ -1015,34 +1015,33 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							nlcsComplete = await self.commonFunctions.playoffSeriesOver(nlcs)
 							
 							
+							if alcsComplete and nlcsComplete:
+								await self.embedFunctions.playoff_Series_Embed(worldSeries, message)
+							else:
+								#If the division series are over, display the championship series
+								if aldsAComplete and aldsBComplete:
+									await self.embedFunctions.playoff_Series_Embed(alcs, message)
+								else:
+									await self.embedFunctions.playoff_Series_Embed(aldsA, message)
+									await self.embedFunctions.playoff_Series_Embed(aldsB, message)
+								
+								#If the division series are over, display the championship series
+								if nldsAComplete and nldsBComplete:
+									await self.embedFunctions.playoff_Series_Embed(nlcs, message)
+								else:
+									await self.embedFunctions.playoff_Series_Embed(nldsA, message)
+									await self.embedFunctions.playoff_Series_Embed(nldsB, message)
+							
 							#If the wild card game is over, don't display it
 							if not alwildCardComplete:
 								await self.embedFunctions.playoff_Series_Embed(alwildCard, message)
-
-							#If aldsA AND aldsB are over don't display them
-							if not aldsAComplete and not aldsBComplete:
-								await self.embedFunctions.playoff_Series_Embed(aldsA, message)
-								await self.embedFunctions.playoff_Series_Embed(aldsB, message)
-								
-							#If the division series are over, display the championship series
-							if aldsAComplete and aldsBComplete:
-								await self.embedFunctions.playoff_Series_Embed(alcs, message)
 								
 							#If the wild card game is over, don't display it
 							if not nlwildCardComplete:
 								await self.embedFunctions.playoff_Series_Embed(nlwildCard, message)
-
-							#If nldsA AND nldsB are over don't display them
-							if not nldsAComplete and not nldsBComplete:
-								await self.embedFunctions.playoff_Series_Embed(nldsA, message)
-								await self.embedFunctions.playoff_Series_Embed(nldsB, message)
-								
-							#If the division series are over, display the championship series
-							if nldsAComplete and nldsBComplete:
-								await self.embedFunctions.playoff_Series_Embed(nlcs, message)
+									
 							
-							if alcsComplete and nlcsComplete:
-								await self.embedFunctions.playoff_Series_Embed(worldSeries, message)
+				
 							
 							
 							#print(statsapi.get('standings',{'leagueId':'103','sportId':1,'hydrate':'hydrations','fields':'hydrations'}))

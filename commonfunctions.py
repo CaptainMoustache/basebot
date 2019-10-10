@@ -185,25 +185,21 @@ class CommonFunctions():
 			for games in series['games']:
 				if games['teams']['home']['leagueRecord']['wins'] > 2 or games['teams']['away']['leagueRecord']['wins'] > 2:
 					return True
-				else:
-					return False
-					
+			return False		
 		#Championship Series
 		elif series['series']['gameType'] == 'L':
 			#Loop through all the games
 			for games in series['games']:
 				if games['teams']['home']['leagueRecord']['wins'] > 4 or games['teams']['away']['leagueRecord']['wins'] > 4:
 					return True
-				else:
-					return False
+			return False
 		#World Series
 		elif series['series']['gameType'] == 'W':
 			#Loop through all the games
 			for games in series['games']:
 				if games['teams']['home']['leagueRecord']['wins'] > 4 or games['teams']['away']['leagueRecord']['wins'] > 4:
 					return True
-				else:
-					return False
+			return False
 		else:
 			print('DEBUG: ERROR playoffSeriesOver() failed with series type of %s' % series['series']['gameType'])
 			return False
