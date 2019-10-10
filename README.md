@@ -14,4 +14,4 @@ List of Commands:
 6. statsbot schedule $teamname - get the scheduled games for a a team for the next week
 7. statsbot schedule - get any scheduled games for the current day
 8. statsbot playoffs - get a summary of the current playoff series
-9. statsbot hockey - gat a list of today's hockey games, because reasons
+9. statsbot hockey - get a list of today's hockey games, because reasons
