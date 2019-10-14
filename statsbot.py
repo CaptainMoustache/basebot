@@ -981,6 +981,27 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							#playoffStandings = statsapi.get(endpoint='standings', params=parameters)
 							#print(playoffStandings)
 							
+							for seriesFound in seriesStandingsDict['series']:
+								print('DEBUG: Series ID = %s' % seriesFound['series']['id'])
+								if seriesFound['series']['id'] == 'ALDS \'A\'':
+									aldsA = seriesFound
+								elif seriesFound['series']['id'] == 'ALDS \'B\'':
+									aldsB = seriesFound
+								elif seriesFound['series']['id'] == 'NLDS \'A\'':
+									nldsA = seriesFound
+								elif seriesFound['series']['id'] == 'NLDS \'B\'':
+									nldsB = seriesFound
+								elif seriesFound['series']['id'] == 'ALCS':
+									alcs = seriesFound
+								elif seriesFound['series']['id'] == 'NLCS':
+									nlcs = seriesFound
+								elif seriesFound['series']['id'] == 'WS':
+									worldSeries = seriesFound
+								elif seriesFound['series']['id'] == 'ALWC':
+									alwildCard = seriesFound
+								elif seriesFound['series']['id'] == 'NLWC':
+									nlwildCard = seriesFound
+							'''
 							#Series Lists
 							aldsA = seriesStandingsDict['series'][0]
 							#await self.embedFunctions.playoff_Series_Embed(aldsA, message)
@@ -1000,7 +1021,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							#await self.embedFunctions.playoff_Series_Embed(alwildCard, message)
 							nlwildCard = seriesStandingsDict['series'][8]
 							#await self.embedFunctions.playoff_Series_Embed(nlwildCard, message)
-							
+							'''
 				
 							#Get the state of all AL series
 							alwildCardComplete = await self.commonFunctions.playoffSeriesOver(alwildCard)
@@ -1102,12 +1123,12 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							helpEmbed.type = 'rich'
 							helpEmbed.color = discord.Color.dark_blue()
 							
-							helpEmbed.add_field(name='statsbot player $PLAYERNAME', value='Lookup a players stats')
-							helpEmbed.add_field(name='statsbot score $TEAMNAME', value='Lookup the latest game')
-							helpEmbed.add_field(name='statsbot highlights $TEAMNAME', value='Lookup the latest highlights')
-							helpEmbed.add_field(name='statsbot roster $TEAMNAME', value='Display the team\'s current roster')
+							helpEmbed.add_field(name='statsbot player <playername>', value='Lookup a players stats')
+							helpEmbed.add_field(name='statsbot score <teamname>', value='Lookup the latest game')
+							helpEmbed.add_field(name='statsbot highlights <teamname>', value='Lookup the latest highlights')
+							helpEmbed.add_field(name='statsbot roster <teamname>', value='Display the team\'s current roster')
 							helpEmbed.add_field(name='statsbot standings', value='Show the current league standings')
-							helpEmbed.add_field(name='statsbot schedule $TEAMNAME', value='Show the team\'s scheduled games for the next week')
+							helpEmbed.add_field(name='statsbot schedule <teamname>', value='Show the team\'s scheduled games for the next week')
 							helpEmbed.add_field(name='statsbot schedule', value='Show today\'s scheduled games')
 							helpEmbed.add_field(name='statsbot playoffs', value='Get an overview of the playoffs')
 							helpEmbed.add_field(name='statsbot hockey', value='Show the current days hockey games. NOTE: This will move to a new bot soon')
