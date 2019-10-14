@@ -31,9 +31,9 @@ class BaseballBot(discord.Client):
 				if len(messageArray) > 0:
 					#Bot was called with enough arguments
 					if ('BASEBOT' in messageArray[0].upper() and len(messageArray) > 1)  or (self.user.mention in messageArray[0].upper()): 
-						print('DEBUG: Got a message on %s Server!' % message.channel.guild.name)
-						print('DEBUG: User = %s' % message.author.name)
-						print('DEBUG: Message = %s' % message.content)
+						#print('DEBUG: Got a message on %s Server!' % message.channel.guild.name)
+						#print('DEBUG: User = %s' % message.author.name)
+						#print('DEBUG: Message = %s' % message.content)
 						#if the first message part is 'player' lookup the players stats
 						if 'PLAYER' in messageArray[1].upper():
 							#Set the year to lookup to the current year
@@ -982,7 +982,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							#print(playoffStandings)
 							
 							for seriesFound in seriesStandingsDict['series']:
-								print('DEBUG: Series ID = %s' % seriesFound['series']['id'])
+								#print('DEBUG: Series ID = %s' % seriesFound['series']['id'])
 								if seriesFound['series']['id'] == 'ALDS \'A\'':
 									aldsA = seriesFound
 								elif seriesFound['series']['id'] == 'ALDS \'B\'':
