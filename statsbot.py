@@ -924,11 +924,11 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							
 							#Create the embed object
 							gibbyEmbed2 = discord.Embed()
-							gibbyEmbed2.title = '**YES BRUDDA**'
+							gibbyEmbed2.title = '**BOO BRUDDA**'
 							gibbyEmbed2.type = 'rich'
 							#testEmbed.colour = 
 							gibbyEmbed2.color = discord.Color.dark_blue()
-							gibbyEmbed2.set_image(url='https://i.imgur.com/AewHTiT.png')
+							gibbyEmbed2.set_image(url='https://i.imgur.com/osoKpwY.jpg')
 							gibbyEmbed2.image.width = 500
 							gibbyEmbed2.image.height = 600
 							
@@ -1123,15 +1123,15 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							helpEmbed.type = 'rich'
 							helpEmbed.color = discord.Color.dark_blue()
 							
-							helpEmbed.add_field(name='statsbot player <playername>', value='Lookup a players stats')
-							helpEmbed.add_field(name='statsbot score <teamname>', value='Lookup the latest game')
-							helpEmbed.add_field(name='statsbot highlights <teamname>', value='Lookup the latest highlights')
-							helpEmbed.add_field(name='statsbot roster <teamname>', value='Display the team\'s current roster')
-							helpEmbed.add_field(name='statsbot standings', value='Show the current league standings')
-							helpEmbed.add_field(name='statsbot schedule <teamname>', value='Show the team\'s scheduled games for the next week')
-							helpEmbed.add_field(name='statsbot schedule', value='Show today\'s scheduled games')
-							helpEmbed.add_field(name='statsbot playoffs', value='Get an overview of the playoffs')
-							helpEmbed.add_field(name='statsbot hockey', value='Show the current days hockey games. NOTE: This will move to a new bot soon')
+							helpEmbed.add_field(name='1. statsbot player <playername>', value='Lookup a players stats', inline=False)
+							helpEmbed.add_field(name='2. statsbot score <teamname>', value='Lookup the latest game', inline=False)
+							helpEmbed.add_field(name='3. statsbot highlights <teamname>', value='Lookup the latest highlights', inline=False)
+							helpEmbed.add_field(name='4. statsbot roster <teamname>', value='Display the team\'s current roster', inline=False)
+							helpEmbed.add_field(name='5. statsbot standings', value='Show the current league standings', inline=False)
+							helpEmbed.add_field(name='6. statsbot schedule <teamname>', value='Show the team\'s scheduled games for the next week', inline=False)
+							helpEmbed.add_field(name='7. statsbot schedule', value='Show today\'s scheduled games', inline=False)
+							helpEmbed.add_field(name='8. statsbot playoffs', value='Get an overview of the playoffs', inline=False)
+							helpEmbed.add_field(name='9. statsbot hockey', value='Show the current days hockey games. NOTE: This will move to a new bot soon', inline=False)
 							
 							
 							await message.channel.send(embed=helpEmbed)
