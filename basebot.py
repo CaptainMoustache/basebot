@@ -1035,7 +1035,6 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							nldsBComplete = await self.commonFunctions.playoffSeriesOver(nldsB)
 							nlcsComplete = await self.commonFunctions.playoffSeriesOver(nlcs)
 							
-							
 							if alcsComplete and nlcsComplete:
 								await self.embedFunctions.playoff_Series_Embed(worldSeries, message)
 							else:

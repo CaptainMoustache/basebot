@@ -190,14 +190,14 @@ class CommonFunctions():
 		elif series['series']['gameType'] == 'L':
 			#Loop through all the games
 			for games in series['games']:
-				if games['teams']['home']['leagueRecord']['wins'] > 4 or games['teams']['away']['leagueRecord']['wins'] > 4:
+				if games['teams']['home']['leagueRecord']['wins'] > 3 or games['teams']['away']['leagueRecord']['wins'] > 3:
 					return True
 			return False
 		#World Series
 		elif series['series']['gameType'] == 'W':
 			#Loop through all the games
 			for games in series['games']:
-				if games['teams']['home']['leagueRecord']['wins'] > 4 or games['teams']['away']['leagueRecord']['wins'] > 4:
+				if games['teams']['home']['leagueRecord']['wins'] > 3 or games['teams']['away']['leagueRecord']['wins'] > 3:
 					return True
 			return False
 		else:
