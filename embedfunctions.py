@@ -134,7 +134,7 @@ class EmbedFunctions():
 			homeScoreString = str(homeScore)
 			awayScore = game['away_score']
 			awayScoreString = str(awayScore)
-			'''
+			
 			
 			#Create the embed object
 			finalEmbed = discord.Embed()
@@ -146,7 +146,7 @@ class EmbedFunctions():
 			if game['save_pitcher'] != None:
 				finalEmbed.add_field(name='Save:', value=game['save_pitcher'] , inline=False)
 			
-			'''
+			
 			#Build the content string
 			finalScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
 			
@@ -171,6 +171,26 @@ class EmbedFunctions():
 				finalGameEmbed.add_field(name='Save:', value=game['save_pitcher'] , inline=False)
 			
 			await message.channel.send(content='Final score from ' + gameTimeLocal.strftime('%m/%d/%Y'), embed=finalGameEmbed, tts=False)
+			
+			#A special message if the Yankees lost
+			#First check if the Yankees were playing
+			if 'New York Yankees' in game['home_name'] or 'New York Yankees' in game['away_name']:
+				yakeesLose = False
+				#Get the scores
+				homeScore = game['home_score']
+				awayScore = game['away_score']
+				if 'New York Yankees' in game['home_name']:
+					if homeScore < awayScore:
+						yakeesLose = True
+				else:
+					if awayScore < homeScore:
+						yakeesLose = True
+				
+				if yakeesLose:
+					await message.channel.send('https://youtu.be/BFD46s_JRNI')
+				else:
+					print('DEBUG: Boo the yankees won')
+				
 		
 		else:
 			finalScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
