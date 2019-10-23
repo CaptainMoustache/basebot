@@ -59,34 +59,34 @@ class EmbedFunctions():
 		scheduledEmbed = discord.Embed()
 		#Regular Season
 		if gameType == 'R':
-			scheduledEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+			scheduledEmbed.title = '**' +  game['away_name'] + '** vs **' + game['home_name'] + '**'
 		#Wildcard
 		elif gameType == 'F':
 			#Check if the game is a tiebreaker
 			if game_contextMetrics['game']['tiebreaker'] == 'N':
-				scheduledEmbed.title = '**Wildcard Game**\n\n**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+				scheduledEmbed.title = '**Wildcard Game**\n\n**' +  game['away_name'] + '** vs **' + game['home_name'] + '**'
 			else:
-				scheduledEmbed.title = '**Wildcard Tiebreaker Game**\n\n**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+				scheduledEmbed.title = '**Wildcard Tiebreaker Game**\n\n**' +  game['away_name'] + '** vs **' + game['home_name'] + '**'
 		#Division Series
 		elif gameType == 'D':
 			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
 			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
-			scheduledEmbed.title = '**Division Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['home_name'] + '**(' + homeRecordString + ') vs ' + '**' + game['away_name'] + '**(' + awayRecordString + ')'
+			scheduledEmbed.title = '**Division Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['away_name'] + '**(' + awayRecordString + ') vs ' + '**' + game['home_name'] + '**(' + homeRecordString + ')'
 		#League Championship Series
 		elif gameType == 'L':
 			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
 			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
-			scheduledEmbed.title = '**League Championship Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['home_name'] + '**(' + homeRecordString + ') vs ' + '**' + game['away_name'] + '**(' + awayRecordString + ')'
+			scheduledEmbed.title = '**League Championship Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['away_name'] + '**(' + awayRecordString + ') vs ' + '**' + game['home_name'] + '**(' + homeRecordString + ')'
 		#World Series
 		elif gameType == 'W':
 			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
 			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
-			scheduledEmbed.title = '**World Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['home_name'] + '**(' + homeRecordString + ') vs ' + '**' + game['away_name'] + '**(' + awayRecordString + ')'
+			scheduledEmbed.title = '**World Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['away_name'] + '**(' + awayRecordString + ') vs ' + '**' + game['home_name'] + '**(' + homeRecordString + ')'
 		#Spring Training
 		elif gameType == 'S':
-			scheduledEmbed.title = '**Spring Training**\n\n**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+			scheduledEmbed.title = '**Spring Training**\n\n**' +  game['away_name'] + '** vs **' + game['home_name'] + '**'
 		else:
-			scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+			scoreEmbed.title = '**' +  game['away_name'] + '** vs **' + game['home_name'] + '**'
 		
 		
 			
@@ -163,7 +163,7 @@ class EmbedFunctions():
 			
 			
 			#Add the fields with game info
-			finalGameEmbed.add_field(name='**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n', value='```js\n' + statsapi.linescore(game['game_id']) + '```', inline=False)
+			finalGameEmbed.add_field(name='**' +  game['away_name'] + '** vs **' + game['home_name'] + '**\n', value='```js\n' + statsapi.linescore(game['game_id']) + '```', inline=False)
 						
 			finalGameEmbed.add_field(name='Winning Pitcher:', value=game['winning_pitcher'] , inline=True)
 			finalGameEmbed.add_field(name='Losing Pitcher:', value=game['losing_pitcher'] , inline=True)
@@ -262,36 +262,36 @@ class EmbedFunctions():
 		
 		#Regular Season
 		if gameType == 'R':
-			scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+			scoreEmbed.title = '**' +  game['away_name'] + '** vs **' + game['home_name'] + '**'
 		#Wildcard
 		elif gameType == 'F':
 			#Check if the game is a tiebreaker
 			if game_contextMetrics['game']['tiebreaker'] == 'N':
-				scoreEmbed.title = '**Wildcard Game**\n\n**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+				scoreEmbed.title = '**Wildcard Game**\n\n**' +  game['away_name'] + '** vs **' + game['home_name'] + '**'
 			else:
-				scoreEmbed.title = '**Wildcard Tiebreaker Game**\n\n**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+				scoreEmbed.title = '**Wildcard Tiebreaker Game**\n\n**' +  game['away_name'] + '** vs **' + game['home_name'] + '**'
 		#Division Series
 		elif gameType == 'D':
 			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
 			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
-			scoreEmbed.title = '**Division Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['home_name'] + '**(' + homeRecordString + ') vs ' + '**' + game['away_name'] + '**(' + awayRecordString + ')'
+			scoreEmbed.title = '**Division Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['away_name'] + '**(' + awayRecordString + ') vs ' + '**' + game['home_name'] + '**(' + homeRecordString + ')'
 		#League Championship Series
 		elif gameType == 'L':
 			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
 			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
-			scoreEmbed.title = '**League Championship Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['home_name'] + '**(' + homeRecordString + ') vs ' + '**' + game['away_name'] + '**(' + awayRecordString + ')'
+			scoreEmbed.title = '**League Championship Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['away_name'] + '**(' + awayRecordString + ') vs ' + '**' + game['home_name'] + '**(' + homeRecordString + ')'
 		#World Series
 		elif gameType == 'W':
 			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
 			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
-			scoreEmbed.title = '**World Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['home_name'] + '**(' + homeRecordString + ') vs ' + '**' + game['away_name'] + '**(' + awayRecordString + ')'
+			scoreEmbed.title = '**World Series Game ' + str(game_contextMetrics['game']['seriesGameNumber']) + '**\n\n**' +  game['away_name'] + '**(' + awayRecordString + ') vs ' + '**' + game['home_name'] + '**(' + homeRecordString + ')'
 		#Spring Training
 		elif gameType == 'S':
 			homeRecordString = str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['home']['leagueRecord']['losses'])
 			awayRecordString = str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' +  str(game_contextMetrics['game']['teams']['away']['leagueRecord']['losses'])
-			scoreEmbed.title = '**Spring Training**\n\n**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+			scoreEmbed.title = '**Spring Training**\n\n**' +  game['away_name'] + '** vs **' + game['home_name'] + '**'
 		else:
-			scoreEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
+			scoreEmbed.title = '**' +  game['away_name'] + '** vs **' + game['home_name'] + '**'
 		
 		
 		scoreEmbed.type = 'rich'
@@ -305,7 +305,7 @@ class EmbedFunctions():
 		awayWinPro = '{:.1f}'.format(game_contextMetrics['awayWinProbability'])
 		
 		#Show the win %
-		scoreEmbed.add_field(name='**Win Probability**', value=homeTeamShort + ' ' + homeWinProb + ' - ' + awayTeamShort + ' ' + awayWinPro + '%')
+		scoreEmbed.add_field(name='**Win Probability**', value=awayTeamShort + ' ' + awayWinProb + ' - ' + homeTeamShort + ' ' + homeWinPro + '%')
 		#scoreEmbed.add_field(name=homeTeamShort + ' win %', value=game_contextMetrics['homeWinProbability'].format(1), inline=True)
 		#scoreEmbed.add_field(name=awayTeamShort + ' win %', value=game_contextMetrics['awayWinProbability'].format(1), inline=True)
 		
@@ -403,7 +403,7 @@ class EmbedFunctions():
 				
 				gameLocalTime = self.commonFunctions.get_Local_Time(games['gameDate'])
 				
-				valueString = homeTeamShort + ' vs ' + awayTeamShort + '\n'
+				valueString = awayTeamShort + ' vs ' + homeTeamShort + '\n'
 				valueString = valueString + calendar.day_name[gameLocalTime.weekday()] + '\n' + gameLocalTime.strftime('%m/%d/%Y') + ' at ' + gameLocalTime.strftime('%-I:%M%p') + ' EST'
 				
 				if games['ifNecessary'] == 'N':
