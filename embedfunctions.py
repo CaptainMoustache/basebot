@@ -421,7 +421,7 @@ class EmbedFunctions():
 				elif awayScore > homeScore:
 					awayScoreString = '**' + awayScoreString + '**'
 				
-				liveGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n' + games['status']['detailedState']
+				liveGameString = awayTeamShort + ' ' + awayScoreString + ' - ' + homeTeamShort + ' ' + homeScoreString + '\n' + games['status']['detailedState']
 				playoffEmbed.add_field(name='Game ' + str(games['seriesGameNumber']) + '\nLive Game', value=liveGameString, inline=False)
 
 		await message.channel.send(embed=playoffEmbed)
