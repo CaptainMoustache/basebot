@@ -928,7 +928,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							gibbyEmbed2.type = 'rich'
 							#testEmbed.colour = 
 							gibbyEmbed2.color = discord.Color.dark_blue()
-							gibbyEmbed2.set_image(url='https://i.redd.it/9y018wora9241.jpg')
+							gibbyEmbed2.set_image(url='https://i.imgur.com/zZuX1T5.jpg')
 							gibbyEmbed2.image.width = 500
 							gibbyEmbed2.image.height = 600
 							
