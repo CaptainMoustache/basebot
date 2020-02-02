@@ -924,7 +924,7 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							
 							#Create the embed object
 							gibbyEmbed2 = discord.Embed()
-							gibbyEmbed2.title = '**BRUDDA CHAN**'
+							gibbyEmbed2.title = '**BRUDDA!!**'
 							gibbyEmbed2.type = 'rich'
 							#testEmbed.colour = 
 							gibbyEmbed2.color = discord.Color.dark_blue()
