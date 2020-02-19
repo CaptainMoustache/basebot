@@ -25,12 +25,15 @@ class BaseballBot(discord.Client):
 		# don't respond to ourselves
 		if message.author == self.user:
 			return
+		# don't respond to other bots
+		elif message.author.bot:
+			return
 		else:
 				#Split the message at whitespace
 				messageArray = message.content.split()
 				if len(messageArray) > 0:
 					#Bot was called with enough arguments
-					if ('BASEBOT' in messageArray[0].upper() and len(messageArray) > 1)  or (self.user.mention in messageArray[0].upper()): 
+					if ('BASEBOT' in messageArray[0].upper() and len(messageArray) > 1)  or (str(self.user.id) in messageArray[0].upper()): 
 						#print('DEBUG: Got a message on %s Server!' % message.channel.guild.name)
 						#print('DEBUG: User = %s' % message.author.name)
 						#print('DEBUG: Message = %s' % message.content)
@@ -47,10 +50,16 @@ class BaseballBot(discord.Client):
 							else:
 								#search for the playerid
 								#create a list of mention strings
-								mentionList = []
-								for users in message.channel.members:
+								#mentionList = []
+								#for users in message.channel.members: #self.guilds[0].members:
+								#	if users.bot == False:
+								#		mentionList.append(users.mention)
+										
+								notBotList = []
+								for users in message.channel.members: #self.guilds[0].members:
 									if users.bot == False:
-										mentionList.append(users.mention)
+										notBotList.append(users)
+								
 								
 								#if someone is being a smartass
 								if messageArray[2].upper() == 'PENIS':
@@ -60,32 +69,48 @@ class BaseballBot(discord.Client):
 									await message.channel.send(u'\u0028 \u0361 \u00B0 \u035C \u0296 \u0361 \u00B0 \u0029')
 									return
 								#if trying to use a channel member
-								elif messageArray[2].upper() in mentionList:
-									#Print random insult
-									#index = random.randint(1, 20)
+								elif len(message.mentions) > 0:
 									
-									insultList = []
-									insultList.append('%s is so bad they couldn\'t hit the ground if they fell off a ladder')
-									insultList.append('%s gets less hits than an Amish website')
-									insultList.append('%s hasn\'t reached second base since prom')
-									insultList.append('%s loves playing catcher...')
-									insultList.append('A toaster throws more heat than %s')
-									insultList.append('Yoko Ono has better pitch control than %s')
-									insultList.append('%s couldn\'t even save a word file')
-									insultList.append('%s is a jerk')
-									insultList.append('I just named my new dog %s, because they get beaten every day')
-									insultList.append('%s couldn\'t beat the Helen Keller School Team')
-									insultList.append('%s is a Butterface Cock Box')
-									insultList.append('%s is a triple bagger, one for me, one for them, and one for anyone who happens to be walking by')
-									insultList.append('%s is so ugly their mother breast fed them through a straw')
-									insultList.append('%s looks like they were drawn with my left hand')
-									insultList.append('I would call %s\'s aim cancer, but cancer kills people')
-									insultList.append('%s smells like an old jizz rag')
-									insultList.append('%s is so ugly if they laid down on the beach not even the tide would take them')
-									insultList.append('%s is so ugly, when their mom dropped them off at school she got a fine for littering')
+									#this is an unsorted list so we don't know who is the intended target
+									for memberToInsult in message.mentions:
+										
+										#Target is not a bot
+										if memberToInsult.bot == False:
+											insultList = []
+											insultList.append('%s is so bad they couldn\'t hit the ground if they fell off a ladder')
+											insultList.append('%s gets less hits than an Amish website')
+											insultList.append('%s hasn\'t reached second base since prom')
+											insultList.append('%s loves playing catcher...')
+											insultList.append('A toaster throws more heat than %s')
+											insultList.append('Yoko Ono has better pitch control than %s')
+											insultList.append('%s couldn\'t even save a word file')
+											insultList.append('%s is a jerk')
+											insultList.append('I just named my new dog %s, because they get beaten every day')
+											insultList.append('%s couldn\'t beat the Helen Keller School Team')
+											insultList.append('%s is a Butterface Cock Box')
+											insultList.append('%s is a triple bagger, one for me, one for them, and one for anyone who happens to be walking by')
+											insultList.append('%s is so ugly their mother breast fed them through a straw')
+											insultList.append('%s looks like they were drawn with my left hand')
+											insultList.append('I would call %s\'s aim cancer, but cancer kills people')
+											insultList.append('%s smells like an old jizz rag')
+											insultList.append('%s is so ugly if they laid down on the beach not even the tide would take them')
+											insultList.append('%s is so ugly, when their mom dropped them off at school she got a fine for littering')
 
-									await message.channel.send(insultList[random.randint(0, len(insultList) - 1)] % messageArray[2])
-									return
+											#await message.channel.send(insultList[random.randint(0, len(insultList) - 1)] % messageArray[2])
+											await message.channel.send(insultList[random.randint(0, len(insultList) - 1)] % memberToInsult.mention)
+											return
+										#Target is a bot
+										'''
+										else:
+											#The bot is not self
+											if memberToInsult != self.user:
+												binaryString = " 01101000 01100001 01110011 00100000 01101101 01101111 01110010 01100101 00100000 01101111 01100110 00100000 01100001 00100000 01110011 01101111 01100011 01101001 01100001 01101100 00100000 01101100 01101001 01100110 01100101 00100000 01110100 01101000 01100001 01101110 00100000 01111001 01101111 01110101 00100000 01101110 01100101 01110010 01100100 00100001"
+												await message.channel.send(memberToInsult.mention + binaryString)
+												break
+											else:
+												break
+										'''
+									
 								#We might have an actual name to search
 								else:
 									#Parse year if supplied after a name or names
@@ -922,15 +947,32 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 
 							#https://i.imgur.com/AewHTiT.png
 							
-							#Create the embed object
-							gibbyEmbed2 = discord.Embed()
-							gibbyEmbed2.title = '**BRUDDA!!**'
-							gibbyEmbed2.type = 'rich'
-							#testEmbed.colour = 
-							gibbyEmbed2.color = discord.Color.dark_blue()
-							gibbyEmbed2.set_image(url='https://i.redd.it/w5zopr127us31.jpg')
-							gibbyEmbed2.image.width = 500
-							gibbyEmbed2.image.height = 600
+							
+							index = random.randint(1, 20)
+								
+							if index < 10:
+								#Create the embed object
+								gibbyEmbed2 = discord.Embed()
+								gibbyEmbed2.title = '**BRUDDA!!**'
+								gibbyEmbed2.type = 'rich'
+								#testEmbed.colour = 
+								gibbyEmbed2.color = discord.Color.dark_blue()
+								gibbyEmbed2.set_image(url='https://i.redd.it/w5zopr127us31.jpg')
+								gibbyEmbed2.image.width = 500
+								gibbyEmbed2.image.height = 600
+							else:
+								#Create the embed object
+								gibbyEmbed2 = discord.Embed()
+								gibbyEmbed2.title = '**BRUDDA!!**'
+								gibbyEmbed2.type = 'rich'
+								#testEmbed.colour = 
+								gibbyEmbed2.color = discord.Color.dark_blue()
+								gibbyEmbed2.set_image(url='https://i.redd.it/ekjqwa98qin21.jpg')
+								gibbyEmbed2.image.width = 500
+								gibbyEmbed2.image.height = 600
+							
+							
+							
 							
 							#await message.channel.send('%s' % pewPewId)
 							await message.channel.send(embed=gibbyEmbed2)
