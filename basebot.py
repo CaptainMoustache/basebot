@@ -539,15 +539,30 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							'''
 							
 						elif 'HIGHLIGHTS' in messageArray[1].upper():
-							teamSelected = await self.commonFunctions.get_team(messageArray[2], message)
-
+							#Set the target day
+							targetDateTime = datetime.datetime.now()
+						
+							#Get the team
+							teamSelected = await self.commonFunctions.get_team(messageArray[2], message)						
+							
+							#Get a list of games a week in the past
+							#Remove the lookback by one day for now
 							pastDay = datetime.datetime.today()
+							pastWeek = datetime.datetime.today() - timedelta(7)
+							pastGames = statsapi.schedule(start_date=pastWeek.strftime('%m/%d/%Y'), end_date=pastDay.strftime('%m/%d/%Y'), team=teamSelected['id'])
+							
+								
+							
+	
+							
+							
 
 							#Get the last game
-							lastGameInfo = statsapi.last_game(teamSelected['id'])
+							#lastGameInfo = statsapi.last_game(teamSelected['id'])
+							lastGameInfo = pastGames[0]
 							
 							#Get the highlights for the last game
-							highlights = statsapi.game_highlights(lastGameInfo)
+							highlights = statsapi.game_highlights(lastGameInfo['game_id'])
 							
 							#If no highlights are returned then check the previous dates for a game
 							if len(highlights) == 0:
