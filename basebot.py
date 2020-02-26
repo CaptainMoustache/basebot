@@ -444,7 +444,7 @@ class BaseballBot(discord.Client):
 									await self.embedFunctions.final_Game_Embed(queriedSchedule[0], message)
 									#If there is a game in the next week, return it
 									if len(nextGames) > 0:
-										await self.scheduled_Game_Embed(nextGames[0], message)
+										await self.embedFunctions.scheduled_Game_Embed(nextGames[0], message)
 								#Game is scheduled	
 								elif queriedSchedule[0]['status'] == 'Scheduled' or queriedSchedule[0]['status'] == 'Pre-Game':	
 									await self.embedFunctions.scheduled_Game_Embed(queriedSchedule[0], message)
@@ -540,8 +540,6 @@ d								queriedSchedule[0] = queriedSchedule[0][0]
 							
 						elif 'HIGHLIGHTS' in messageArray[1].upper():
 							teamSelected = await self.commonFunctions.get_team(messageArray[2], message)
-
-							
 
 							pastDay = datetime.datetime.today()
 
