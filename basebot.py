@@ -15,13 +15,24 @@ import embedfunctions
 class BaseballBot(discord.Client):
 	commonFunctions = commonfunctions.CommonFunctions()
 	embedFunctions = embedfunctions.EmbedFunctions()
+	guilds = []
 		
 	
 	async def on_ready(self):
 		print('Logged on as', self.user)
-		await self.change_presence(activity=discord.Game(name='in the Grapefruit League'))
+		await self.change_presence(activity=discord.Game(name='backyard baseball :('))
 	
 	async def on_message(self, message):
+		#Read which guild the message is coming from
+		messageGuild = message.channel.guild
+		if messageGuild not in self.guilds:
+			self.guilds.append(messageGuild)
+			print('DEBUG: New guild found!')
+			print('DEBUG: New count | ' + str(len(self.guilds)))
+			print('DEBUG: New guild is | ' + messageGuild.name)
+
+
+
 		# don't respond to ourselves
 		if message.author == self.user:
 			return
