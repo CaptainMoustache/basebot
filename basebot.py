@@ -1421,6 +1421,7 @@ class BaseballBot(discord.Client):
 					return
 			# The guild has no data, create it
 			else:
+				found_channel = False
 				# Try to send the welcome message to text channels until successful
 				for channel_index in range(0, len(message.guild.text_channels)):
 					try:
@@ -1434,6 +1435,7 @@ class BaseballBot(discord.Client):
 						# await message.guild.text_channels[channel_index].send('Right now I will only listen to this channel')
 						# await message.guild.text_channels[channel_index].send('For a list of commands, type <basebot help>')
 						#await self.embedFunctions.helpEmbed(message)
+						found_channel = True
 
 						# Write a new guid data file and populate the meta data
 						jsonData = {}
@@ -1450,10 +1452,26 @@ class BaseballBot(discord.Client):
 						self.write_data_file(self.dataFilePath + str(message.guild.id), jsonData)
 						await self.refresh_datafiles()
 						break
-
 					except discord.Forbidden:
 						# Unable to send message in channel, try the next one
 						print('DEBUG: Unable to send message to %s, trying the next channel' % message.guild.text_channels[channel_index].name)
+				# If the loop exits without finding a channel ignore everything I guess :/
+				if not found_channel:
+					print('DEBUG: Guild has no channels basebot can send to')
+					# Write a new guid data file and populate the meta data
+					jsonData = {}
+					jsonData['guildname'] = message.guild.name
+					jsonData['guildid'] = str(message.guild.id)
+					jsonData['dateCreated'] = datetime.now().strftime('%m/%d/%Y')
+					jsonData['lastModified'] = datetime.now().strftime('%m/%d/%Y, %H:%M:%S')
+					jsonData['subscribedChannels'] = []
+					# get the info for the first text channel in the guild
+					jsonData['subscribedChannels'].append({
+						'id': '0',
+						'name': 'unknown'
+					})
+					self.write_data_file(self.dataFilePath + str(message.guild.id), jsonData)
+					await self.refresh_datafiles()
 
 
 
