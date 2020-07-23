@@ -11,7 +11,7 @@ import dateutil.parser
 import requests
 
 
-class CommonFunctions():
+class CommonFunctions:
 	async def get_team(self, searchName, message):
 		teamsReturned = statsapi.lookup_team(searchName)
 		if len(teamsReturned) > 1:
