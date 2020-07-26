@@ -11,12 +11,18 @@ import dateutil.parser
 import requests
 import commonfunctions
 import calendar
+import portalocker
+import os
 
 
 class EmbedFunctions:
 	commonFunctions = commonfunctions.CommonFunctions()
 
 	async def scheduled_Game_Embed(self, game, message):
+		# If for some reason we get a list, take the first object
+		if type(game) == list:
+			game = game[0]
+
 		# Get the UTC datetime string
 		gameTimeLocal = self.commonFunctions.get_Local_Time(game['game_datetime'])
 
@@ -145,46 +151,19 @@ class EmbedFunctions:
 								   embed=scheduledEmbed)
 
 	async def final_Game_Embed(self, game, message):
+		# If for some reason we get a list, take the first object
+		if type(game) == list:
+			game = game[0]
+
+
 		# Get the UTC datetime string
 		gameTimeLocal = self.commonFunctions.get_Local_Time(game['game_datetime'])
 
-		#if game['status'] == 'Final' or game['status'] == 'Game Over':
-		if 'Final' in game['status'] or 'Game Over' in game['status']:
-			'''
-			homeTeam = statsapi.lookup_team(game['home_name'])
-			awayTeam = statsapi.lookup_team(game['away_name'])
-			
-			homeTeamShort = homeTeam[0]['fileCode'].upper() 
-			awayTeamShort = awayTeam[0]['fileCode'].upper()
-			'''
-			'''
-			#Get the scores
-			homeScore = game['home_score']
-			homeScoreString = str(homeScore)
-			awayScore = game['away_score']
-			awayScoreString = str(awayScore)
-			
-			
-			#Create the embed object
-			finalEmbed = discord.Embed()
-			finalEmbed.type = 'rich'
-			finalEmbed.color = discord.Color.dark_blue()
-			
-			finalEmbed.add_field(name='Winning Pitcher:', value=game['winning_pitcher'] , inline=True)
-			finalEmbed.add_field(name='Losing Pitcher:', value=game['losing_pitcher'] , inline=True)
-			if game['save_pitcher'] != None:
-				finalEmbed.add_field(name='Save:', value=game['save_pitcher'] , inline=False)
-			
-			
-			#Build the content string
-			finalScoreString = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**\n'
-			
-			finalScoreString = finalScoreString + 'Final score from ' + gameTimeLocal.strftime('%m/%d/%Y')
-			
-			finalScoreString = finalScoreString + '```js\n' + statsapi.linescore(game['game_id']) + '```'
-			
-			await message.channel.send(content=finalScoreString, embed=finalEmbed, tts=False)
-			'''
+		# List of status that indicate the game is over
+		final_status_list = ["Final", "Game Over", "Completed Early"]
+		# Game is over
+		if any(game_status in game['status'] for game_status in final_status_list):
+
 			# Create the final game embed object
 			finalGameEmbed = discord.Embed()
 			finalGameEmbed.type = 'rich'
@@ -232,37 +211,20 @@ class EmbedFunctions:
 
 			await message.channel.send(content=finalScoreString, tts=False)
 
-		'''
-		#Format a string to display the score
-		appendString = homeTeamShort + ' ' + homeScoreString + ' F' + '\n'
-		discordFormattedString = discordFormattedString + appendString
-		
-		appendString = awayTeamShort + ' ' + awayScoreString + '\n'
-		discordFormattedString = discordFormattedString + appendString
-		
-		#Create the embed object
-		finalEmbed = discord.Embed()
-		finalEmbed.title = '**' +  game['home_name'] + '** vs **' + game['away_name'] + '**'
-		finalEmbed.type = 'rich'
-		finalEmbed.color = discord.Color.dark_blue()
-		
-		finalEmbed.add_field(name='Score:', value=discordFormattedString, inline=False)
-		finalEmbed.add_field(name='Winning Pitcher:', value=game['winning_pitcher'] , inline=True)
-		finalEmbed.add_field(name='Losing Pitcher:', value=game['losing_pitcher'] , inline=True)
-		if game['save_pitcher'] != None:
-			finalEmbed.add_field(name='Save:', value=game['save_pitcher'] , inline=False)
-		
-		await message.channel.send(content='Final Score from ' + gameTimeLocal.strftime('%m/%d/%Y') + ':',embed=finalEmbed)
-		'''
-
 	async def live_Game_Embed(self, game, message):
+		# If for some reason we get a list, take the first object
+		if type(game) == list:
+			game = game[0]
 
 		homeTeam = statsapi.lookup_team(game['home_name'])
 		awayTeam = statsapi.lookup_team(game['away_name'])
 
+		print('DEBUG: homeTeam = ')
+		print(*homeTeam)
+
 		homeTeamShort = homeTeam[0]['fileCode'].upper()
 		awayTeamShort = awayTeam[0]['fileCode'].upper()
-		print(game['game_id'])
+		# print(game['game_id'])
 		'''
 		homeScore = game['home_score']
 		homeScoreString = str(homeScore)
@@ -363,23 +325,30 @@ class EmbedFunctions:
 		DEBUG: %s {'game': {'gamePk': 55555, 'link': '/api/v1/game/55555/feed/live', 'gameType': 'R', 'season': '2006', 'gameDate': '2006-06-10T03:33:00Z', 'status': {'abstractGameState': 'Final', 'codedGameState': 'F', 'detailedState': 'Final', 'statusCode': 'F', 'startTimeTBD': True, 'abstractGameCode': 'F'}, 'teams': {'away': {'leagueRecord': {'wins': 7, 'losses': 0, 'pct': '1.000'}, 'score': 5, 'team': {'id': 604, 'name': 'DSL Blue Jays', 'link': '/api/v1/teams/604'}, 'isWinner': True, 'splitSquad': False, 'seriesNumber': 7}, 'home': {'leagueRecord': {'wins': 2, 'losses': 4, 'pct': '.333'}, 'score': 3, 'team': {'id': 616, 'name': 'DSL Indians', 'link': '/api/v1/teams/616'}, 'isWinner': False, 'splitSquad': False, 'seriesNumber': 6}}, 'venue': {'id': 401, 'name': 'Generic', 'link': '/api/v1/venues/401'}, 'content': {'link': '/api/v1/game/55555/content'}, 'isTie': False, 'gameNumber': 1, 'publicFacing': True, 'doubleHeader': 'N', 'gamedayType': 'N', 'tiebreaker': 'N', 'calendarEventID': '44-55555-2006-06-10', 'seasonDisplay': '2006', 'dayNight': 'day', 'scheduledInnings': 9, 'inningBreakLength': 0, 'gamesInSeries': 1, 'seriesGameNumber': 1, 'seriesDescription': 'Regular Season', 'recordSource': 'S', 'ifNecessary': 'N', 'ifNecessaryDescription': 'Normal Game', 'gameId': '2006/06/10/dblrok-dinrok-1'}, 'expectedStatisticsData': {}, 'leftFieldSacFlyProbability': {}, 'centerFieldSacFlyProbability': {}, 'rightFieldSacFlyProbability': {}, 'awayWinProbability': 100.0, 'homeWinProbability': 0.0}
 		'''
 
+		# If the game is not a spring training game, pull the scoring plays
 		if gameType != 'S':
+
+			scoringPlaysList = statsapi.game_scoring_play_data(game['game_id'])
+			scoringPlays = scoringPlaysList['plays']
+			print(*scoringPlays)
+
+
 			if len(scoringPlays) > 1:
-				scoringPlaysList = scoringPlays.split('\n\n')
+				# scoringPlaysList = scoringPlays.split('\n\n')
 				# for plays in scoringPlaysList:
 				#	scoreEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=False)
 
 				# Display only the latest scoring play
-				scoreEmbed.add_field(name='**Latest scoring play**', value=scoringPlaysList[len(scoringPlaysList) - 1],
+				scoreEmbed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'],
 									 inline=False)
-				if len(scoringPlaysList) > 1:
+				if len(scoringPlays) > 2:
 					# Set the footer to inform the user about additional plays
 					scoreEmbed.set_footer(text='Reply with \'more\' in 30 seconds to see all scoring plays')
 
 			# Send the message
 			await message.channel.send(embed=scoreEmbed, tts=False)
 
-			if len(scoringPlaysList) > 1:
+			if len(scoringPlays) > 2:
 				# Wait for the user response
 				if await self.commonFunctions.wait_for_response(message, 'more', 30):
 					# Create a new embed object to contain all scoring plays
@@ -387,12 +356,22 @@ class EmbedFunctions:
 					allPlaysEmbed.title = '**All scoring plays**'
 					allPlaysEmbed.type = 'rich'
 					allPlaysEmbed.color = discord.Color.dark_blue()
-					for plays in scoringPlaysList:
-						allPlaysEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=False)
+					for plays in scoringPlays:
+						allPlaysEmbed.add_field(name=str(scoringPlays.index(plays) + 1),
+												value=plays['result']['description'], inline=False)
 					await message.channel.send(embed=allPlaysEmbed, tts=False)
+					return
 		else:
 			# Send the message
 			await message.channel.send(embed=scoreEmbed, tts=False)
+			return
+
+		# Send the message
+		await message.channel.send(embed=scoreEmbed, tts=False)
+
+
+
+
 
 	async def playoff_Series_Embed(self, series, message):
 		# Create a list of the games in the series
