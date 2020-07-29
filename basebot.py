@@ -91,7 +91,7 @@ class BaseballBot(discord.Client):
 
 	async def on_ready(self):
 		print('Logged on as', self.user)
-		await self.change_presence(activity=discord.Game(name='6ft away'))
+		await self.change_presence(activity=discord.Game(name='stay away from the Marlins'))
 		await self.refresh_datafiles()
 
 	async def on_message(self, message):
@@ -560,7 +560,6 @@ class BaseballBot(discord.Client):
 										# Apparently the MLB api returns the next game sometimes
 										if prev_game['status'] == 'In Progress' and queriedSchedule[
 											'status'] == 'Scheduled':
-											print('DEBUG: Previous game still in progress')
 											queriedSchedule = prev_game
 
 										# List of status that indicate the game is over
@@ -574,14 +573,36 @@ class BaseballBot(discord.Client):
 											# If there is a game in the next week, return it
 											if len(nextGames) > 0:
 												await self.embedFunctions.scheduled_Game_Embed(nextGames[0], message)
+												return
+											return
+
+
+										# List of status that indicate the game is scheduled
+										scheduled_status_list = ["Scheduled", "Pre-Game"]
 										# Game is scheduled
-										elif queriedSchedule['status'] == 'Scheduled' or queriedSchedule[
-											'status'] == 'Pre-Game':
+										if any(game_status in queriedSchedule['status'] for game_status in
+											   scheduled_status_list):
 											await self.embedFunctions.scheduled_Game_Embed(queriedSchedule, message)
 											await self.embedFunctions.final_Game_Embed(prev_game, message)
-										elif queriedSchedule['status'] == 'In Progress' or 'Delayed' in queriedSchedule[
-											'status']:
+											return
+
+										# List of status that indicate the game is live
+										live_status_list = ["In Progress", "Delayed"]
+										# Game is live
+										if any(game_status in queriedSchedule['status'] for game_status in live_status_list):
 											await self.embedFunctions.live_Game_Embed(queriedSchedule, message)
+											return
+
+										# List of other status
+										other_status_list = ["Postponed"]
+										if any(game_status in queriedSchedule['status'] for game_status in other_status_list):
+											await self.embedFunctions.generic_Game_Embed(queriedSchedule, message)
+											# If there is a game in the next week, return it
+											if len(nextGames) > 0:
+												await self.embedFunctions.scheduled_Game_Embed(nextGames[0], message)
+												return
+											return
+
 										else:
 											print('ERROR: Unknown game state returned. Game Status = %s' %
 												  queriedSchedule[

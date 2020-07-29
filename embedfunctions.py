@@ -127,6 +127,8 @@ class EmbedFunctions:
 		# testEmbed.colour =
 		scheduledEmbed.color = discord.Color.dark_blue()
 
+		scheduledEmbed.add_field(name='Game Status:', value=game['status'], inline=False)
+
 		# scoreEmbed.add_field(name='NAME', value='VALUE', inline=False)
 		scheduledEmbed.add_field(name='Start Time:', value=gameTimeLocal.strftime('%-I:%M%p') + ' EST', inline=False)
 
@@ -369,8 +371,26 @@ class EmbedFunctions:
 		# Send the message
 		await message.channel.send(embed=scoreEmbed, tts=False)
 
+	async def generic_Game_Embed(self, game, message):
+		# If for some reason we get a list, take the first object
+		if type(game) == list:
+			game = game[0]
 
 
+		# Get the UTC datetime string
+		gameTimeLocal = self.commonFunctions.get_Local_Time(game['game_datetime'])
+
+
+		# Create the final game embed object
+		genricGameEmbed = discord.Embed()
+		genricGameEmbed.type = 'rich'
+		genricGameEmbed.color = discord.Color.dark_blue()
+
+		# Add the fields with game info
+		genricGameEmbed.add_field(name='**' + game['away_name'] + '** vs **' + game['home_name'] + '**\n',
+								 value='Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + ' Status: ' + game['status'], inline=False)
+
+		await message.channel.send(embed=genricGameEmbed)
 
 
 	async def playoff_Series_Embed(self, series, message):
