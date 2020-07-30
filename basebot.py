@@ -498,7 +498,7 @@ class BaseballBot(discord.Client):
 
 								# Make sure a team was returned
 								if teamSelected is None:
-									await message.channel.send('Sorry, something went wrong :(')
+									await message.channel.send('I couldn\'t find a team with the name %s. Please try again.' % messageArray[2])
 									print('DEBUG: Failed to get the team in time in SCORE function')
 									print('DEBUG: Input was: ' + messageArray[2])
 									print('DEBUG: Message content was: ' + message.content)
@@ -547,41 +547,113 @@ class BaseballBot(discord.Client):
 									# If there is more than one game returned, we have a double header
 									if len(queriedSchedule) == 2:
 										print('DEBUG: DoubleHeader!')
-										# Game 1 is over
-										if queriedSchedule[0]['status'] == 'Final' or queriedSchedule[0][
-											'status'] == 'Game Over':
+
+										# List of status that indicate the game is over
+										final_status_list = ["Final", "Game Over", "Completed Early"]
+										# Game is over
+										if any(game_status in queriedSchedule[0]['status'] for game_status in
+											   final_status_list):
+											# if queriedSchedule[0]['status'] == 'Final' or queriedSchedule[0][
+											#	'status'] == 'Game Over':
 											await self.embedFunctions.final_Game_Embed(queriedSchedule[0], message)
+											# If there is a game in the next week, return it
+											if len(nextGames) > 0:
+												await self.embedFunctions.scheduled_Game_Embed(nextGames[0],
+																							   message)
+
+										# List of status that indicate the game is scheduled
+										scheduled_status_list = ["Scheduled", "Pre-Game"]
 										# Game is scheduled
-										elif queriedSchedule[0]['status'] == 'Scheduled' or queriedSchedule[0][
-											'status'] == 'Pre-Game':
+										if any(game_status in queriedSchedule[0]['status'] for game_status in
+											   scheduled_status_list):
 											await self.embedFunctions.scheduled_Game_Embed(queriedSchedule[0], message)
-										# await self.final_Game_Embed(pastGames[len(pastGames) - 1], message)
-										elif queriedSchedule[0]['status'] == 'In Progress':
+											await self.embedFunctions.final_Game_Embed(prev_game, message)
+
+										# List of status that indicate the game is live
+										live_status_list = ["In Progress", "Delayed"]
+										# Game is live
+										if any(game_status in queriedSchedule[0]['status'] for game_status in
+											   live_status_list):
 											await self.embedFunctions.live_Game_Embed(queriedSchedule[0], message)
-										else:
-											print('ERROR: Unknown game state returned. Game Status = %s' %
-												  queriedSchedule[
-													  'status'])
+
+										# List of other status
+										other_status_list = ["Postponed"]
+										if any(game_status in queriedSchedule[0]['status'] for game_status in
+											   other_status_list):
+											await self.embedFunctions.generic_Game_Embed(queriedSchedule[0], message)
+											# If there is a game in the next week, return it
+											if len(nextGames) > 0:
+												await self.embedFunctions.scheduled_Game_Embed(nextGames[0],
+																							   message)
+
+										# # Game 1 is over
+										# if queriedSchedule[0]['status'] == 'Final' or queriedSchedule[0][
+										# 	'status'] == 'Game Over':
+										# 	await self.embedFunctions.final_Game_Embed(queriedSchedule[0], message)
+										# # Game is scheduled
+										# elif queriedSchedule[0]['status'] == 'Scheduled' or queriedSchedule[0][
+										# 	'status'] == 'Pre-Game':
+										# 	await self.embedFunctions.scheduled_Game_Embed(queriedSchedule[0], message)
+										# # await self.final_Game_Embed(pastGames[len(pastGames) - 1], message)
+										# elif queriedSchedule[0]['status'] == 'In Progress':
+										# 	await self.embedFunctions.live_Game_Embed(queriedSchedule[0], message)
+										# else:
+										# 	print('ERROR: Unknown game state returned. Game Status = %s' %
+										# 		  queriedSchedule[0][
+										# 			  'status'])
 
 										# Game 2 is over
-										if queriedSchedule[1]['status'] == 'Final' or queriedSchedule[1][
-											'status'] == 'Game Over':
+										# if queriedSchedule[1]['status'] == 'Final' or queriedSchedule[1][
+										# 	'status'] == 'Game Over':
+										# 	await self.embedFunctions.final_Game_Embed(queriedSchedule[1], message)
+										# # Game is scheduled
+										# elif queriedSchedule[1]['status'] == 'Scheduled' or queriedSchedule[1][
+										# 	'status'] == 'Pre-Game':
+										# 	await self.embedFunctions.scheduled_Game_Embed(queriedSchedule[1], message)
+										# 	await self.embedFunctions.final_Game_Embed(prev_game, message)
+										# elif queriedSchedule[1]['status'] == 'In Progress':
+										# 	await self.embedFunctions.live_Game_Embed(queriedSchedule[1], message)
+
+										# List of status that indicate the game is over
+										final_status_list = ["Final", "Game Over", "Completed Early"]
+										# Game is over
+										if any(game_status in queriedSchedule[1]['status'] for game_status in
+											   final_status_list):
+											# if queriedSchedule[0]['status'] == 'Final' or queriedSchedule[0][
+											#	'status'] == 'Game Over':
 											await self.embedFunctions.final_Game_Embed(queriedSchedule[1], message)
+											# If there is a game in the next week, return it
+											if len(nextGames) > 0:
+												await self.embedFunctions.scheduled_Game_Embed(nextGames[0],
+																							   message)
+
+										# List of status that indicate the game is scheduled
+										scheduled_status_list = ["Scheduled", "Pre-Game"]
 										# Game is scheduled
-										elif queriedSchedule[1]['status'] == 'Scheduled' or queriedSchedule[1][
-											'status'] == 'Pre-Game':
+										if any(game_status in queriedSchedule[1]['status'] for game_status in
+											   scheduled_status_list):
 											await self.embedFunctions.scheduled_Game_Embed(queriedSchedule[1], message)
 											await self.embedFunctions.final_Game_Embed(prev_game, message)
-										elif queriedSchedule[1]['status'] == 'In Progress':
+
+										# List of status that indicate the game is live
+										live_status_list = ["In Progress", "Delayed"]
+										# Game is live
+										if any(game_status in queriedSchedule[1]['status'] for game_status in
+											   live_status_list):
 											await self.embedFunctions.live_Game_Embed(queriedSchedule[1], message)
-										else:
-											print('ERROR: Unknown game state returned. Game Status = %s' %
-												  queriedSchedule[
-													  'status'])
+
+
+										# List of other status
+										other_status_list = ["Postponed"]
+										if any(game_status in queriedSchedule[1]['status'] for game_status in
+											   other_status_list):
+											await self.embedFunctions.generic_Game_Embed(queriedSchedule[1], message)
+											# If there is a game in the next week, return it
+											if len(nextGames) > 0:
+												await self.embedFunctions.scheduled_Game_Embed(nextGames[0],
+																							   message)
 									# Only one game returned for the day
 									elif len(queriedSchedule) == 1:
-
-
 
 										# Set the queriedSchedule to the only index in the list
 										queriedSchedule = queriedSchedule[0]
