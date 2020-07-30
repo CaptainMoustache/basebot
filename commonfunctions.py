@@ -46,29 +46,29 @@ class CommonFunctions:
 				if messages.author.bot == False and messages != message:
 					messageList.append(messages)
 			
-			#if the name hasn't been selected yet
-			if responseFound == False:
-				#loop through the past 2 messages
-				for history in range (0, len(messageList)):
-					#The user who requested the list responded
+			# if the name hasn't been selected yet
+			if not responseFound:
+				# loop through the past 2 messages
+				for history in range(0, len(messageList)):
+					# The user who requested the list responded
 					if messageList[history].author == message.author:
-						#check if the message was sent after the list of names
+						# check if the message was sent after the list of names
 						if messageList[history].created_at > messageTime:
-							#The user responded with the matching prompt
+							# The user responded with the matching prompt
 							if userResponse.upper() in messageList[history].content.upper():
-								#The matching response was found
+								# The matching response was found
 								responseFound = True
 								return True
 		return False
 	
 	async def wait_for_number(self, message, limit, waitTime):
 		responseNumber = -1
-		#Set the start time
+		# Set the start time
 		messageTime = datetime.datetime.utcnow()
-		#Give a buffer of 2 seconds back for play in the system time and discord time
+		# Give a buffer of 2 seconds back for play in the system time and discord time
 		messageTime = messageTime - timedelta(seconds=2)
 	
-		#Wait defined time
+		# Wait defined time
 		for wait in range(1, waitTime):
 			if responseNumber != -1:
 				break;

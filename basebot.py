@@ -581,8 +581,12 @@ class BaseballBot(discord.Client):
 									# Only one game returned for the day
 									elif len(queriedSchedule) == 1:
 
+
+
 										# Set the queriedSchedule to the only index in the list
 										queriedSchedule = queriedSchedule[0]
+
+										print('DEBUG: Game status = ' + queriedSchedule['status'])
 
 										if len(pastGames) > 0:
 											prev_game = pastGames[len(pastGames) - 1]
@@ -604,8 +608,8 @@ class BaseballBot(discord.Client):
 											# If there is a game in the next week, return it
 											if len(nextGames) > 0:
 												await self.embedFunctions.scheduled_Game_Embed(nextGames[0], message)
-												return
-											return
+
+
 
 
 										# List of status that indicate the game is scheduled
@@ -615,14 +619,16 @@ class BaseballBot(discord.Client):
 											   scheduled_status_list):
 											await self.embedFunctions.scheduled_Game_Embed(queriedSchedule, message)
 											await self.embedFunctions.final_Game_Embed(prev_game, message)
-											return
+
 
 										# List of status that indicate the game is live
 										live_status_list = ["In Progress", "Delayed"]
 										# Game is live
 										if any(game_status in queriedSchedule['status'] for game_status in live_status_list):
+											print('DEBUG: Found an game with a status matching')
+											print(*live_status_list)
 											await self.embedFunctions.live_Game_Embed(queriedSchedule, message)
-											return
+
 
 										# List of other status
 										other_status_list = ["Postponed"]
@@ -631,13 +637,12 @@ class BaseballBot(discord.Client):
 											# If there is a game in the next week, return it
 											if len(nextGames) > 0:
 												await self.embedFunctions.scheduled_Game_Embed(nextGames[0], message)
-												return
-											return
 
-										else:
-											print('ERROR: Unknown game state returned. Game Status = %s' %
-												  queriedSchedule[
-													  'status'])
+
+
+										#else:
+										#	print('ERROR: Unknown game state returned. Game Status = %s' %
+										#		  queriedSchedule['status'])
 
 									# No games were returned for the day
 									elif len(queriedSchedule) <= 0:

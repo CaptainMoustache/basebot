@@ -29,7 +29,6 @@ class EmbedFunctions:
 		homeTeam = statsapi.lookup_team(game['home_name'])
 		awayTeam = statsapi.lookup_team(game['away_name'])
 
-		print(game)
 		# Get the game type
 		gameType = game['game_type']
 		'''
@@ -221,9 +220,6 @@ class EmbedFunctions:
 		homeTeam = statsapi.lookup_team(game['home_name'])
 		awayTeam = statsapi.lookup_team(game['away_name'])
 
-		print('DEBUG: homeTeam = ')
-		print(*homeTeam)
-
 		homeTeamShort = homeTeam[0]['fileCode'].upper()
 		awayTeamShort = awayTeam[0]['fileCode'].upper()
 		# print(game['game_id'])
@@ -247,7 +243,6 @@ class EmbedFunctions:
 		# liveScoreString = liveScoreString + '```js\n' + statsapi.linescore(game['game_id']) + '```'
 
 		contextParams = {'gamePk': game['game_id']}
-		print(contextParams)
 		game_contextMetrics = statsapi.get(endpoint='game_contextMetrics', params=contextParams)
 		gameType = game_contextMetrics['game']['gameType']
 
@@ -324,7 +319,22 @@ class EmbedFunctions:
 
 		'''
 		DEBUG: game_contextMetrics
-		DEBUG: %s {'game': {'gamePk': 55555, 'link': '/api/v1/game/55555/feed/live', 'gameType': 'R', 'season': '2006', 'gameDate': '2006-06-10T03:33:00Z', 'status': {'abstractGameState': 'Final', 'codedGameState': 'F', 'detailedState': 'Final', 'statusCode': 'F', 'startTimeTBD': True, 'abstractGameCode': 'F'}, 'teams': {'away': {'leagueRecord': {'wins': 7, 'losses': 0, 'pct': '1.000'}, 'score': 5, 'team': {'id': 604, 'name': 'DSL Blue Jays', 'link': '/api/v1/teams/604'}, 'isWinner': True, 'splitSquad': False, 'seriesNumber': 7}, 'home': {'leagueRecord': {'wins': 2, 'losses': 4, 'pct': '.333'}, 'score': 3, 'team': {'id': 616, 'name': 'DSL Indians', 'link': '/api/v1/teams/616'}, 'isWinner': False, 'splitSquad': False, 'seriesNumber': 6}}, 'venue': {'id': 401, 'name': 'Generic', 'link': '/api/v1/venues/401'}, 'content': {'link': '/api/v1/game/55555/content'}, 'isTie': False, 'gameNumber': 1, 'publicFacing': True, 'doubleHeader': 'N', 'gamedayType': 'N', 'tiebreaker': 'N', 'calendarEventID': '44-55555-2006-06-10', 'seasonDisplay': '2006', 'dayNight': 'day', 'scheduledInnings': 9, 'inningBreakLength': 0, 'gamesInSeries': 1, 'seriesGameNumber': 1, 'seriesDescription': 'Regular Season', 'recordSource': 'S', 'ifNecessary': 'N', 'ifNecessaryDescription': 'Normal Game', 'gameId': '2006/06/10/dblrok-dinrok-1'}, 'expectedStatisticsData': {}, 'leftFieldSacFlyProbability': {}, 'centerFieldSacFlyProbability': {}, 'rightFieldSacFlyProbability': {}, 'awayWinProbability': 100.0, 'homeWinProbability': 0.0}
+		DEBUG: %s {'game': {'gamePk': 55555, 'link': '/api/v1/game/55555/feed/live', 'gameType': 'R', 'season': '2006', 
+		'gameDate': '2006-06-10T03:33:00Z', 'status': {'abstractGameState': 'Final', 'codedGameState': 'F', 
+		'detailedState': 'Final', 'statusCode': 'F', 'startTimeTBD': True, 'abstractGameCode': 'F'}, 
+		'teams': {'away': {'leagueRecord': {'wins': 7, 'losses': 0, 'pct': '1.000'}, 'score': 5, 
+		'team': {'id': 604, 'name': 'DSL Blue Jays', 'link': '/api/v1/teams/604'}, 'isWinner': True, 
+		'splitSquad': False, 'seriesNumber': 7}, 'home': {'leagueRecord': {'wins': 2, 'losses': 4, 'pct': '.333'}, 
+		'score': 3, 'team': {'id': 616, 'name': 'DSL Indians', 'link': '/api/v1/teams/616'}, 'isWinner': False, 
+		'splitSquad': False, 'seriesNumber': 6}}, 'venue': {'id': 401, 'name': 'Generic', 
+		'link': '/api/v1/venues/401'}, 'content': {'link': '/api/v1/game/55555/content'}, 'isTie': False, 
+		'gameNumber': 1, 'publicFacing': True, 'doubleHeader': 'N', 'gamedayType': 'N', 'tiebreaker': 'N', 
+		'calendarEventID': '44-55555-2006-06-10', 'seasonDisplay': '2006', 'dayNight': 'day', 'scheduledInnings': 9, 
+		'inningBreakLength': 0, 'gamesInSeries': 1, 'seriesGameNumber': 1, 'seriesDescription': 'Regular Season', 
+		'recordSource': 'S', 'ifNecessary': 'N', 'ifNecessaryDescription': 'Normal Game', 
+		'gameId': '2006/06/10/dblrok-dinrok-1'}, 'expectedStatisticsData': {}, 'leftFieldSacFlyProbability': {}, 
+		'centerFieldSacFlyProbability': {}, 'rightFieldSacFlyProbability': {}, 'awayWinProbability': 100.0, 
+		'homeWinProbability': 0.0}
 		'''
 
 		# If the game is not a spring training game, pull the scoring plays
@@ -332,8 +342,6 @@ class EmbedFunctions:
 
 			scoringPlaysList = statsapi.game_scoring_play_data(game['game_id'])
 			scoringPlays = scoringPlaysList['plays']
-			print(*scoringPlays)
-
 
 			if len(scoringPlays) > 1:
 				# scoringPlaysList = scoringPlays.split('\n\n')
@@ -362,6 +370,7 @@ class EmbedFunctions:
 						allPlaysEmbed.add_field(name=str(scoringPlays.index(plays) + 1),
 												value=plays['result']['description'], inline=False)
 					await message.channel.send(embed=allPlaysEmbed, tts=False)
+				else:
 					return
 		else:
 			# Send the message
@@ -370,6 +379,7 @@ class EmbedFunctions:
 
 		# Send the message
 		await message.channel.send(embed=scoreEmbed, tts=False)
+		return
 
 	async def generic_Game_Embed(self, game, message):
 		# If for some reason we get a list, take the first object
