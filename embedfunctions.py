@@ -491,13 +491,13 @@ class EmbedFunctions:
 		helpEmbed.type = 'rich'
 		helpEmbed.color = discord.Color.dark_blue()
 
-		helpEmbed.add_field(name='1. basebot player <playername> <year>', value='Lookup a players stats (Defaults to current year)', inline=False)
-		helpEmbed.add_field(name='2. basebot score <teamname>', value='Lookup the latest game', inline=False)
-		helpEmbed.add_field(name='3. basebot highlights <teamname>', value='Lookup the latest highlights', inline=False)
-		helpEmbed.add_field(name='4. basebot roster <teamname>', value='Display the team\'s current roster',
+		helpEmbed.add_field(name='1. basebot player `playername` `year`', value='Lookup a players stats (Defaults to current year)', inline=False)
+		helpEmbed.add_field(name='2. basebot score `teamname`', value='Lookup the latest game', inline=False)
+		helpEmbed.add_field(name='3. basebot highlights `teamname`', value='Lookup the latest highlights', inline=False)
+		helpEmbed.add_field(name='4. basebot roster `teamname`', value='Display the team\'s current roster',
 							inline=False)
 		helpEmbed.add_field(name='5. basebot standings', value='Show the current league standings', inline=False)
-		helpEmbed.add_field(name='6. basebot schedule <teamname>',
+		helpEmbed.add_field(name='6. basebot schedule `teamname`',
 							value='Show the team\'s scheduled games for the next week', inline=False)
 		helpEmbed.add_field(name='7. basebot schedule',
 							value='Show today\'s scheduled games',
@@ -508,10 +508,10 @@ class EmbedFunctions:
 		helpEmbed.add_field(name='9. basebot hockey',
 							value='Show the current days hockey games. NOTE: This will move to a new bot soon',
 							inline=False)
-		helpEmbed.add_field(name='10. basebot listen <channelname>',
+		helpEmbed.add_field(name='10. basebot listen `channelname`',
 							value='Listen to commands on the given text channel',
 							inline=False)
-		helpEmbed.add_field(name='11. basebot ignore <channelname>',
+		helpEmbed.add_field(name='11. basebot ignore `channelname`',
 							value='Ignore commands on the given text channel',
 							inline=False)
 		helpEmbed.add_field(name='12. basebot listchannels',
