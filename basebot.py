@@ -549,7 +549,7 @@ class BaseballBot(discord.Client):
 									other_status_list = ["Postponed"]
 
 									# There is a doubleheader
-									if len(queriedSchedule) is 2:
+									if len(queriedSchedule) == 2:
 
 										'''GAME 1'''
 
@@ -615,7 +615,7 @@ class BaseballBot(discord.Client):
 																					   message)
 
 									# One game was returned
-									elif len(queriedSchedule) is 1:
+									elif len(queriedSchedule) == 1:
 
 										# if len(pastGames) > 0:
 										#	 prev_game = pastGames[len(pastGames) - 1]
