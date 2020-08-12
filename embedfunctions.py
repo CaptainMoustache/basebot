@@ -386,10 +386,8 @@ class EmbedFunctions:
 		if type(game) == list:
 			game = game[0]
 
-
 		# Get the UTC datetime string
 		gameTimeLocal = self.commonFunctions.get_Local_Time(game['game_datetime'])
-
 
 		# Create the final game embed object
 		genricGameEmbed = discord.Embed()

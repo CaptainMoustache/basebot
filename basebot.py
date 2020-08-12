@@ -145,7 +145,8 @@ class BaseballBot(discord.Client):
 
 											# if someone is being a smartass
 											if messageArray[2].upper() == 'PENIS':
-												await message.channel.send('My penis is currently batting 1000 with your mom')
+												await message.channel.send(
+													'My penis is currently batting 1000 with your mom')
 												return
 											elif messageArray[2].upper() == 'KAPPA':
 												await message.channel.send(
@@ -171,13 +172,15 @@ class BaseballBot(discord.Client):
 														insultList.append('%s is a jerk')
 														insultList.append(
 															'I just named my new dog %s, because they get beaten every day')
-														insultList.append('%s couldn\'t beat the Helen Keller School Team')
+														insultList.append(
+															'%s couldn\'t beat the Helen Keller School Team')
 														insultList.append('%s is a Butterface Cock Box')
 														insultList.append(
 															'%s is a triple bagger, one for me, one for them, and one for anyone who happens to be walking by')
 														insultList.append(
 															'%s is so ugly their mother breast fed them through a straw')
-														insultList.append('%s looks like they were drawn with my left hand')
+														insultList.append(
+															'%s looks like they were drawn with my left hand')
 														insultList.append(
 															'I would call %s\'s aim cancer, but cancer kills people')
 														insultList.append('%s smells like an old jizz rag')
@@ -205,7 +208,8 @@ class BaseballBot(discord.Client):
 											# We might have an actual name to search
 											else:
 												# Parse year if supplied after a name or names
-												if messageArray[len(messageArray) - 1].isdigit() and len(messageArray) > 3:
+												if messageArray[len(messageArray) - 1].isdigit() and len(
+														messageArray) > 3:
 													# print ('DEBUG: Year detected')
 													# The last part of the message is a year
 													if int(messageArray[len(messageArray) - 1]) > now.year:
@@ -242,7 +246,8 @@ class BaseballBot(discord.Client):
 														nameToSearch = messageArray[2] + ' ' + messageArray[3]
 														displayNameToSearch = nameToSearch
 													else:
-														print('DEBUG: I couldn\'t figure the name out without the year :(')
+														print(
+															'DEBUG: I couldn\'t figure the name out without the year :(')
 										# Check that we have a valid name to search
 										if nameToSearch == None or nameToSearch == '':
 											await message.channel.send(
@@ -258,7 +263,8 @@ class BaseballBot(discord.Client):
 										playerSearchJson = json.loads(playerSearch.text)
 
 										# get the number of players found
-										playersFoundCount = playerSearchJson['search_player_all']['queryResults']['totalSize']
+										playersFoundCount = playerSearchJson['search_player_all']['queryResults'][
+											'totalSize']
 
 										# Create a list of PlayerSearchInfo objects
 										playerSearchResultsList = []
@@ -287,7 +293,8 @@ class BaseballBot(discord.Client):
 
 												playerInfoURL = 'http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code=\'mlb\'&player_id=\'' + player.player_id + '\''
 												# Send the GET
-												playerInfoRequest = await self.commonFunctions.sendGetRequest(playerInfoURL)
+												playerInfoRequest = await self.commonFunctions.sendGetRequest(
+													playerInfoURL)
 												playerInfoJson = json.loads(playerInfoRequest.text)
 												playerGenInfo.ParseJson(playerInfoJson)
 												# Append the playerInfo to the list
@@ -359,8 +366,10 @@ class BaseballBot(discord.Client):
 													await message.channel.send('I\'m getting bored waiting for you, start over when you\'re ready.')
 													return
 											'''
-											playerSelectedIndex = await self.commonFunctions.wait_for_number(message, len(
-												playerSearchResultsList), 30)
+											playerSelectedIndex = await self.commonFunctions.wait_for_number(message,
+																											 len(
+																												 playerSearchResultsList),
+																											 30)
 
 											if playerSelectedIndex:
 												playerGenInfo = playerGenInfoList[playerSelectedIndex - 1]
@@ -399,9 +408,11 @@ class BaseballBot(discord.Client):
 											playerStatsRequest = requests.get(playerStatsURL, playerStatsHeader)
 											playerStatsJson = json.loads(playerStatsRequest.text)
 
-											if int(playerStatsJson['sport_hitting_tm']['queryResults']['totalSize']) == 0:
-												await message.channel.send('%s doesn\'t appear to have any stats for %s' % (
-													playerGenInfo.name_display_first_last, statYear))
+											if int(playerStatsJson['sport_hitting_tm']['queryResults'][
+													   'totalSize']) == 0:
+												await message.channel.send(
+													'%s doesn\'t appear to have any stats for %s' % (
+														playerGenInfo.name_display_first_last, statYear))
 												return
 
 											# Create a new SeasonBattingStats object
@@ -423,8 +434,10 @@ class BaseballBot(discord.Client):
 															  ' Slugging: %s\n' \
 															  ' OPS: %s\n' \
 															  ' RBI: %s' % (
-																  seasonBattingInfo.avg[index], seasonBattingInfo.hr[index],
-																  seasonBattingInfo.slg[index], seasonBattingInfo.ops[index],
+																  seasonBattingInfo.avg[index],
+																  seasonBattingInfo.hr[index],
+																  seasonBattingInfo.slg[index],
+																  seasonBattingInfo.ops[index],
 																  seasonBattingInfo.rbi[index])
 												playerEmbed.add_field(name=seasonBattingInfo.team_abbrev[index],
 																	  value=valueString)
@@ -448,9 +461,11 @@ class BaseballBot(discord.Client):
 											playerStatsRequest = requests.get(playerStatsURL, playerStatsHeader)
 											playerStatsJson = json.loads(playerStatsRequest.text)
 
-											if int(playerStatsJson['sport_pitching_tm']['queryResults']['totalSize']) == 0:
-												await message.channel.send('%s doesn\'t appear to have any stats for %s' % (
-													playerGenInfo.name_display_first_last, statYear))
+											if int(playerStatsJson['sport_pitching_tm']['queryResults'][
+													   'totalSize']) == 0:
+												await message.channel.send(
+													'%s doesn\'t appear to have any stats for %s' % (
+														playerGenInfo.name_display_first_last, statYear))
 												return
 
 											# Create a new SeasonBattingStats object
@@ -471,8 +486,10 @@ class BaseballBot(discord.Client):
 															  ' Wins/Losses: %s/%s\n' \
 															  ' Games: %s\n' \
 															  ' WHIP: %s' % (
-																  seasonPitchingInfo.era[index], seasonPitchingInfo.w[index],
-																  seasonPitchingInfo.l[index], seasonPitchingInfo.gs[index],
+																  seasonPitchingInfo.era[index],
+																  seasonPitchingInfo.w[index],
+																  seasonPitchingInfo.l[index],
+																  seasonPitchingInfo.gs[index],
 																  seasonPitchingInfo.whip[index])
 												pitcherEmbed.add_field(name=seasonPitchingInfo.team_abbrev[index],
 																	   value=valueString)
@@ -496,32 +513,28 @@ class BaseballBot(discord.Client):
 										# If no team was provided, exit the call
 										if len(messageArray) < 3:
 											# TODO return all current live games
-											await message.channel.send("I need a team to check the score for, try again")
+											await message.channel.send(
+												"I need a team to check the score for, try again")
 											return
 
 										# Check if there was a date provided, if not use the current date
 										if len(messageArray) > 3:
 											targetDateTime = dateparser.parse(messageArray[3])
 											if targetDateTime is not None:
-												await message.channel.send('DEBUG: Getting scores for %s'
-																   % targetDateTime.strftime('%Y%m%d'))
+												await message.channel.send('DEBUG: Getting scores for %s' % targetDateTime.strftime('%Y%m%d'))
 											else:
-												await message.channel.send("Sorry, I could not figure out the date "
-																	   "\"%s\"" % messageArray[3])
+												await message.channel.send("Sorry, I could not figure out the date ""\"%s\"" % messageArray[3])
 												return
 										else:
-											# Set the target day
+											# Set the target day as today
 											targetDateTime = datetime.now()
-
-
 
 										# Get the team
 										teamSelected = await self.commonFunctions.get_team(messageArray[2], message)
 
 										# Make sure a team was returned
 										if teamSelected is None:
-											await message.channel.send(
-												'I couldn\'t find a team with the name %s. Please try again.' % messageArray[2])
+											await message.channel.send('I couldn\'t find a team with the name %s. Please try again.' % messageArray[2])
 											print('DEBUG: Failed to get the team in time in SCORE function')
 											print('DEBUG: Input was: ' + messageArray[2])
 											print('DEBUG: Message content was: ' + message.content)
@@ -535,8 +548,8 @@ class BaseballBot(discord.Client):
 										pastDay = datetime.today() - timedelta(1)
 										pastWeek = datetime.today() - timedelta(7)
 										pastGames = statsapi.schedule(start_date=pastWeek.strftime('%m/%d/%Y'),
-																	  end_date=pastDay.strftime('%m/%d/%Y'),
-																	  team=teamSelected['id'])
+																	end_date=pastDay.strftime('%m/%d/%Y'),
+																	team=teamSelected['id'])
 
 										# Get a list of games a week in the future
 										nextDay = datetime.today() + timedelta(1)
@@ -545,30 +558,26 @@ class BaseballBot(discord.Client):
 																	  end_date=NextWeek.strftime('%m/%d/%Y'),
 																	  team=teamSelected['id'])
 
-										# print('DEBUG: queriedSchedule = ')
-										# print(*queriedSchedule)
-
-										# print(*queriedSchedule)
-										# print('DEBUG: pastGames length = ' + str(len(pastGames)))
-										# print('DEBUG: pastGames = ')
-										# print(*pastGames)
-
+										# Check for games played in the past week
 										if len(pastGames) > 0:
 											prev_game = pastGames[len(pastGames) - 1]
-
-										'''
-										New game type detection logic
-										'''
+										else:
+											prev_game = None
 
 										# Double check if a list is returned
 										if type(queriedSchedule) is list:
-											# print('DEBUG: queriedSchedule is a list')
-											# print('DEBUG: len of queriedSchedule: %s' % len(queriedSchedule))
 
 											final_status_list = ["Final", "Game Over", "Completed Early"]
 											scheduled_status_list = ["Scheduled", "Pre-Game"]
 											live_status_list = ["In Progress", "Delayed"]
 											other_status_list = ["Postponed"]
+
+											# Check if the previous game is still 'In Progress' and if so set that as the target game
+											# Apparently the MLB api returns the next game sometimes
+											if prev_game is not None:
+												if prev_game['status'] == 'In Progress' and queriedSchedule[0][
+													'status'] == 'Scheduled':
+													queriedSchedule[0] = prev_game
 
 											# There is a doubleheader
 											if len(queriedSchedule) == 2:
@@ -576,106 +585,77 @@ class BaseballBot(discord.Client):
 												'''GAME 1'''
 
 												# Game 1 is over
-												if any(game_status in queriedSchedule[0]['status'] for game_status in
-														final_status_list):
+												if any(game_status in queriedSchedule[0]['status'] for game_status in final_status_list):
 													await self.embedFunctions.final_Game_Embed(queriedSchedule[0], message)
 
 												# Game 1 is scheduled
-												elif any(game_status in queriedSchedule[0]['status'] for game_status in
-														 scheduled_status_list):
+												elif any(game_status in queriedSchedule[0]['status'] for game_status in scheduled_status_list):
 													await self.embedFunctions.scheduled_Game_Embed(queriedSchedule[0], message)
 													if prev_game is not None:
 														await self.embedFunctions.final_Game_Embed(prev_game, message)
 
 												# Game 1 is live
-												elif any(game_status in queriedSchedule[0]['status'] for game_status in
-														 live_status_list):
+												elif any(game_status in queriedSchedule[0]['status'] for game_status in live_status_list):
 													await self.embedFunctions.live_Game_Embed(queriedSchedule[0], message)
 													return
 
 												# Game 1 is other state
-												elif any(game_status in queriedSchedule[0]['status'] for game_status in
-														 other_status_list):
+												elif any(game_status in queriedSchedule[0]['status'] for game_status in other_status_list):
 													await self.embedFunctions.generic_Game_Embed(queriedSchedule[0], message)
-													# If there is a game in the next week, return it
-													#if len(nextGames) > 0:
-													#	await self.embedFunctions.scheduled_Game_Embed(nextGames[0],
-													#												   message)
 
 												'''GAME 2'''
 
 												# Game 2 is over
-												if any(game_status in queriedSchedule[1]['status'] for game_status in
-													   final_status_list):
+												if any(game_status in queriedSchedule[1]['status'] for game_status in final_status_list):
 													await self.embedFunctions.final_Game_Embed(queriedSchedule[1], message)
 													# If there is a game in the next week, return it
 													if len(nextGames) > 0:
 														await self.embedFunctions.scheduled_Game_Embed(nextGames[0], message)
 
 												# Game 2 is scheduled
-												elif any(game_status in queriedSchedule[1]['status'] for game_status in
-														 scheduled_status_list):
-													await self.embedFunctions.scheduled_Game_Embed(queriedSchedule[1],
-																								   message)
+												elif any(game_status in queriedSchedule[1]['status'] for game_status in scheduled_status_list):
+													await self.embedFunctions.scheduled_Game_Embed(queriedSchedule[1], message)
 													if prev_game is not None:
 														await self.embedFunctions.final_Game_Embed(prev_game, message)
 
 												# Game 2 is live
-												elif any(game_status in queriedSchedule[1]['status'] for game_status in
-														 live_status_list):
+												elif any(game_status in queriedSchedule[1]['status'] for game_status in live_status_list):
 													await self.embedFunctions.live_Game_Embed(queriedSchedule[1], message)
 													return
 
 												# Game 2 is other state
-												elif any(game_status in queriedSchedule[1]['status'] for game_status in
-														 other_status_list):
-													await self.embedFunctions.generic_Game_Embed(queriedSchedule[0],
-																								 message)
+												elif any(game_status in queriedSchedule[1]['status'] for game_status in other_status_list):
+													await self.embedFunctions.generic_Game_Embed(queriedSchedule[0],  message)
 												# If there is a game in the next week, return it
 												if len(nextGames) > 0:
-													await self.embedFunctions.scheduled_Game_Embed(nextGames[0],
-																							   message)
+													await self.embedFunctions.scheduled_Game_Embed(nextGames[0], message)
 
 											# One game was returned
 											elif len(queriedSchedule) == 1:
 
-												# if len(pastGames) > 0:
-												#	 prev_game = pastGames[len(pastGames) - 1]
-
-												# Check if the previous game is still 'In Progress' and if so set that as the target game
-												# Apparently the MLB api returns the next game sometimes
-												if prev_game['status'] == 'In Progress' and queriedSchedule[
-													'status'] == 'Scheduled':
-													queriedSchedule[0] = prev_game
-
 												# Game is over
-												if any(game_status in queriedSchedule[0]['status'] for game_status in
-													   final_status_list):
-													await self.embedFunctions.final_Game_Embed(queriedSchedule[0], message)
+												if any(game_status in queriedSchedule[0]['status'] for game_status in final_status_list):
+													await self.embedFunctions.final_Game_Embed(queriedSchedule[0],  message)
 													# If there is a game in the next week, return it
 													if len(nextGames) > 0:
 														await self.embedFunctions.scheduled_Game_Embed(nextGames[0], message)
 
 												# Game is scheduled
-												elif any(game_status in queriedSchedule[0]['status'] for game_status in
-													   scheduled_status_list):
-													await self.embedFunctions.scheduled_Game_Embed(queriedSchedule[0], message)
+												elif any(game_status in queriedSchedule[0]['status'] for game_status in scheduled_status_list):
+													await self.embedFunctions.scheduled_Game_Embed(queriedSchedule[0],  message)
 													if prev_game is not None:
 														await self.embedFunctions.final_Game_Embed(prev_game, message)
 
 												# Game is live
-												elif any(game_status in queriedSchedule[0]['status'] for game_status in
-													   live_status_list):
+												elif any(game_status in queriedSchedule[0]['status'] for game_status in live_status_list):
 													await self.embedFunctions.live_Game_Embed(queriedSchedule[0], message)
 
 												# Game is other status
-												elif any(game_status in queriedSchedule[0]['status'] for game_status in
-													   other_status_list):
+												elif any(game_status in queriedSchedule[0]['status'] for game_status in  other_status_list):
 													await self.embedFunctions.generic_Game_Embed(queriedSchedule[0], message)
 													# If there is a game in the next week, return it
 													if len(nextGames) > 0:
-														await self.embedFunctions.scheduled_Game_Embed(nextGames[0],
-																									   message)
+														await self.embedFunctions.scheduled_Game_Embed(nextGames[0],  message)
 
 											# No games were returned for the day
 											elif len(queriedSchedule) <= 0:
@@ -706,38 +686,26 @@ class BaseballBot(discord.Client):
 														await self.embedFunctions.scheduled_Game_Embed(nextGames[0],
 																									   message)
 
-											# More than 2 games returned
+											# More than 2 games returned a 2020 special!
 											elif len(queriedSchedule) > 2:
 
 												# Loop through and spit out each game
 												for game in queriedSchedule:
 													# Game is over
-													if any(game_status in game['status'] for game_status
-														   in
-														   final_status_list):
-														await self.embedFunctions.final_Game_Embed(game,
-																								   message)
+													if any(game_status in game['status'] for game_status in final_status_list):
+														await self.embedFunctions.final_Game_Embed(game, message)
 
 													# Game is scheduled
-													elif any(game_status in game['status'] for game_status
-															 in
-															 scheduled_status_list):
-														await self.embedFunctions.scheduled_Game_Embed(
-															game, message)
+													elif any(game_status in game['status'] for game_status in scheduled_status_list):
+														await self.embedFunctions.scheduled_Game_Embed(game, message)
 
 													# Game is live
-													elif any(game_status in game['status'] for game_status
-															 in
-															 live_status_list):
-														await self.embedFunctions.live_Game_Embed(game,
-																								  message)
+													elif any(game_status in game['status'] for game_status in live_status_list):
+														await self.embedFunctions.live_Game_Embed(game, message)
 
 													# Game is other status
-													elif any(game_status in game['status'] for game_status
-															 in
-															 other_status_list):
-														await self.embedFunctions.generic_Game_Embed(game,
-																									 message)
+													elif any(game_status in game['status'] for game_status in other_status_list):
+														await self.embedFunctions.generic_Game_Embed(game, message)
 
 									except Exception as e:
 										print('DEBUG: Exception in SCORE. Input was %s' % message.content)
@@ -841,8 +809,9 @@ class BaseballBot(discord.Client):
 										rosterEmbed.type = 'rich'
 										rosterEmbed.color = discord.Color.dark_blue()
 
-										rosterEmbed.add_field(name='Current Roster for the **' + teamSelected['name'] + '**',
-															  value='```' + statsapi.roster(int(teamSelected['id'])) + '```')
+										rosterEmbed.add_field(
+											name='Current Roster for the **' + teamSelected['name'] + '**',
+											value='```' + statsapi.roster(int(teamSelected['id'])) + '```')
 										await message.channel.send(embed=rosterEmbed)
 									except Exception as e:
 										print('DEBUG: Exception in ROSTER. Input was %s' % message.content)
@@ -873,12 +842,14 @@ class BaseballBot(discord.Client):
 										# nlCentralStandingsString = statsapi.standings(leagueId='104', division='205', standingsTypes='byDivision')
 										# nlWestStandingsString = statsapi.standings(leagueId='104', division='203', standingsTypes='byDivision')
 
-										alStandingsString = statsapi.standings(leagueId='103', standingsTypes='byDivision',
+										alStandingsString = statsapi.standings(leagueId='103',
+																			   standingsTypes='byDivision',
 																			   include_wildcard=False)
 
 										alStandingsArray = alStandingsString.split('\n\n')
 
-										nlStandingsString = statsapi.standings(leagueId='104', standingsTypes='byDivision',
+										nlStandingsString = statsapi.standings(leagueId='104',
+																			   standingsTypes='byDivision',
 																			   include_wildcard=False)
 
 										nlStandingsArray = nlStandingsString.split('\n\n')
@@ -888,18 +859,24 @@ class BaseballBot(discord.Client):
 										standingsEmbed.type = 'rich'
 										# testEmbed.colour =
 										standingsEmbed.color = discord.Color.dark_blue()
-										standingsEmbed.add_field(name='**AL East**', value='```' + alStandingsArray[1] + '```',
+										standingsEmbed.add_field(name='**AL East**',
+																 value='```' + alStandingsArray[1] + '```',
 																 inline=True)
 										standingsEmbed.add_field(name='**AL Central**',
-																 value='```' + alStandingsArray[2] + '```', inline=False)
-										standingsEmbed.add_field(name='**AL West**', value='```' + alStandingsArray[0] + '```',
+																 value='```' + alStandingsArray[2] + '```',
+																 inline=False)
+										standingsEmbed.add_field(name='**AL West**',
+																 value='```' + alStandingsArray[0] + '```',
 																 inline=False)
 
-										standingsEmbed.add_field(name='**NL East**', value='```' + nlStandingsArray[2] + '```',
+										standingsEmbed.add_field(name='**NL East**',
+																 value='```' + nlStandingsArray[2] + '```',
 																 inline=False)
 										standingsEmbed.add_field(name='**NL Central**',
-																 value='```' + nlStandingsArray[0] + '```', inline=False)
-										standingsEmbed.add_field(name='**NL West**', value='```' + nlStandingsArray[1] + '```',
+																 value='```' + nlStandingsArray[0] + '```',
+																 inline=False)
+										standingsEmbed.add_field(name='**NL West**',
+																 value='```' + nlStandingsArray[1] + '```',
 																 inline=False)
 
 										await message.channel.send(embed=standingsEmbed)
@@ -923,8 +900,9 @@ class BaseballBot(discord.Client):
 											teamSelected = await self.commonFunctions.get_team(messageArray[2], message)
 
 											# Get the schedule for the selected date
-											queriedSchedule = statsapi.schedule(date=targetDateTime.strftime('%Y-%m-%d'),
-																				team=int(teamSelected['id']))
+											queriedSchedule = statsapi.schedule(
+												date=targetDateTime.strftime('%Y-%m-%d'),
+												team=int(teamSelected['id']))
 
 											# Get a list of games a week in the past
 											pastDay = datetime.today() - timedelta(1)
@@ -942,7 +920,8 @@ class BaseballBot(discord.Client):
 
 											# Create the schedule embed
 											scheduleEmbed = discord.Embed()
-											scheduleEmbed.title = '**' + teamSelected['name'] + '**\'s games for the next week'
+											scheduleEmbed.title = '**' + teamSelected[
+												'name'] + '**\'s games for the next week'
 											scheduleEmbed.type = 'rich'
 											# testEmbed.colour =
 											scheduleEmbed.color = discord.Color.dark_blue()
@@ -994,7 +973,8 @@ class BaseballBot(discord.Client):
 													prev_game = pastGames[len(pastGames) - 1]
 
 													# Game is still scheduled
-													if prev_game['status'] == 'Scheduled' or prev_game['status'] == 'Pre-Game':
+													if prev_game['status'] == 'Scheduled' or prev_game[
+														'status'] == 'Pre-Game':
 														# Add the game to the list
 														nextGames.insert(0, queriedSchedule[0])
 
@@ -1002,7 +982,8 @@ class BaseballBot(discord.Client):
 											else:
 												print('DEBUG: statsapi.schedule(date=' + targetDateTime.strftime(
 													'%Y-%m-%d') + ',team=' +
-													  str(team=int(teamSelected['id'])) + ')) returned more than 2 games')
+													  str(team=int(
+														  teamSelected['id'])) + ')) returned more than 2 games')
 
 											# Add each game from the nextGames list to the embed
 											for games in nextGames:
@@ -1018,11 +999,14 @@ class BaseballBot(discord.Client):
 													awayTeamShort = 'N/A'
 												print('DEBUG: game_datetime' + str(games['game_datetime']))
 
-												gameTimeLocal = self.commonFunctions.get_Local_Time(games['game_datetime'])
+												gameTimeLocal = self.commonFunctions.get_Local_Time(
+													games['game_datetime'])
 												print('DEBUG: localtime' + str(gameTimeLocal))
 												scheduleEmbed.add_field(
-													name=gameTimeLocal.strftime('%m/%d/%Y') + ' @ ' + gameTimeLocal.strftime(
-														'%-I:%M%p') + ' EST', value=homeTeamShort + ' vs ' + awayTeamShort,
+													name=gameTimeLocal.strftime(
+														'%m/%d/%Y') + ' @ ' + gameTimeLocal.strftime(
+														'%-I:%M%p') + ' EST',
+													value=homeTeamShort + ' vs ' + awayTeamShort,
 													inline=False)
 
 											await message.channel.send(embed=scheduleEmbed)
@@ -1031,7 +1015,8 @@ class BaseballBot(discord.Client):
 											# For now assume the target date is today
 
 											# Get the schedule for the selected date
-											queriedSchedule = statsapi.schedule(date=targetDateTime.strftime('%Y-%m-%d'))
+											queriedSchedule = statsapi.schedule(
+												date=targetDateTime.strftime('%Y-%m-%d'))
 
 											scheduledGamesList = []
 											inProgressGamesList = []
@@ -1048,8 +1033,9 @@ class BaseballBot(discord.Client):
 														scheduledGamesList.insert(0, queriedSchedule[index])
 													elif queriedSchedule[index]['status'] == 'In Progress':
 														inProgressGamesList.insert(0, queriedSchedule[index])
-													elif queriedSchedule[index]['status'] == 'Final' or queriedSchedule[index][
-														'status'] == 'Game Over':
+													elif queriedSchedule[index]['status'] == 'Final' or \
+															queriedSchedule[index][
+																'status'] == 'Game Over':
 														finalGameList.insert(0, queriedSchedule[index])
 
 											# A single game was returned
@@ -1090,10 +1076,13 @@ class BaseballBot(discord.Client):
 													awayTeamShort = awayTeam[0]['fileCode'].upper()
 												else:
 													awayTeamShort = 'N/A'
-												gameTimeLocal = self.commonFunctions.get_Local_Time(games['game_datetime'])
+												gameTimeLocal = self.commonFunctions.get_Local_Time(
+													games['game_datetime'])
 												scheduledEmbed.add_field(
-													name=gameTimeLocal.strftime('%m/%d/%Y') + ' @ ' + gameTimeLocal.strftime(
-														'%I:%M%p' + ' ET'), value=homeTeamShort + ' vs ' + awayTeamShort,
+													name=gameTimeLocal.strftime(
+														'%m/%d/%Y') + ' @ ' + gameTimeLocal.strftime(
+														'%I:%M%p' + ' ET'),
+													value=homeTeamShort + ' vs ' + awayTeamShort,
 													inline=False)
 
 											# Create the live embed
@@ -1126,17 +1115,20 @@ class BaseballBot(discord.Client):
 												elif awayScore > homeScore:
 													awayScoreString = '**' + awayScoreString + '**'
 
-												nameString = '**' + games['home_name'] + '** vs **' + games['away_name'] + '**'
+												nameString = '**' + games['home_name'] + '** vs **' + games[
+													'away_name'] + '**'
 												# Add the scores
 												valueString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + '\n'
 												valueString = valueString + games['inning_state'] + ' ' + str(
 													games['current_inning'])
 
-												inProgressEmbed.add_field(name=nameString, value=valueString, inline=False)
+												inProgressEmbed.add_field(name=nameString, value=valueString,
+																		  inline=False)
 
 											# Create the final embed
 											finalEmbed = discord.Embed()
-											finalEmbed.title = '**Final Games on ' + targetDateTime.strftime('%Y-%m-%d') + '**'
+											finalEmbed.title = '**Final Games on ' + targetDateTime.strftime(
+												'%Y-%m-%d') + '**'
 											finalEmbed.type = 'rich'
 											# testEmbed.colour =
 											finalEmbed.color = discord.Color.dark_blue()
@@ -1163,7 +1155,8 @@ class BaseballBot(discord.Client):
 												elif awayScore > homeScore:
 													awayScoreString = '**' + awayScoreString + '**'
 
-												nameString = '**' + games['home_name'] + '** vs **' + games['away_name'] + '**'
+												nameString = '**' + games['home_name'] + '** vs **' + games[
+													'away_name'] + '**'
 												# Add the scores
 												valueString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + ' **F**'
 
@@ -1226,7 +1219,8 @@ class BaseballBot(discord.Client):
 
 								elif 'LISTEN' in messageArray[1].upper():
 									try:
-										saved_guild_data = await self.refresh_channel_names(message.guild, saved_guild_data)
+										saved_guild_data = await self.refresh_channel_names(message.guild,
+																							saved_guild_data)
 										newChannelName = messageArray[2]
 										newChannel = None
 										# get the channel id
@@ -1238,7 +1232,8 @@ class BaseballBot(discord.Client):
 										if newChannel is not None:
 											# Check that it doesn't already exist
 											if IdExists(newChannel.id, saved_guild_data['subscribedChannels']):
-												await message.channel.send('I\'m already listening to ' + newChannelName)
+												await message.channel.send(
+													'I\'m already listening to ' + newChannelName)
 											else:
 												saved_guild_data['subscribedChannels'].append({
 													'id': str(newChannel.id),
@@ -1247,14 +1242,16 @@ class BaseballBot(discord.Client):
 																	 saved_guild_data)
 												await message.channel.send('I will now listen to ' + newChannelName)
 										else:
-											await message.channel.send('Sorry I couldn\'t find the channel ' + newChannelName)
+											await message.channel.send(
+												'Sorry I couldn\'t find the channel ' + newChannelName)
 									except Exception as e:
 										print('DEBUG: Exception in LISTEN. Input was %s' % message.content)
 										print('DEBUG: Exception was %s' % e)
 
 								elif 'IGNORE' in messageArray[1].upper():
 									try:
-										saved_guild_data = await self.refresh_channel_names(message.guild, saved_guild_data)
+										saved_guild_data = await self.refresh_channel_names(message.guild,
+																							saved_guild_data)
 										channelToRemoveName = messageArray[2]
 										remChannel = None
 										# get the channel id
@@ -1269,7 +1266,8 @@ class BaseballBot(discord.Client):
 												# Iterate through the objects in the JSON and pop (remove)
 												# the obj once we find it.
 												for i in range(len(saved_guild_data['subscribedChannels'])):
-													if saved_guild_data['subscribedChannels'][i]["id"] == str(remChannel.id):
+													if saved_guild_data['subscribedChannels'][i]["id"] == str(
+															remChannel.id):
 														saved_guild_data['subscribedChannels'].pop(i)
 														break
 												self.write_data_file(self.dataFilePath + str(message.guild.id),
@@ -1277,7 +1275,8 @@ class BaseballBot(discord.Client):
 												await message.channel.send(
 													'I will not listen to ' + channelToRemoveName + ' anymore')
 											else:
-												await message.channel.send('I\'m not listening to ' + channelToRemoveName)
+												await message.channel.send(
+													'I\'m not listening to ' + channelToRemoveName)
 
 										else:
 											await message.channel.send(
@@ -1288,15 +1287,17 @@ class BaseballBot(discord.Client):
 
 								elif 'LISTCHANNELS' in messageArray[1].upper():
 									try:
-										saved_guild_data = await self.refresh_channel_names(message.guild, saved_guild_data)
+										saved_guild_data = await self.refresh_channel_names(message.guild,
+																							saved_guild_data)
 										subbedEmbed = discord.Embed()
 										# subbedEmbed.title = 'Subscribed Channels'
 										subbedEmbed.type = 'rich'
 										subbedEmbed.color = discord.Color.dark_blue()
 										subbed_channel_string = ""
 										for index, channel in enumerate(saved_guild_data['subscribedChannels']):
-											subbed_channel_string = subbed_channel_string + str(index + 1) + '. ' + channel[
-												'name'] + '\n'
+											subbed_channel_string = subbed_channel_string + str(index + 1) + '. ' + \
+																	channel[
+																		'name'] + '\n'
 										# subbedEmbed.add_field(name=str(index + 1), value=channel['name'], inline=False)
 
 										subbedEmbed.add_field(name='Subscribed Channels', value=subbed_channel_string,
@@ -1502,7 +1503,8 @@ class BaseballBot(discord.Client):
 										'Sorry I don\'t understand, try saying \'BaseBot HELP\' for a list of available commands.')
 							# Bot was called without enough arguments
 							elif messageArray[0].upper() == 'BASEBOT' and len(messageArray) == 1:
-								await message.channel.send('I like it when you say my name, but I need more instructions.')
+								await message.channel.send(
+									'I like it when you say my name, but I need more instructions.')
 								return
 
 					else:
@@ -1563,7 +1565,6 @@ class BaseballBot(discord.Client):
 						await self.refresh_datafiles()
 		except Exception as e:
 			print('DEBUG: Error in on_message. Input was %s' % message.content)
-
 
 
 def IdExists(channel_id, channel_list):
