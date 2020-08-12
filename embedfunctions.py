@@ -370,16 +370,14 @@ class EmbedFunctions:
 						allPlaysEmbed.add_field(name=str(scoringPlays.index(plays) + 1),
 												value=plays['result']['description'], inline=False)
 					await message.channel.send(embed=allPlaysEmbed, tts=False)
+					return
 				else:
 					return
+			return
 		else:
 			# Send the message
 			await message.channel.send(embed=scoreEmbed, tts=False)
 			return
-
-		# Send the message
-		await message.channel.send(embed=scoreEmbed, tts=False)
-		return
 
 	async def generic_Game_Embed(self, game, message):
 		# If for some reason we get a list, take the first object
