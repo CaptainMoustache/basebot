@@ -17,6 +17,7 @@ import threading
 import sys
 import portalocker
 import logging
+import dateparser
 
 
 class BaseballBot(discord.Client):
@@ -486,17 +487,33 @@ class BaseballBot(discord.Client):
 											' WHIP: %s' % (playerGenInfo.name_display_first_last, seasonPitchingInfo.team_abbrev[0], statYear, seasonPitchingInfo.era[0], seasonPitchingInfo.w[0], seasonPitchingInfo.l[0], seasonPitchingInfo.gs[0], seasonPitchingInfo.whip[0]))
 											'''
 											return
-									except:
+									except Exception as e:
 										print('DEBUG: Exception in PLAYER. Input was %s' % message.content)
 
 								elif 'SCORE' in messageArray[1].upper():
 									try:
-										# Set the target day
-										targetDateTime = datetime.now()
 
-										if (len(messageArray) < 3):
-											await message.channel.send("I need a team to check the score for")
+										# If no team was provided, exit the call
+										if len(messageArray) < 3:
+											# TODO return all current live games
+											await message.channel.send("I need a team to check the score for, try again")
 											return
+
+										# Check if there was a date provided, if not use the current date
+										if len(messageArray) > 3:
+											targetDateTime = dateparser.parse(messageArray[3])
+											if targetDateTime is not None:
+												await message.channel.send('DEBUG: Getting scores for %s'
+																   % targetDateTime.strftime('%Y%m%d'))
+											else:
+												await message.channel.send("Sorry, I could not figure out the date "
+																	   "\"%s\"" % messageArray[3])
+												return
+										else:
+											# Set the target day
+											targetDateTime = datetime.now()
+
+
 
 										# Get the team
 										teamSelected = await self.commonFunctions.get_team(messageArray[2], message)
@@ -722,8 +739,9 @@ class BaseballBot(discord.Client):
 														await self.embedFunctions.generic_Game_Embed(game,
 																									 message)
 
-									except:
+									except Exception as e:
 										print('DEBUG: Exception in SCORE. Input was %s' % message.content)
+										print('DEBUG: Exception was %s' % e)
 
 								elif 'HIGHLIGHTS' in messageArray[1].upper():
 									try:
@@ -810,8 +828,9 @@ class BaseballBot(discord.Client):
 										else:
 											await message.channel.send(
 												'Sorry, I couldn\'t find any highlights for the past week')
-									except:
+									except Exception as e:
 										print('DEBUG: Exception in HIGHLIGHTS. Input was %s' % message.content)
+										print('DEBUG: Exception was %s' % e)
 
 								elif 'ROSTER' in messageArray[1].upper():
 									try:
@@ -825,8 +844,9 @@ class BaseballBot(discord.Client):
 										rosterEmbed.add_field(name='Current Roster for the **' + teamSelected['name'] + '**',
 															  value='```' + statsapi.roster(int(teamSelected['id'])) + '```')
 										await message.channel.send(embed=rosterEmbed)
-									except:
+									except Exception as e:
 										print('DEBUG: Exception in ROSTER. Input was %s' % message.content)
+										print('DEBUG: Exception was %s' % e)
 
 								elif 'STANDINGS' in messageArray[1].upper():
 									try:
@@ -883,8 +903,9 @@ class BaseballBot(discord.Client):
 																 inline=False)
 
 										await message.channel.send(embed=standingsEmbed)
-									except:
+									except Exception as e:
 										print('DEBUG: Exception in STANDINGS. Input was %s' % message.content)
+										print('DEBUG: Exception was %s' % e)
 
 								elif 'SCHEDULE' in messageArray[1].upper():
 									try:
@@ -1037,7 +1058,7 @@ class BaseballBot(discord.Client):
 												if queriedSchedule['status'] == 'Scheduled' or queriedSchedule[
 													'status'] == 'Pre-Game':
 													scheduledGamesList.insert(0, queriedSchedule)
-												elif queriedSchedul['status'] == 'In Progress':
+												elif queriedSchedule['status'] == 'In Progress':
 													inProgressGamesList.insert(0, queriedSchedule)
 												elif queriedSchedule['status'] == 'Final' or queriedSchedule[
 													'status'] == 'Game Over':
@@ -1072,7 +1093,7 @@ class BaseballBot(discord.Client):
 												gameTimeLocal = self.commonFunctions.get_Local_Time(games['game_datetime'])
 												scheduledEmbed.add_field(
 													name=gameTimeLocal.strftime('%m/%d/%Y') + ' @ ' + gameTimeLocal.strftime(
-														'%-I:%M%p') + ' EST', value=homeTeamShort + ' vs ' + awayTeamShort,
+														'%I:%M%p' + ' ET'), value=homeTeamShort + ' vs ' + awayTeamShort,
 													inline=False)
 
 											# Create the live embed
@@ -1154,8 +1175,9 @@ class BaseballBot(discord.Client):
 												await message.channel.send(embed=inProgressEmbed)
 											if len(finalGameList) > 0:
 												await message.channel.send(embed=finalEmbed)
-									except:
+									except Exception as e:
 										print('DEBUG: Exception in SCHEDULE. Input was %s' % message.content)
+										print('DEBUG: Exception was %s' % e)
 
 								elif 'GIBBY' in messageArray[1].upper():
 									# Create the embed object
@@ -1226,8 +1248,9 @@ class BaseballBot(discord.Client):
 												await message.channel.send('I will now listen to ' + newChannelName)
 										else:
 											await message.channel.send('Sorry I couldn\'t find the channel ' + newChannelName)
-									except:
+									except Exception as e:
 										print('DEBUG: Exception in LISTEN. Input was %s' % message.content)
+										print('DEBUG: Exception was %s' % e)
 
 								elif 'IGNORE' in messageArray[1].upper():
 									try:
@@ -1259,8 +1282,9 @@ class BaseballBot(discord.Client):
 										else:
 											await message.channel.send(
 												'Sorry I couldn\'t find the channel ' + channelToRemoveName)
-									except:
+									except Exception as e:
 										print('DEBUG: Exception in IGNORE. Input was %s' % message.content)
+										print('DEBUG: Exception was %s' % e)
 
 								elif 'LISTCHANNELS' in messageArray[1].upper():
 									try:
@@ -1278,8 +1302,9 @@ class BaseballBot(discord.Client):
 										subbedEmbed.add_field(name='Subscribed Channels', value=subbed_channel_string,
 															  inline=False)
 										await message.channel.send(embed=subbedEmbed)
-									except:
+									except Exception as e:
 										print('DEBUG: Exception in LISTCHANNELS. Input was %s' % message.content)
+										print('DEBUG: Exception was %s' % e)
 
 								elif 'NOTES' in messageArray[1].upper():
 									# print('DEBUG: Capturing Notes')
@@ -1310,119 +1335,123 @@ class BaseballBot(discord.Client):
 								#	print('DEBUG: teamSelected = %s' % teamSelected)
 
 								elif 'PLAYOFFS' in messageArray[1].upper():
-									# required parameter but it doesn't seem to matter which league is specified
-									parameters = {'leagueId': '103'}
-									seriesStandingsDict = statsapi.get(endpoint='schedule_postseason_series',
-																	   params=parameters)
-									# print('DEBUG: seriesStandingsDict:')
-									# print(seriesStandingsDict)
+									try:
+										# required parameter but it doesn't seem to matter which league is specified
+										parameters = {'leagueId': '103'}
+										seriesStandingsDict = statsapi.get(endpoint='schedule_postseason_series',
+																		   params=parameters)
+										# print('DEBUG: seriesStandingsDict:')
+										# print(seriesStandingsDict)
 
-									'''
-									[{'name': 'regularSeason', 'description': 'Regular Season Standings'}, {'name': 'wildCard', 'description': 'Wild card standings'}, {'name': 'divisionLeaders', 'description': 'Division Leader standings'}, {'name': 'wildCardWithLeaders', 'description': 'Wild card standings with Division Leaders'}, {'name': 'firstHalf', 'description': 'First half standings.  Only valid for leagues with a split season.'}, {'name': 'secondHalf', 'description': 'Second half standings. Only valid for leagues with a split season.'}, {'name': 'springTraining', 'description': 'Spring Training Standings'}, {'name': 'postseason', 'description': 'Postseason Standings'}, {'name': 'byDivision', 'description': 'Standings by Division'}, {'name': 'byConference', 'description': 'Standings by Conference'}, {'name': 'byLeague', 'description': 'Standings by League'}, {'name': 'byOrganization', 'description': 'Standing by Organization'}]
-	
-									'''
-									# This throws an 500 error
-									# parameters = {'leagueId':'103', 'standingsTypes':'postSeason'}
-									# playoffStandings = statsapi.get(endpoint='standings', params=parameters)
-									# print(playoffStandings)
+										'''
+										[{'name': 'regularSeason', 'description': 'Regular Season Standings'}, {'name': 'wildCard', 'description': 'Wild card standings'}, {'name': 'divisionLeaders', 'description': 'Division Leader standings'}, {'name': 'wildCardWithLeaders', 'description': 'Wild card standings with Division Leaders'}, {'name': 'firstHalf', 'description': 'First half standings.  Only valid for leagues with a split season.'}, {'name': 'secondHalf', 'description': 'Second half standings. Only valid for leagues with a split season.'}, {'name': 'springTraining', 'description': 'Spring Training Standings'}, {'name': 'postseason', 'description': 'Postseason Standings'}, {'name': 'byDivision', 'description': 'Standings by Division'}, {'name': 'byConference', 'description': 'Standings by Conference'}, {'name': 'byLeague', 'description': 'Standings by League'}, {'name': 'byOrganization', 'description': 'Standing by Organization'}]
+		
+										'''
+										# This throws an 500 error
+										# parameters = {'leagueId':'103', 'standingsTypes':'postSeason'}
+										# playoffStandings = statsapi.get(endpoint='standings', params=parameters)
+										# print(playoffStandings)
 
-									for seriesFound in seriesStandingsDict['series']:
-										# print('DEBUG: Series ID = %s' % seriesFound['series']['id'])
-										if seriesFound['series']['id'] == 'ALDS \'A\'':
-											aldsA = seriesFound
-										elif seriesFound['series']['id'] == 'ALDS \'B\'':
-											aldsB = seriesFound
-										elif seriesFound['series']['id'] == 'NLDS \'A\'':
-											nldsA = seriesFound
-										elif seriesFound['series']['id'] == 'NLDS \'B\'':
-											nldsB = seriesFound
-										elif seriesFound['series']['id'] == 'ALCS':
-											alcs = seriesFound
-										elif seriesFound['series']['id'] == 'NLCS':
-											nlcs = seriesFound
-										elif seriesFound['series']['id'] == 'WS':
-											worldSeries = seriesFound
-										elif seriesFound['series']['id'] == 'ALWC':
-											alwildCard = seriesFound
-										elif seriesFound['series']['id'] == 'NLWC':
-											nlwildCard = seriesFound
-									'''
-									#Series Lists
-									aldsA = seriesStandingsDict['series'][0]
-									#await self.embedFunctions.playoff_Series_Embed(aldsA, message)
-									nldsB = seriesStandingsDict['series'][1]
-									#await self.embedFunctions.playoff_Series_Embed(nsldB, message)
-									nldsA = seriesStandingsDict['series'][2]
-									#await self.embedFunctions.playoff_Series_Embed(nsldA, message)
-									aldsB = seriesStandingsDict['series'][3]
-									#await self.embedFunctions.playoff_Series_Embed(aldsB, message)
-									nlcs = seriesStandingsDict['series'][4]
-									#await self.embedFunctions.playoff_Series_Embed(nlcs, message)
-									alcs = seriesStandingsDict['series'][5]
-									#await self.embedFunctions.playoff_Series_Embed(alcs, message)
-									worldSeries = seriesStandingsDict['series'][6]
-									#await self.embedFunctions.playoff_Series_Embed(worldSeries, message)
-									alwildCard = seriesStandingsDict['series'][7]
-									#await self.embedFunctions.playoff_Series_Embed(alwildCard, message)
-									nlwildCard = seriesStandingsDict['series'][8]
-									#await self.embedFunctions.playoff_Series_Embed(nlwildCard, message)
-									'''
+										for seriesFound in seriesStandingsDict['series']:
+											# print('DEBUG: Series ID = %s' % seriesFound['series']['id'])
+											if seriesFound['series']['id'] == 'ALDS \'A\'':
+												aldsA = seriesFound
+											elif seriesFound['series']['id'] == 'ALDS \'B\'':
+												aldsB = seriesFound
+											elif seriesFound['series']['id'] == 'NLDS \'A\'':
+												nldsA = seriesFound
+											elif seriesFound['series']['id'] == 'NLDS \'B\'':
+												nldsB = seriesFound
+											elif seriesFound['series']['id'] == 'ALCS':
+												alcs = seriesFound
+											elif seriesFound['series']['id'] == 'NLCS':
+												nlcs = seriesFound
+											elif seriesFound['series']['id'] == 'WS':
+												worldSeries = seriesFound
+											elif seriesFound['series']['id'] == 'ALWC':
+												alwildCard = seriesFound
+											elif seriesFound['series']['id'] == 'NLWC':
+												nlwildCard = seriesFound
+										'''
+										#Series Lists
+										aldsA = seriesStandingsDict['series'][0]
+										#await self.embedFunctions.playoff_Series_Embed(aldsA, message)
+										nldsB = seriesStandingsDict['series'][1]
+										#await self.embedFunctions.playoff_Series_Embed(nsldB, message)
+										nldsA = seriesStandingsDict['series'][2]
+										#await self.embedFunctions.playoff_Series_Embed(nsldA, message)
+										aldsB = seriesStandingsDict['series'][3]
+										#await self.embedFunctions.playoff_Series_Embed(aldsB, message)
+										nlcs = seriesStandingsDict['series'][4]
+										#await self.embedFunctions.playoff_Series_Embed(nlcs, message)
+										alcs = seriesStandingsDict['series'][5]
+										#await self.embedFunctions.playoff_Series_Embed(alcs, message)
+										worldSeries = seriesStandingsDict['series'][6]
+										#await self.embedFunctions.playoff_Series_Embed(worldSeries, message)
+										alwildCard = seriesStandingsDict['series'][7]
+										#await self.embedFunctions.playoff_Series_Embed(alwildCard, message)
+										nlwildCard = seriesStandingsDict['series'][8]
+										#await self.embedFunctions.playoff_Series_Embed(nlwildCard, message)
+										'''
 
-									# Get the state of all AL series
-									alwildCardComplete = await self.commonFunctions.playoffSeriesOver(alwildCard)
-									aldsAComplete = await self.commonFunctions.playoffSeriesOver(aldsA)
-									aldsBComplete = await self.commonFunctions.playoffSeriesOver(aldsB)
-									alcsComplete = await self.commonFunctions.playoffSeriesOver(alcs)
+										# Get the state of all AL series
+										alwildCardComplete = await self.commonFunctions.playoffSeriesOver(alwildCard)
+										aldsAComplete = await self.commonFunctions.playoffSeriesOver(aldsA)
+										aldsBComplete = await self.commonFunctions.playoffSeriesOver(aldsB)
+										alcsComplete = await self.commonFunctions.playoffSeriesOver(alcs)
 
-									# Get the state of all NL series
-									nlwildCardComplete = await self.commonFunctions.playoffSeriesOver(nlwildCard)
-									nldsAComplete = await self.commonFunctions.playoffSeriesOver(nldsA)
-									nldsBComplete = await self.commonFunctions.playoffSeriesOver(nldsB)
-									nlcsComplete = await self.commonFunctions.playoffSeriesOver(nlcs)
+										# Get the state of all NL series
+										nlwildCardComplete = await self.commonFunctions.playoffSeriesOver(nlwildCard)
+										nldsAComplete = await self.commonFunctions.playoffSeriesOver(nldsA)
+										nldsBComplete = await self.commonFunctions.playoffSeriesOver(nldsB)
+										nlcsComplete = await self.commonFunctions.playoffSeriesOver(nlcs)
 
-									if alcsComplete and nlcsComplete:
-										await self.embedFunctions.playoff_Series_Embed(worldSeries, message)
-									else:
-										# If the division series are over, display the championship series
-										if aldsAComplete and aldsBComplete:
-											await self.embedFunctions.playoff_Series_Embed(alcs, message)
+										if alcsComplete and nlcsComplete:
+											await self.embedFunctions.playoff_Series_Embed(worldSeries, message)
 										else:
-											await self.embedFunctions.playoff_Series_Embed(aldsA, message)
-											await self.embedFunctions.playoff_Series_Embed(aldsB, message)
+											# If the division series are over, display the championship series
+											if aldsAComplete and aldsBComplete:
+												await self.embedFunctions.playoff_Series_Embed(alcs, message)
+											else:
+												await self.embedFunctions.playoff_Series_Embed(aldsA, message)
+												await self.embedFunctions.playoff_Series_Embed(aldsB, message)
 
-										# If the division series are over, display the championship series
-										if nldsAComplete and nldsBComplete:
-											await self.embedFunctions.playoff_Series_Embed(nlcs, message)
-										else:
-											await self.embedFunctions.playoff_Series_Embed(nldsA, message)
-											await self.embedFunctions.playoff_Series_Embed(nldsB, message)
+											# If the division series are over, display the championship series
+											if nldsAComplete and nldsBComplete:
+												await self.embedFunctions.playoff_Series_Embed(nlcs, message)
+											else:
+												await self.embedFunctions.playoff_Series_Embed(nldsA, message)
+												await self.embedFunctions.playoff_Series_Embed(nldsB, message)
 
-									# If the wild card game is over, don't display it
-									if not alwildCardComplete:
-										await self.embedFunctions.playoff_Series_Embed(alwildCard, message)
+										# If the wild card game is over, don't display it
+										if not alwildCardComplete:
+											await self.embedFunctions.playoff_Series_Embed(alwildCard, message)
 
-									# If the wild card game is over, don't display it
-									if not nlwildCardComplete:
-										await self.embedFunctions.playoff_Series_Embed(nlwildCard, message)
+										# If the wild card game is over, don't display it
+										if not nlwildCardComplete:
+											await self.embedFunctions.playoff_Series_Embed(nlwildCard, message)
 
-									# print(statsapi.get('standings',{'leagueId':'103','sportId':1,'hydrate':'hydrations','fields':'hydrations'}))
+										# print(statsapi.get('standings',{'leagueId':'103','sportId':1,'hydrate':'hydrations','fields':'hydrations'}))
 
-									# (leagueId='103', standingsTypes='byDivision', include_wildcard=False)
-									# playoffEmbed.add_field(name='Current Standings', value=playoffStandingsString)
-									# await message.channel.send(embed=playoffEmbed)
+										# (leagueId='103', standingsTypes='byDivision', include_wildcard=False)
+										# playoffEmbed.add_field(name='Current Standings', value=playoffStandingsString)
+										# await message.channel.send(embed=playoffEmbed)
 
-									'''
-									DEBUG: Getting meta response for standingsTypes
-									DEBUG: [{'name': 'regularSeason', 'description': 'Regular Season Standings'}, {'name': 'wildCard', 'description': 'Wild card standings'}, {'name': 'divisionLeaders', 'description': 'Division Leader standings'}, {'name': 'wildCardWithLeaders', 'description': 'Wild card standings with Division Leaders'}, {'name': 'firstHalf', 'description': 'First half standings.  Only valid for leagues with a split season.'}, {'name': 'secondHalf', 'description': 'Second half standings. Only valid for leagues with a split season.'}, {'name': 'springTraining', 'description': 'Spring Training Standings'}, {'name': 'postseason', 'description': 'Postseason Standings'}, {'name': 'byDivision', 'description': 'Standings by Division'}, {'name': 'byConference', 'description': 'Standings by Conference'}, {'name': 'byLeague', 'description': 'Standings by League'}, {'name': 'byOrganization', 'description': 'Standing by Organization'}]
-	
-									DEBUG: standings
-									DEBUG: %s Endpoint: standings
-									All path parameters: ['ver'].
-									Required path parameters (note: ver will be included by default): ['ver'].
-									All query parameters: ['leagueId', 'season', 'standingsTypes', 'date', 'hydrate', 'fields'].
-									Required query parameters: [['leagueId']].
-									The hydrate function is supported by this endpoint. Call the endpoint with {'hydrate':'hydrations'} in the parameters to return a list of available hydrations. For example, statsapi.get('schedule',{'sportId':1,'hydrate':'hydrations','fields':'hydrations'})
-									'''
+										'''
+										DEBUG: Getting meta response for standingsTypes
+										DEBUG: [{'name': 'regularSeason', 'description': 'Regular Season Standings'}, {'name': 'wildCard', 'description': 'Wild card standings'}, {'name': 'divisionLeaders', 'description': 'Division Leader standings'}, {'name': 'wildCardWithLeaders', 'description': 'Wild card standings with Division Leaders'}, {'name': 'firstHalf', 'description': 'First half standings.  Only valid for leagues with a split season.'}, {'name': 'secondHalf', 'description': 'Second half standings. Only valid for leagues with a split season.'}, {'name': 'springTraining', 'description': 'Spring Training Standings'}, {'name': 'postseason', 'description': 'Postseason Standings'}, {'name': 'byDivision', 'description': 'Standings by Division'}, {'name': 'byConference', 'description': 'Standings by Conference'}, {'name': 'byLeague', 'description': 'Standings by League'}, {'name': 'byOrganization', 'description': 'Standing by Organization'}]
+		
+										DEBUG: standings
+										DEBUG: %s Endpoint: standings
+										All path parameters: ['ver'].
+										Required path parameters (note: ver will be included by default): ['ver'].
+										All query parameters: ['leagueId', 'season', 'standingsTypes', 'date', 'hydrate', 'fields'].
+										Required query parameters: [['leagueId']].
+										The hydrate function is supported by this endpoint. Call the endpoint with {'hydrate':'hydrations'} in the parameters to return a list of available hydrations. For example, statsapi.get('schedule',{'sportId':1,'hydrate':'hydrations','fields':'hydrations'})
+										'''
+									except Exception as e:
+										print('DEBUG: Exception in PLAYOFFS. Input was %s' % message.content)
+										print('DEBUG: Exception was %s' % e)
 
 
 								elif 'HOCKEY' in messageArray[1].upper():
@@ -1451,7 +1480,7 @@ class BaseballBot(discord.Client):
 											gameTimeLocal = self.commonFunctions.get_Local_Time(hockeyGame['gameDate'])
 											nameString = hockeyGame['teams']['away']['team']['name'] + ' vs ' + \
 														 hockeyGame['teams']['home']['team']['name']
-											valueString = gameTimeLocal.strftime('%-I:%M%p') + ' EST' + ' @ ' + \
+											valueString = gameTimeLocal.strftime('%I:%M%p' + ' ET') + ' @ ' + \
 														  hockeyGame['venue']['name']
 											hockeyEmbed.add_field(name=nameString, value=valueString)
 
@@ -1532,7 +1561,7 @@ class BaseballBot(discord.Client):
 						})
 						self.write_data_file(self.dataFilePath + str(message.guild.id), jsonData)
 						await self.refresh_datafiles()
-		except:
+		except Exception as e:
 			print('DEBUG: Error in on_message. Input was %s' % message.content)
 
 
