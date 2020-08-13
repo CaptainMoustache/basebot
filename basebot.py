@@ -579,8 +579,34 @@ class BaseballBot(discord.Client):
 													'status'] == 'Scheduled':
 													queriedSchedule[0] = prev_game
 
+											# More than 2 games returned a 2020 special!
+											if len(queriedSchedule) > 2:
+
+												# Loop through and spit out each game
+												for game in queriedSchedule:
+													# Game is over
+													if any(game_status in game['status'] for game_status in
+														   final_status_list):
+														await self.embedFunctions.final_Game_Embed(game, message)
+
+													# Game is scheduled
+													elif any(game_status in game['status'] for game_status in
+															 scheduled_status_list):
+														await self.embedFunctions.scheduled_Game_Embed(game,
+																									   message)
+
+													# Game is live
+													elif any(game_status in game['status'] for game_status in
+															 live_status_list):
+														await self.embedFunctions.live_Game_Embed(game, message)
+
+													# Game is other status
+													elif any(game_status in game['status'] for game_status in
+															 other_status_list):
+														await self.embedFunctions.generic_Game_Embed(game, message)
+
 											# There is a doubleheader
-											if len(queriedSchedule) == 2:
+											elif len(queriedSchedule) == 2:
 
 												'''GAME 1'''
 
@@ -686,26 +712,6 @@ class BaseballBot(discord.Client):
 														await self.embedFunctions.scheduled_Game_Embed(nextGames[0],
 																									   message)
 
-											# More than 2 games returned a 2020 special!
-											elif len(queriedSchedule) > 2:
-
-												# Loop through and spit out each game
-												for game in queriedSchedule:
-													# Game is over
-													if any(game_status in game['status'] for game_status in final_status_list):
-														await self.embedFunctions.final_Game_Embed(game, message)
-
-													# Game is scheduled
-													elif any(game_status in game['status'] for game_status in scheduled_status_list):
-														await self.embedFunctions.scheduled_Game_Embed(game, message)
-
-													# Game is live
-													elif any(game_status in game['status'] for game_status in live_status_list):
-														await self.embedFunctions.live_Game_Embed(game, message)
-
-													# Game is other status
-													elif any(game_status in game['status'] for game_status in other_status_list):
-														await self.embedFunctions.generic_Game_Embed(game, message)
 
 									except Exception as e:
 										print('DEBUG: Exception in SCORE. Input was %s' % message.content)
