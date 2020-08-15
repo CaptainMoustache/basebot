@@ -932,8 +932,6 @@ class BaseballBot(discord.Client):
 											# testEmbed.colour =
 											scheduleEmbed.color = discord.Color.dark_blue()
 
-											print('DEBUG: Length of queriedSchedule = ' + str(len(queriedSchedule)))
-
 											# scoreEmbed.add_field(name='NAME', value='VALUE', inline=False)
 											# scheduleEmbed.add_field(name=gameTimeLocal.strftime('%m/%d/%Y'), value= + ' EST', inline=False)
 
@@ -1066,7 +1064,7 @@ class BaseballBot(discord.Client):
 											# Create the schedule embed
 											scheduledEmbed = discord.Embed()
 											scheduledEmbed.title = '**Scheduled Games on ' + targetDateTime.strftime(
-												'%Y-%m-%d') + '**'
+												'%Y-%-m-%-d') + '**'
 											scheduledEmbed.type = 'rich'
 											# testEmbed.colour =
 											scheduledEmbed.color = discord.Color.dark_blue()
@@ -1087,14 +1085,14 @@ class BaseballBot(discord.Client):
 												scheduledEmbed.add_field(
 													name=gameTimeLocal.strftime(
 														'%m/%d/%Y') + ' @ ' + gameTimeLocal.strftime(
-														'%I:%M%p' + ' ET'),
+														'%-I:%M%p' + ' ET'),
 													value=homeTeamShort + ' vs ' + awayTeamShort,
 													inline=False)
 
 											# Create the live embed
 											inProgressEmbed = discord.Embed()
 											inProgressEmbed.title = '**Live Games on ' + targetDateTime.strftime(
-												'%Y-%m-%d') + '**'
+												'%Y-%-m-%-d') + '**'
 											inProgressEmbed.type = 'rich'
 											# testEmbed.colour =
 											inProgressEmbed.color = discord.Color.dark_blue()
@@ -1134,7 +1132,7 @@ class BaseballBot(discord.Client):
 											# Create the final embed
 											finalEmbed = discord.Embed()
 											finalEmbed.title = '**Final Games on ' + targetDateTime.strftime(
-												'%Y-%m-%d') + '**'
+												'%Y-%-m-%-d') + '**'
 											finalEmbed.type = 'rich'
 											# testEmbed.colour =
 											finalEmbed.color = discord.Color.dark_blue()
