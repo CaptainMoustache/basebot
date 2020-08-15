@@ -270,6 +270,22 @@ class BaseballBot(discord.Client):
 										playersFoundCount = playerSearchJson['search_player_all']['queryResults'][
 											'totalSize']
 
+										# If no players are returned, try again looking for inactive players
+										if playersFoundCount == "0":
+											# build the playerSearchURL
+											inactivePlayerSearchURL = 'http://lookup-service-prod.mlb.com/json/named.search_player_all.bam?sport_code=\'mlb\'&active_sw=\'N\'&name_part=\'' + name_to_search + '\''
+
+											# Send the GET
+											playerSearch = await self.commonFunctions.sendGetRequest(
+												inactivePlayerSearchURL)
+
+											# parse the json response
+											playerSearchJson = json.loads(playerSearch.text)
+
+											# get the number of players found
+											playersFoundCount = playerSearchJson['search_player_all']['queryResults'][
+												'totalSize']
+
 										# Create a list of PlayerSearchInfo objects
 										playerSearchResultsList = []
 
