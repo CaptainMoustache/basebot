@@ -718,11 +718,18 @@ class BaseballBot(discord.Client):
 										#							  team=teamSelected['id'])
 
 										# Get the last game
-										# lastGameInfo = statsapi.last_game(teamSelected['id'])
+										lastGameInfo = statsapi.last_game(teamSelected['id'])
 										# lastGameInfo = pastGames[0]
 
+										last_game_pk = statsapi.schedule(game_id=lastGameInfo)
+
+										last_game_datetime = datetime.strptime(last_game_pk[0]['game_date'], "%Y-%m-%d")
+
+
 										# Get the highlights for the last game
-										highlights = statsapi.game_highlights(statsapi.last_game(teamSelected['id']))
+										highlights = statsapi.game_highlights(lastGameInfo)
+										highlights_list = statsapi.game_highlight_data(lastGameInfo)
+										print(highlights_list)
 
 
 										# If no highlights are returned then check the previous dates for a game
@@ -758,12 +765,10 @@ class BaseballBot(discord.Client):
 											for listItem in highlightsList:
 												splitHighlightsList.append(listItem.split('\n'))
 
-											# discordFormattedString = '>>> Here are the latest highlights from the **' +  teamSelected['name'] + '** on ' + pastDay.strftime('%m/%d/%Y') + '\n'
-
 											# Create the embed object
 											highlightEmbed = discord.Embed()
 											highlightEmbed.title = '**' + teamSelected[
-												'name'] + '** highlights from ' + pastDay.strftime('%m/%d/%Y')
+												'name'] + '** highlights from ' + last_game_datetime.strftime('%A %-m/%-d/%Y')
 											highlightEmbed.type = 'rich'
 											# testEmbed.colour =
 											highlightEmbed.color = discord.Color.dark_blue()
