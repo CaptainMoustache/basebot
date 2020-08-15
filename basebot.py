@@ -711,18 +711,19 @@ class BaseballBot(discord.Client):
 
 										# Get a list of games a week in the past
 										# Remove the lookback by one day for now
-										pastDay = datetime.today()
-										pastWeek = datetime.today() - timedelta(7)
-										pastGames = statsapi.schedule(start_date=pastWeek.strftime('%m/%d/%Y'),
-																	  end_date=pastDay.strftime('%m/%d/%Y'),
-																	  team=teamSelected['id'])
+										# pastDay = datetime.today()
+										# pastWeek = datetime.today() - timedelta(7)
+										# pastGames = statsapi.schedule(start_date=pastWeek.strftime('%m/%d/%Y'),
+										#							  end_date=pastDay.strftime('%m/%d/%Y'),
+										#							  team=teamSelected['id'])
 
 										# Get the last game
 										# lastGameInfo = statsapi.last_game(teamSelected['id'])
-										lastGameInfo = pastGames[0]
+										# lastGameInfo = pastGames[0]
 
 										# Get the highlights for the last game
-										highlights = statsapi.game_highlights(lastGameInfo['game_id'])
+										highlights = statsapi.game_highlights(statsapi.last_game(teamSelected['id']))
+
 
 										# If no highlights are returned then check the previous dates for a game
 										if len(highlights) == 0:
