@@ -79,7 +79,7 @@ class CommonFunctions:
 			
 			#Prune all messages by bots and the original message
 			for messages in rawMessageList:
-				if messages.author.bot == False and messages != message:
+				if messages.author.bot is False and messages.content != message.content:
 					messageList.append(messages)
 			
 			#if the number hasn't been selected yet
@@ -214,13 +214,13 @@ class CommonFunctions:
 	
 	async def sendGetRequest(self, url):
 		try:
-			#print('DEBUG: Sending HTTP request...')				
-			#build the headers
+			# print('DEBUG: Sending HTTP request...')
+			# build the headers
 			requestsHeaders = {'Content-Type': 'application/json'}
 			#Send the get request
 			response = requests.get(url, requestsHeaders)   
-			#print('DEBUG: Response HTTP Status Code: %s' % response.status_code)
-			#print('DEBUG: Response HTTP Response Body: %s' % response.content)
+			# print('DEBUG: Response HTTP Status Code: %s' % response.status_code)
+			# print('DEBUG: Response HTTP Response Body: %s' % response.content)
 			return response
 		except requests.exceptions.RequestException:
 			print('DEBUG: HTTP Request failed')
