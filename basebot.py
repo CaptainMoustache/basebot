@@ -1475,13 +1475,9 @@ class BaseballBot(discord.Client):
 									# Parse the JSON
 									scheduleJson = json.loads(scheduleResponse.text)
 
-									print('DEBUG: totalGames = %s' % scheduleJson['totalGames'])
-
 									if scheduleJson['totalGames'] != 0:
 
 										games = scheduleJson['dates'][0]['games']
-
-										print('DEBUG: I found %s games' % str(len(games)))
 
 										for hockeyGame in games:
 											gameTimeLocal = self.commonFunctions.get_Local_Time(hockeyGame['gameDate'])
