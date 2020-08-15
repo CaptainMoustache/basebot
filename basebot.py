@@ -210,11 +210,10 @@ class BaseballBot(discord.Client):
 												# Parse year if supplied after a name or names
 												if messageArray[len(messageArray) - 1].isdigit() and len(
 														messageArray) > 3:
-													# print ('DEBUG: Year detected')
 													# The last part of the message is a year
 													if int(messageArray[len(messageArray) - 1]) > now.year:
 														await message.channel.send(
-															'I wish I could predict the future, for now try a year before %s' % now.year)
+															'I wish I could predict the future, for now try sticking to %s and earlier' % now.year, tts=False)
 														return
 													elif int(messageArray[len(messageArray) - 1]) < 1900:
 														await message.channel.send(
@@ -223,42 +222,47 @@ class BaseballBot(discord.Client):
 													else:
 														statYear = messageArray[len(messageArray) - 1]
 
+												name_to_search = ""
+												display_name_to_search = ""
+
 												# Get the name and ignore the year
 												if messageArray[len(messageArray) - 1].isdigit():
-													# name is one part
-													if len(messageArray) - 1 == 3:
-														nameToSearch = messageArray[2] + '%25'
-														displayNameToSearch = messageArray[2]
-													# name is two parts
-													elif len(messageArray) - 1 == 4:
-														nameToSearch = messageArray[2] + ' ' + messageArray[3]
-														displayNameToSearch = nameToSearch
-													else:
-														print('DEBUG: I couldn\'t figure the name out with the year :(')
+													# Get all the name parts between player and the year
+
+													for index in range(2, len(messageArray) - 1):
+														name_to_search = name_to_search + messageArray[index] + ' '
+														display_name_to_search = display_name_to_search + messageArray[
+															index] + ' '
+													# Remove trailing whitespace, otherwise the MLB api returns nothing
+													name_to_search = name_to_search.strip()
+													display_name_to_search = display_name_to_search.strip()
+													# Append %25 to the end of the search term
+													name_to_search = name_to_search + '%25'
+
 												# Get the name, no year supplied
 												else:
-													# name is one part
-													if len(messageArray) == 3:
-														nameToSearch = messageArray[2] + '%25'
-														displayNameToSearch = messageArray[2]
-													# name is two parts
-													elif len(messageArray) == 4:
-														nameToSearch = messageArray[2] + ' ' + messageArray[3]
-														displayNameToSearch = nameToSearch
-													else:
-														print(
-															'DEBUG: I couldn\'t figure the name out without the year :(')
+													for index in range(2, len(messageArray)):
+														name_to_search = name_to_search + messageArray[index] + ' '
+														display_name_to_search = display_name_to_search + messageArray[
+															index] + ' '
+													# Remove trailing whitespace, otherwise the MLB api returns nothing
+													name_to_search = name_to_search.strip()
+													display_name_to_search = display_name_to_search.strip()
+													# Append %25 to the end of the search term
+													name_to_search = name_to_search + '%25'
+
 										# Check that we have a valid name to search
-										if nameToSearch == None or nameToSearch == '':
+										if name_to_search is None or name_to_search == '':
 											await message.channel.send(
 												'I didn\'t get a name to search. Something went wrong, Sorry')
 											return
 
 										# build the playerSearchURL
-										activePlayerSearchURL = 'http://lookup-service-prod.mlb.com/json/named.search_player_all.bam?sport_code=\'mlb\'&active_sw=\'Y\'&name_part=\'' + nameToSearch + '\''
+										activePlayerSearchURL = 'http://lookup-service-prod.mlb.com/json/named.search_player_all.bam?sport_code=\'mlb\'&active_sw=\'Y\'&name_part=\'' + name_to_search + '\''
 
 										# Send the GET
 										playerSearch = await self.commonFunctions.sendGetRequest(activePlayerSearchURL)
+
 										# parse the json response
 										playerSearchJson = json.loads(playerSearch.text)
 
@@ -280,7 +284,7 @@ class BaseballBot(discord.Client):
 											# Make sure the list isn't too big
 											if len(playerSearchResultsList) > 50:
 												await message.channel.send(
-													'I found over 50 matches for ' + displayNameToSearch + '. \n Try being a little more specific')
+													'I found over 50 matches for ' + display_name_to_search + '. \n Try being a little more specific')
 												return
 
 											# TODO make this dynamically list the team and position based on year
@@ -302,7 +306,7 @@ class BaseballBot(discord.Client):
 
 											# Build the display string
 											discordFormattedString = '>>> I found ' + str(len(
-												playerSearchResultsList)) + ' players matching **' + displayNameToSearch + '** in ' + str(
+												playerSearchResultsList)) + ' players matching **' + display_name_to_search + '** in ' + str(
 												statYear) + '\n Enter the number for the player you want \n\n'
 
 											# Build the string to display the found players
@@ -328,44 +332,7 @@ class BaseballBot(discord.Client):
 											# Initialize a new PlayerInfo object
 											playerGenInfo = players.PlayerInfo()
 
-											'''
-											#Wait 10 seconds to get an answer
-											for wait in range(1, 10):
-												if playerGenInfo.player_id != '':
-													break;
-		
-												time.sleep(1)
-												#Get the last ten messages
-												messageList = await message.channel.history(limit=2).flatten()
-		
-												#if the name hasn't been selected yet
-												if playerGenInfo.player_id == '':
-													#loop through the past 2 messages
-													for history in range (0, len(messageList)):
-														#The user who requested the list responded
-														if messageList[history].author == message.author:
-															#check if the message was sent after the list of names
-															if messageList[history].created_at > messageTime:
-																#The user responded with a number
-																if messageList[history].content.isdigit():
-																	#The number is valid
-																	if int(messageList[history].content) <= len(playerSearchResultsList) and int(messageList[history].content) != 0:
-																		playerSelected = int(messageList[history].content)
-																		playerGenInfo = playerGenInfoList[playerSelected - 1]
-		
-																		#selectedNameToSearch = playerGenInfoList[playerSelected - 1].name_display_first_last
-																		break
-																	else:
-																		await message.channel.send('%s is not a valid number, start over' % str(messageList[history].content))
-																		return
-																else:
-																	await message.channel.send('%s is not a number, start over' % messageList[history].content)
-																	return
-											#if the loop completes without a selection inform the user
-											if 	playerGenInfo.player_id == '':
-													await message.channel.send('I\'m getting bored waiting for you, start over when you\'re ready.')
-													return
-											'''
+
 											playerSelectedIndex = await self.commonFunctions.wait_for_number(message,
 																											 len(
 																												 playerSearchResultsList),
@@ -393,7 +360,7 @@ class BaseballBot(discord.Client):
 
 										elif len(playerSearchResultsList) == 0:
 											await message.channel.send(
-												'I couldn\'t find any players with the name %s ' % displayNameToSearch)
+												'I couldn\'t find any players with the name %s in the year %s' % (display_name_to_search, statYear))
 											return
 
 										# print('DEBUG: PlayerID = %s' % playerGenInfo.player_id)
@@ -506,6 +473,7 @@ class BaseballBot(discord.Client):
 											return
 									except Exception as e:
 										print('DEBUG: Exception in PLAYER. Input was %s' % message.content)
+										print('DEBUG: Exception is %s' % e)
 
 								elif 'SCORE' in messageArray[1].upper():
 									try:
