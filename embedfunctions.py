@@ -129,7 +129,7 @@ class EmbedFunctions:
 		scheduledEmbed.add_field(name='Game Status:', value=game['status'], inline=False)
 
 		# scoreEmbed.add_field(name='NAME', value='VALUE', inline=False)
-		scheduledEmbed.add_field(name='Start Time:', value=gameTimeLocal.strftime('%I:%M%p' + ' ET'), inline=False)
+		scheduledEmbed.add_field(name='Start Time:', value=gameTimeLocal.strftime('%-I:%M%p' + ' ET'), inline=False)
 
 		# Check for returned values
 		if not homeProbable:
