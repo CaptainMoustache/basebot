@@ -93,7 +93,10 @@ class BaseballBot(discord.Client):
 
 	async def on_ready(self):
 		print('Logged on as', self.user)
-		await self.change_presence(activity=discord.Game(name='stay away from the Marlins'))
+		status_file = open("status.txt", "r")
+		status_text = status_file.read()
+		status_file.close()
+		await self.change_presence(activity=discord.Game(name=status_text))
 		await self.refresh_datafiles()
 
 	async def on_message(self, message):
