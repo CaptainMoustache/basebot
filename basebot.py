@@ -107,7 +107,6 @@ class BaseballBot(discord.Client):
 			else:
 				# Check if the guild has data
 				if self.guild_data_exists(message.guild.id):
-
 					# Need to clean this up :(
 					for guilds in self.guild_data_list:
 						if str(message.guild.id) == guilds['guildid']:
@@ -1541,7 +1540,7 @@ class BaseballBot(discord.Client):
 								  message.guild.text_channels[channel_index].name)
 					# If the loop exits without finding a channel ignore everything I guess :/
 					if not found_channel:
-						print('DEBUG: Guild has no channels basebot can send to')
+						print('DEBUG: Guild %s has no channels basebot can send to' % str(message.guild.id))
 						# Write a new guid data file and populate the meta data
 						jsonData = {}
 						jsonData['guildname'] = message.guild.name
