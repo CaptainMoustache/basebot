@@ -342,6 +342,8 @@ class EmbedFunctions:
 
 			scoringPlaysList = statsapi.game_scoring_play_data(game['game_id'])
 			scoringPlays = scoringPlaysList['plays']
+			print(*scoringPlays)
+
 
 			if len(scoringPlays) > 1:
 				# scoringPlaysList = scoringPlays.split('\n\n')
@@ -363,12 +365,18 @@ class EmbedFunctions:
 				if await self.commonFunctions.wait_for_response(message, 'more', 30):
 					# Create a new embed object to contain all scoring plays
 					allPlaysEmbed = discord.Embed()
-					allPlaysEmbed.title = '**All scoring plays**'
+					# allPlaysEmbed.title = '**All scoring plays**'
 					allPlaysEmbed.type = 'rich'
 					allPlaysEmbed.color = discord.Color.dark_blue()
-					for plays in scoringPlays:
-						allPlaysEmbed.add_field(name=str(scoringPlays.index(plays) + 1),
-												value=plays['result']['description'], inline=False)
+					scoring_plays_string = ""
+					for index, plays in enumerate(scoringPlays):
+						scoring_plays_string = scoring_plays_string + str(index + 1) + '. ' + plays['result']['description'] + '\n\n'
+					allPlaysEmbed.add_field(name='**All scoring plays**',
+											value=scoring_plays_string, inline=False)
+
+					# for plays in scoringPlays:
+					# 	allPlaysEmbed.add_field(name=str(scoringPlays.index(plays) + 1),
+					# 							value=plays['result']['description'], inline=False)
 					await message.channel.send(embed=allPlaysEmbed, tts=False)
 					return
 				else:
