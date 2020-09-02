@@ -515,7 +515,7 @@ class EmbedFunctions:
 							value='Show the current days hockey games. NOTE: This will move to a new bot soon',
 							inline=False)
 		helpEmbed.add_field(name='10. basebot listen `channelname`',
-							value='Listen to commands on the given text channel',
+							value='Listen to commands on the given text channel. Use `all` to listen to all available channels',
 							inline=False)
 		helpEmbed.add_field(name='11. basebot ignore `channelname`',
 							value='Ignore commands on the given text channel',

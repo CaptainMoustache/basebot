@@ -15,6 +15,6 @@ List of Commands:
 7. basebot schedule - get any scheduled games for the current day
 8. basebot playoffs - get a summary of the current playoff series
 9. basebot hockey - get a list of today's hockey games, because reasons
-10. basebot listen _**channelname**_ - listen for commands on the given text channel
+10. basebot listen _**channelname**_ - listen for commands on the given text channel, Use _**all**_ to listen to all available channels
 11. basebot ignore _**channelname**_ - ignore a given text channel
 12. basebot listchannels - list all channels basebot is currently listening to

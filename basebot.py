@@ -1217,29 +1217,74 @@ class BaseballBot(discord.Client):
 									try:
 										saved_guild_data = await self.refresh_channel_names(message.guild,
 																							saved_guild_data)
-										newChannelName = messageArray[2]
-										newChannel = None
-										# get the channel id
-										for guildTextChannels in message.guild.text_channels:
-											if newChannelName == guildTextChannels.name:
-												newChannel = guildTextChannels
+										# Listen to all channels
+										if messageArray[2].upper() != "ALL":
+											newChannelName = messageArray[2]
+											newChannel = None
+											# get the channel id
+											for guildTextChannels in message.guild.text_channels:
+												if newChannelName == guildTextChannels.name:
+													newChannel = guildTextChannels
 
-										# If the channel name is a match then add it to the subscribed channels
-										if newChannel is not None:
-											# Check that it doesn't already exist
-											if IdExists(newChannel.id, saved_guild_data['subscribedChannels']):
-												await message.channel.send(
-													'I\'m already listening to ' + newChannelName)
+											# If the channel name is a match then add it to the subscribed channels
+											if newChannel is not None:
+												# Check that it doesn't already exist
+												if IdExists(newChannel.id, saved_guild_data['subscribedChannels']):
+													await message.channel.send(
+														'I\'m already listening to ' + newChannelName)
+												else:
+													saved_guild_data['subscribedChannels'].append({
+														'id': str(newChannel.id),
+														'name': newChannel.name})
+													self.write_data_file(self.dataFilePath + str(message.guild.id),
+																		 saved_guild_data)
+													await message.channel.send('I will now listen to ' + newChannelName)
 											else:
-												saved_guild_data['subscribedChannels'].append({
-													'id': str(newChannel.id),
-													'name': newChannel.name})
-												self.write_data_file(self.dataFilePath + str(message.guild.id),
-																	 saved_guild_data)
-												await message.channel.send('I will now listen to ' + newChannelName)
-										else:
-											await message.channel.send(
-												'Sorry I couldn\'t find the channel ' + newChannelName)
+												await message.channel.send(
+													'Sorry I couldn\'t find the channel ' + newChannelName)
+										elif messageArray[2].upper() == 'ALL':
+											# Check for a channel named 'ALL'
+											found_all_channel = False
+											for guildTextChannels in message.guild.text_channels:
+												if 'ALL' == guildTextChannels.name.upper():
+													found_all_channel = True
+													newChannel = guildTextChannels
+
+													if newChannel is not None:
+														# Check that it doesn't already exist
+														if IdExists(newChannel.id,
+																	saved_guild_data['subscribedChannels']):
+															await message.channel.send(
+																'I\'m already listening to ' + newChannel.name)
+														else:
+															saved_guild_data['subscribedChannels'].append({
+																'id': str(newChannel.id),
+																'name': newChannel.name})
+															self.write_data_file(
+																self.dataFilePath + str(message.guild.id),
+																saved_guild_data)
+															await message.channel.send(
+																'I will now listen to ' + newChannel.name)
+
+											if found_all_channel is False:
+												# Subscribe to all channels
+												newChannel = None
+
+												for guildTextChannels in message.guild.text_channels:
+													# Check that it doesn't already exist
+													if IdExists(guildTextChannels.id, saved_guild_data['subscribedChannels']):
+														continue
+													else:
+														saved_guild_data['subscribedChannels'].append({
+															'id': str(guildTextChannels.id),
+															'name': guildTextChannels.name})
+														self.write_data_file(self.dataFilePath + str(message.guild.id),
+																			 saved_guild_data)
+												await message.channel.send(
+													'I will now listen to all channels that I can')
+
+
+
 									except Exception as e:
 										print('DEBUG: Exception in LISTEN. Input was %s' % message.content)
 										print('DEBUG: Exception was %s' % e)
