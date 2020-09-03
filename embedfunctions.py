@@ -342,8 +342,13 @@ class EmbedFunctions:
 
 			scoringPlaysList = statsapi.game_scoring_play_data(game['game_id'])
 			scoringPlays = scoringPlaysList['plays']
-			print(*scoringPlays)
+			#print(*scoringPlays)
 
+			'''
+			{'result': {'description': 'Mike Yastrzemski homers (8) on a fly ball to right field.  ', 
+			'awayScore': 1, 'homeScore': 0}, 'about': {'atBatIndex': 1, 'halfInning': 'top', 'inning': 1, 
+			'endTime': '2020-09-02T19:14:09.256Z'}, 'atBatIndex': 1} 
+			'''
 
 			if len(scoringPlays) > 1:
 				# scoringPlaysList = scoringPlays.split('\n\n')
@@ -405,7 +410,6 @@ class EmbedFunctions:
 								 value='Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + ' Status: ' + game['status'], inline=False)
 
 		await message.channel.send(embed=genricGameEmbed)
-
 
 	async def playoff_Series_Embed(self, series, message):
 		# Create a list of the games in the series

@@ -1382,8 +1382,8 @@ class BaseballBot(discord.Client):
 										parameters = {'leagueId': '103'}
 										seriesStandingsDict = statsapi.get(endpoint='schedule_postseason_series',
 																		   params=parameters)
-										# print('DEBUG: seriesStandingsDict:')
-										# print(seriesStandingsDict)
+										print('DEBUG: seriesStandingsDict:')
+										print(seriesStandingsDict)
 
 										'''
 										[{'name': 'regularSeason', 'description': 'Regular Season Standings'}, {'name': 'wildCard', 'description': 'Wild card standings'}, {'name': 'divisionLeaders', 'description': 'Division Leader standings'}, {'name': 'wildCardWithLeaders', 'description': 'Wild card standings with Division Leaders'}, {'name': 'firstHalf', 'description': 'First half standings.  Only valid for leagues with a split season.'}, {'name': 'secondHalf', 'description': 'Second half standings. Only valid for leagues with a split season.'}, {'name': 'springTraining', 'description': 'Spring Training Standings'}, {'name': 'postseason', 'description': 'Postseason Standings'}, {'name': 'byDivision', 'description': 'Standings by Division'}, {'name': 'byConference', 'description': 'Standings by Conference'}, {'name': 'byLeague', 'description': 'Standings by League'}, {'name': 'byOrganization', 'description': 'Standing by Organization'}]
