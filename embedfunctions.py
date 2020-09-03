@@ -350,7 +350,7 @@ class EmbedFunctions:
 			'endTime': '2020-09-02T19:14:09.256Z'}, 'atBatIndex': 1} 
 			'''
 
-			if len(scoringPlays) > 1:
+			if len(scoringPlays) > 0:
 				# scoringPlaysList = scoringPlays.split('\n\n')
 				# for plays in scoringPlaysList:
 				#	scoreEmbed.add_field(name=str(scoringPlaysList.index(plays) + 1), value=plays, inline=False)
@@ -358,14 +358,14 @@ class EmbedFunctions:
 				# Display only the latest scoring play
 				scoreEmbed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'],
 									 inline=False)
-				if len(scoringPlays) > 2:
+				if len(scoringPlays) > 1:
 					# Set the footer to inform the user about additional plays
 					scoreEmbed.set_footer(text='Reply with \'more\' in 30 seconds to see all scoring plays')
 
 			# Send the message
 			await message.channel.send(embed=scoreEmbed, tts=False)
 
-			if len(scoringPlays) > 2:
+			if len(scoringPlays) > 1:
 				# Wait for the user response
 				if await self.commonFunctions.wait_for_response(message, 'more', 30):
 					# Create a new embed object to contain all scoring plays
