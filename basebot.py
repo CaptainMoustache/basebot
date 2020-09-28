@@ -1563,10 +1563,6 @@ class BaseballBot(discord.Client):
 																  'schedules, scores, standings and more. '
 																  '\nRight now I will only listen to this channel. '
 																  '\nFor a list of commands, type <basebot help>')
-
-							# await message.guild.text_channels[channel_index].send('Right now I will only listen to this channel')
-							# await message.guild.text_channels[channel_index].send('For a list of commands, type <basebot help>')
-							# await self.embedFunctions.helpEmbed(message)
 							found_channel = True
 
 							# Write a new guid data file and populate the meta data
@@ -1586,11 +1582,11 @@ class BaseballBot(discord.Client):
 							break
 						except discord.Forbidden:
 							# Unable to send message in channel, try the next one
-							print('DEBUG: Unable to send message to %s, trying the next channel' %
-								  message.guild.text_channels[channel_index].name)
+							pass
+
 					# If the loop exits without finding a channel ignore everything I guess :/
 					if not found_channel:
-						print('DEBUG: Guild %s has no channels basebot can send to' % str(message.guild.id))
+						print('DEBUG: Guild %s | %s has no channels basebot can send to' % str(message.guild.id, message.guild.name))
 						# Write a new guid data file and populate the meta data
 						jsonData = {}
 						jsonData['guildname'] = message.guild.name
