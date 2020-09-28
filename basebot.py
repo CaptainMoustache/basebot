@@ -82,7 +82,12 @@ class BaseballBot(discord.Client):
 	@staticmethod
 	def read_data_file(filename, filepath):
 		with open(filepath + filename) as json_file:
-			return json.load(json_file)
+			try:
+				return json.load(json_file)
+			except ValueError as e:
+				print('DEBUG: ValueError loading datafile ' + filename)
+			except:
+				print('DEBUG Exception loading datafile ' + filename)
 
 	@staticmethod
 	def write_data_file(filename, jsonpayload):
