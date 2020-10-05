@@ -707,6 +707,7 @@ class BaseballBot(discord.Client):
 									except Exception as e:
 										print('DEBUG: Exception in SCORE. Input was %s' % message.content)
 										print('DEBUG: Exception was %s' % e)
+										await message.channel.send('Sorry, something went wrong :( %s', e)
 
 								elif 'HIGHLIGHTS' in messageArray[1].upper():
 									try:
@@ -1383,13 +1384,15 @@ class BaseballBot(discord.Client):
 
 								elif 'PLAYOFFS' in messageArray[1].upper():
 									try:
+										# await message.channel.send('The playoffs command is currently being updated for the new playoff format of all the teams.')
 										# required parameter but it doesn't seem to matter which league is specified
 										parameters = {'leagueId': '103'}
 										seriesStandingsDict = statsapi.get(endpoint='schedule_postseason_series',
 																		   params=parameters)
-										print('DEBUG: seriesStandingsDict:')
-										print(seriesStandingsDict)
+										#print('DEBUG: seriesStandingsDict:')
+										#print(seriesStandingsDict)
 
+										print('DEBUG: Got the playoff series')
 										'''
 										[{'name': 'regularSeason', 'description': 'Regular Season Standings'}, {'name': 'wildCard', 'description': 'Wild card standings'}, {'name': 'divisionLeaders', 'description': 'Division Leader standings'}, {'name': 'wildCardWithLeaders', 'description': 'Wild card standings with Division Leaders'}, {'name': 'firstHalf', 'description': 'First half standings.  Only valid for leagues with a split season.'}, {'name': 'secondHalf', 'description': 'Second half standings. Only valid for leagues with a split season.'}, {'name': 'springTraining', 'description': 'Spring Training Standings'}, {'name': 'postseason', 'description': 'Postseason Standings'}, {'name': 'byDivision', 'description': 'Standings by Division'}, {'name': 'byConference', 'description': 'Standings by Conference'}, {'name': 'byLeague', 'description': 'Standings by League'}, {'name': 'byOrganization', 'description': 'Standing by Organization'}]
 		
@@ -1398,6 +1401,26 @@ class BaseballBot(discord.Client):
 										# parameters = {'leagueId':'103', 'standingsTypes':'postSeason'}
 										# playoffStandings = statsapi.get(endpoint='standings', params=parameters)
 										# print(playoffStandings)
+
+										alwildCard = None
+										alwildCardA = None
+										alwildCardB = None
+										alwildCardC = None
+										alwildCardD = None
+										aldsA = None
+										aldsB = None
+										alcs = None
+
+										nlwildCard = None
+										nlwildCardA = None
+										nlwildCardB = None
+										nlwildCardC = None
+										nlwildCardD = None
+										nldsA = None
+										nldsB = None
+										nlcs = None
+
+										worldSeries = None
 
 										for seriesFound in seriesStandingsDict['series']:
 											# print('DEBUG: Series ID = %s' % seriesFound['series']['id'])
@@ -1415,10 +1438,46 @@ class BaseballBot(discord.Client):
 												nlcs = seriesFound
 											elif seriesFound['series']['id'] == 'WS':
 												worldSeries = seriesFound
+											# Leaving these in for now if we return to this format in 2021
 											elif seriesFound['series']['id'] == 'ALWC':
 												alwildCard = seriesFound
 											elif seriesFound['series']['id'] == 'NLWC':
 												nlwildCard = seriesFound
+											# 16 teams in the playoffs for 2020!
+											elif seriesFound['series']['id'] == 'ALWC \'A\'':
+												alwildCardA = seriesFound
+											elif seriesFound['series']['id'] == 'ALWC \'B\'':
+												alwildCardB = seriesFound
+											elif seriesFound['series']['id'] == 'ALWC \'C\'':
+												alwildCardC = seriesFound
+											elif seriesFound['series']['id'] == 'ALWC \'D\'':
+												alwildCardD = seriesFound
+											elif seriesFound['series']['id'] == 'NLWC \'A\'':
+												nlwildCardA = seriesFound
+											elif seriesFound['series']['id'] == 'NLWC \'B\'':
+												nlwildCardB = seriesFound
+											elif seriesFound['series']['id'] == 'NLWC \'C\'':
+												nlwildCardC = seriesFound
+											elif seriesFound['series']['id'] == 'NLWC \'D\'':
+												nlwildCardD = seriesFound
+
+										# print('DEBUG: Completed series eval')
+										# print('DEBUG aldsA = {}'.format(aldsA))
+										# print('DEBUG aldsB = {}'.format(aldsB))
+										# print('DEBUG nldsA = {}'.format(nldsA))
+										# print('DEBUG nldsB = {}'.format(nldsB))
+										# print('DEBUG alcs = {}'.format(alcs))
+										# print('DEBUG nlcs = {}'.format(nlcs))
+										# print('DEBUG worldSeries = {}'.format(worldSeries))
+										# print('DEBUG alwildCardA = {}'.format(alwildCardA))
+										# print('DEBUG alwildCardB = {}'.format(alwildCardB))
+										# print('DEBUG alwildCardC = {}'.format(alwildCardC))
+										# print('DEBUG alwildCardD = {}'.format(alwildCardD))
+										# print('DEBUG nlwildCardA = {}'.format(nlwildCardA))
+										# print('DEBUG nlwildCardB = {}'.format(nlwildCardB))
+										# print('DEBUG nlwildCardC = {}'.format(nlwildCardC))
+										# print('DEBUG nlwildCardD = {}'.format(nlwildCardD))
+
 										'''
 										#Series Lists
 										aldsA = seriesStandingsDict['series'][0]
@@ -1442,16 +1501,50 @@ class BaseballBot(discord.Client):
 										'''
 
 										# Get the state of all AL series
-										alwildCardComplete = await self.commonFunctions.playoffSeriesOver(alwildCard)
-										aldsAComplete = await self.commonFunctions.playoffSeriesOver(aldsA)
-										aldsBComplete = await self.commonFunctions.playoffSeriesOver(aldsB)
-										alcsComplete = await self.commonFunctions.playoffSeriesOver(alcs)
+										if alwildCard is not None:
+											alwildCardComplete = await self.commonFunctions.playoffSeriesOver(alwildCard)
+										if alwildCardA is not None:
+
+											alwildCard_A_Complete = await self.commonFunctions.playoffSeriesOver(
+												alwildCardA)
+										if alwildCardB is not None:
+											alwildCard_B_Complete = await self.commonFunctions.playoffSeriesOver(
+												alwildCardB)
+										if alwildCardC is not None:
+											alwildCard_C_Complete = await self.commonFunctions.playoffSeriesOver(
+												alwildCardC)
+										if alwildCardD is not None:
+											alwildCard_D_Complete = await self.commonFunctions.playoffSeriesOver(
+												alwildCardD)
+										if aldsA is not None:
+											aldsAComplete = await self.commonFunctions.playoffSeriesOver(aldsA)
+										if aldsB is not None:
+											aldsBComplete = await self.commonFunctions.playoffSeriesOver(aldsB)
+										if alcs is not None:
+											alcsComplete = await self.commonFunctions.playoffSeriesOver(alcs)
 
 										# Get the state of all NL series
-										nlwildCardComplete = await self.commonFunctions.playoffSeriesOver(nlwildCard)
-										nldsAComplete = await self.commonFunctions.playoffSeriesOver(nldsA)
-										nldsBComplete = await self.commonFunctions.playoffSeriesOver(nldsB)
-										nlcsComplete = await self.commonFunctions.playoffSeriesOver(nlcs)
+										if nlwildCard is not None:
+											nlwildCardComplete = await self.commonFunctions.playoffSeriesOver(nlwildCard)
+										if nlwildCardA is not None:
+											nlwildCard_A_Complete = await self.commonFunctions.playoffSeriesOver(
+												nlwildCardA)
+										if nlwildCardB is not None:
+											nlwildCard_B_Complete = await self.commonFunctions.playoffSeriesOver(
+												nlwildCardB)
+										if nlwildCardC is not None:
+											nlwildCard_C_Complete = await self.commonFunctions.playoffSeriesOver(
+												nlwildCardC)
+										if nlwildCardD is not None:
+											nlwildCard_D_Complete = await self.commonFunctions.playoffSeriesOver(
+												nlwildCardD)
+										if nldsA is not None:
+											nldsAComplete = await self.commonFunctions.playoffSeriesOver(nldsA)
+										if nldsB is not None:
+											nldsBComplete = await self.commonFunctions.playoffSeriesOver(nldsB)
+										if nlcs is not None:
+											nlcsComplete = await self.commonFunctions.playoffSeriesOver(nlcs)
+
 
 										if alcsComplete and nlcsComplete:
 											await self.embedFunctions.playoff_Series_Embed(worldSeries, message)
@@ -1470,13 +1563,49 @@ class BaseballBot(discord.Client):
 												await self.embedFunctions.playoff_Series_Embed(nldsA, message)
 												await self.embedFunctions.playoff_Series_Embed(nldsB, message)
 
-										# If the wild card game is over, don't display it
-										if not alwildCardComplete:
+										# If the wild card game exists and is over, don't display it
+										if alwildCard is not None and not alwildCardComplete:
 											await self.embedFunctions.playoff_Series_Embed(alwildCard, message)
 
+										# If the wild card game exists and is over, don't display it
+										if alwildCardA is not None and not alwildCard_A_Complete:
+											await self.embedFunctions.playoff_Series_Embed(alwildCardA, message)
+
+										# If the wild card game exists and is over, don't display it
+										if alwildCardB is not None and not alwildCard_B_Complete:
+											await self.embedFunctions.playoff_Series_Embed(alwildCardB, message)
+
+										# If the wild card game exists and is over, don't display it
+										if alwildCardC is not None and not alwildCard_C_Complete:
+											await self.embedFunctions.playoff_Series_Embed(alwildCardC,
+																						   message)
+
+										# If the wild card game exists and is over, don't display it
+										if alwildCardD is not None and not alwildCard_D_Complete:
+											await self.embedFunctions.playoff_Series_Embed(alwildCardD,
+																						   message)
+
 										# If the wild card game is over, don't display it
-										if not nlwildCardComplete:
+										if nlwildCard is not None and not nlwildCardComplete:
 											await self.embedFunctions.playoff_Series_Embed(nlwildCard, message)
+
+										# If the wild card game exists and is over, don't display it
+										if nlwildCardA is not None and not nlwildCard_A_Complete:
+											await self.embedFunctions.playoff_Series_Embed(nlwildCardA, message)
+
+										# If the wild card game exists and is over, don't display it
+										if nlwildCardB is not None and not nlwildCard_B_Complete:
+											await self.embedFunctions.playoff_Series_Embed(nlwildCardB, message)
+
+										# If the wild card game exists and is over, don't display it
+										if nlwildCardC is not None and not nlwildCard_C_Complete:
+											await self.embedFunctions.playoff_Series_Embed(nlwildCardC,
+																						   message)
+
+										# If the wild card game exists and is over, don't display it
+										if nlwildCardD is not None and not nlwildCard_D_Complete:
+											await self.embedFunctions.playoff_Series_Embed(nlwildCardD,
+																						   message)
 
 										# print(statsapi.get('standings',{'leagueId':'103','sportId':1,'hydrate':'hydrations','fields':'hydrations'}))
 
@@ -1602,7 +1731,8 @@ class BaseballBot(discord.Client):
 						self.write_data_file(self.dataFilePath + str(message.guild.id), jsonData)
 						await self.refresh_datafiles()
 		except Exception as e:
-			print('DEBUG: Error in on_message. Input was %s' % message.content)
+			print('DEBUG: Error in on_message. Input was \'{}\''.format(message.content))
+			print('DEBUG: Message was from guild: {} | \'{}\' '.format(str(message.guild.id), message.guild.name))
 
 
 def IdExists(channel_id, channel_list):
