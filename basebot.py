@@ -1359,12 +1359,12 @@ class BaseballBot(discord.Client):
 									# print('DEBUG: game_winProbability')
 									# print('DEBUG: %s', statsapi.notes('game_winProbability'))
 
-									# print('DEBUG: game_contextMetrics')
-									# print('DEBUG: %s', statsapi.notes('game_contextMetrics'))
-									logging.info('%s called NOTES' % message.author.display_name)
-									print('DEBUG: Capturing Notes')
-									print('DEBUG: standings')
-									print('DEBUG: %s', statsapi.notes('status'))
+									print('DEBUG: game_contextMetrics')
+									print('DEBUG: %s', statsapi.notes('game_contextMetrics'))
+									#logging.info('%s called NOTES' % message.author.display_name)
+									#print('DEBUG: Capturing Notes')
+									#print('DEBUG: standings')
+									#print('DEBUG: %s', statsapi.notes('status'))
 
 								# print('DEBUG: game_contextMetrics')
 								# parameters = {
