@@ -1359,8 +1359,12 @@ class BaseballBot(discord.Client):
 									# print('DEBUG: game_winProbability')
 									# print('DEBUG: %s', statsapi.notes('game_winProbability'))
 
+									contextParams = {'gamePk': 635901}
+									print(contextParams)
+									game_contextMetrics = statsapi.get(endpoint='game_contextMetrics', params=contextParams)
+
 									print('DEBUG: game_contextMetrics')
-									print('DEBUG: %s', statsapi.notes('game_contextMetrics'))
+									print('DEBUG: %s', game_contextMetrics)
 									#logging.info('%s called NOTES' % message.author.display_name)
 									#print('DEBUG: Capturing Notes')
 									#print('DEBUG: standings')
