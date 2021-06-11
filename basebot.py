@@ -1310,6 +1310,13 @@ class BaseballBot(discord.Client):
 										if remChannel is not None:
 											# Check that it exist
 											if IdExists(remChannel.id, saved_guild_data['subscribedChannels']):
+												#Check before removing the only channel the bot is currently listening to
+												if len(saved_guild_data['subscribedChannels']) == 1:
+													await message.channel.send(
+														'Sorry ' + channelToRemoveName + ' is the only channel I\'m '
+																						 'listening to right now. I '
+																						 'can\'t ignore it')
+													return
 												# Iterate through the objects in the JSON and pop (remove)
 												# the obj once we find it.
 												for i in range(len(saved_guild_data['subscribedChannels'])):
