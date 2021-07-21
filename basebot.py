@@ -864,23 +864,23 @@ class BaseballBot(discord.Client):
 										# testEmbed.colour =
 										standingsEmbed.color = discord.Color.dark_blue()
 										standingsEmbed.add_field(name='**AL East**',
-																 value='```' + alStandingsArray[1] + '```',
+																 value='```' + alStandingsArray[0] + '```',
 																 inline=True)
 										standingsEmbed.add_field(name='**AL Central**',
-																 value='```' + alStandingsArray[2] + '```',
+																 value='```' + alStandingsArray[1] + '```',
 																 inline=False)
 										standingsEmbed.add_field(name='**AL West**',
-																 value='```' + alStandingsArray[0] + '```',
+																 value='```' + alStandingsArray[2] + '```',
 																 inline=False)
 
 										standingsEmbed.add_field(name='**NL East**',
-																 value='```' + nlStandingsArray[2] + '```',
-																 inline=False)
-										standingsEmbed.add_field(name='**NL Central**',
 																 value='```' + nlStandingsArray[0] + '```',
 																 inline=False)
-										standingsEmbed.add_field(name='**NL West**',
+										standingsEmbed.add_field(name='**NL Central**',
 																 value='```' + nlStandingsArray[1] + '```',
+																 inline=False)
+										standingsEmbed.add_field(name='**NL West**',
+																 value='```' + nlStandingsArray[2] + '```',
 																 inline=False)
 
 										await message.channel.send(embed=standingsEmbed)
