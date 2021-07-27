@@ -377,7 +377,7 @@ class BaseballBot(discord.Client):
 											playerInfoHeader = {'Content-Type': 'application/json'}
 											playerInfoRequest = requests.get(playerInfoURL, playerInfoHeader)
 											playerInfoJson = json.loads(playerInfoRequest.text)
-
+											#print('DEBUG: playerInfoRequest = '+ playerInfoRequest.text)
 											# Parse the json info and populate all the properties
 											playerGenInfo.ParseJson(playerInfoJson)
 
@@ -417,7 +417,7 @@ class BaseballBot(discord.Client):
 											playerEmbed.type = 'rich'
 											# testEmbed.colour =
 											playerEmbed.color = discord.Color.dark_blue()
-
+											#print('DEBUG: playerStatsJson = ' + playerStatsJson)
 											for index in range(0, seasonBattingInfo.totalSize):
 												valueString = ' Batting Avg: %s\n' \
 															  ' HomeRuns: %s\n' \
@@ -495,8 +495,15 @@ class BaseballBot(discord.Client):
 											'''
 											return
 									except Exception as e:
+										exception_type, exception_object, exception_traceback = sys.exc_info()
+										filename = exception_traceback.tb_frame.f_code.co_filename
+										line_number = exception_traceback.tb_lineno
+										print("Exception type: ", exception_type)
+										print("File name: ", filename)
+										print("Line number: ", line_number)
 										print('DEBUG: Exception in PLAYER. Input was %s' % message.content)
 										print('DEBUG: Exception is %s' % e)
+										await message.channel.send("Sorry, I've encountered an error :(")
 
 								elif 'SCORE' in messageArray[1].upper():
 									try:
