@@ -421,6 +421,8 @@ class BaseballBot(discord.Client):
 																							 group="[hitting]",
 																							 type="season")
 
+											#['stats'] is a list of stats broken up by team
+											#If the list is empty the player has no stats
 											if len(newSeasonBattingInfo['stats']) < 1:
 												await message.channel.send(
 													'%s doesn\'t appear to have any stats for %s' % (
@@ -435,6 +437,10 @@ class BaseballBot(discord.Client):
 											# testEmbed.colour =
 											playerEmbed.color = discord.Color.dark_blue()
 											#print('DEBUG: playerStatsJson = ' + playerStatsJson)
+											#Loop through each item in the stats list.
+											#TODO identify the team associated with each item in the list
+											#This would allow mid-season trade stats to be identified
+											#For now just list each without a team label
 											for index in range(0, len(newSeasonBattingInfo['stats'])):
 												valueString = ' Batting Avg: %s\n' \
 															  ' HomeRuns: %s\n' \
