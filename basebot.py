@@ -392,6 +392,8 @@ class BaseballBot(discord.Client):
 										if playerGenInfo.primary_position_txt != 'P':
 											# Get their stats
 											# Right now this is hardcoded for the regular season
+
+											"""
 											playerStatsURL = 'http://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id=\'mlb\'&game_type=\'R\'&season=\'' + str(
 												statYear) + '\'&player_id=\'' + playerGenInfo.player_id + '\''
 											playerStatsHeader = {'Content-Type': 'application/json'}
@@ -405,10 +407,25 @@ class BaseballBot(discord.Client):
 														playerGenInfo.name_display_first_last, statYear))
 												return
 
+											
+
+
 											# Create a new SeasonBattingStats object
 											seasonBattingInfo = players.SeasonBattingStats()
 											# Parse the season batting stats
 											seasonBattingInfo.ParseJson(playerStatsJson)
+											
+											"""
+											# Pulling from statsapi for now
+											newSeasonBattingInfo = statsapi.player_stat_data(playerGenInfo.player_id,
+																							 group="[hitting]",
+																							 type="season")
+
+											if len(newSeasonBattingInfo['stats']) < 1:
+												await message.channel.send(
+													'%s doesn\'t appear to have any stats for %s' % (
+														playerGenInfo.name_display_first_last, statYear))
+												return
 
 											# Create the embed object
 											playerEmbed = discord.Embed()
@@ -418,18 +435,18 @@ class BaseballBot(discord.Client):
 											# testEmbed.colour =
 											playerEmbed.color = discord.Color.dark_blue()
 											#print('DEBUG: playerStatsJson = ' + playerStatsJson)
-											for index in range(0, seasonBattingInfo.totalSize):
+											for index in range(0, len(newSeasonBattingInfo['stats'])):
 												valueString = ' Batting Avg: %s\n' \
 															  ' HomeRuns: %s\n' \
 															  ' Slugging: %s\n' \
 															  ' OPS: %s\n' \
 															  ' RBI: %s' % (
-																  seasonBattingInfo.avg[index],
-																  seasonBattingInfo.hr[index],
-																  seasonBattingInfo.slg[index],
-																  seasonBattingInfo.ops[index],
-																  seasonBattingInfo.rbi[index])
-												playerEmbed.add_field(name=seasonBattingInfo.team_abbrev[index],
+																  newSeasonBattingInfo['stats'][index]['stats']['avg'],
+																  newSeasonBattingInfo['stats'][index]['stats']['homeRuns'],
+																  newSeasonBattingInfo['stats'][index]['stats']['slg'],
+																  newSeasonBattingInfo['stats'][index]['stats']['ops'],
+																  newSeasonBattingInfo['stats'][index]['stats']['rbi'])
+												playerEmbed.add_field(name="Hitting Stats",
 																	  value=valueString)
 
 											await message.channel.send(embed=playerEmbed)
