@@ -417,13 +417,40 @@ class BaseballBot(discord.Client):
 											
 											"""
 											# Pulling from statsapi for now
-											newSeasonBattingInfo = statsapi.player_stat_data(playerGenInfo.player_id,
-																							 group="[hitting]",
-																							 type="season")
+											"""
+											#If we aren't looking at the current year, pull all season stats
+											if statYear is not now.year:
+												statsLookupReturn = statsapi.player_stat_data(
+													playerGenInfo.player_id,
+													group="[hitting]",
+													type="yearByYear")
+												#Loop through all returned years
+												statsLookupReturn = statsLookupReturn['stats'][0]['season'] == str(statYear)
+											else:
+												statsLookupReturn = statsapi.player_stat_data(
+													playerGenInfo.player_id,
+													group="[hitting]",
+													type="yearByYear")
+												statsLookupReturn = statsLookupReturn['stats']['season'] == str(
+													now.year)
+											"""
+											statsLookup = statsapi.player_stat_data(
+													playerGenInfo.player_id,
+													group="[hitting]",
+													type="yearByYear")
+
+											statsLookupReturn = None
+
+											#Loop through and find the season the user is looking for
+											for stats_list_data in statsLookup['stats']:
+												if stats_list_data['season'] == str(statYear):
+													statsLookupReturn = stats_list_data
+
+
 
 											#['stats'] is a list of stats broken up by team
 											#If the list is empty the player has no stats
-											if len(newSeasonBattingInfo['stats']) < 1:
+											if statsLookupReturn is None:
 												await message.channel.send(
 													'%s doesn\'t appear to have any stats for %s' % (
 														playerGenInfo.name_display_first_last, statYear))
@@ -441,19 +468,23 @@ class BaseballBot(discord.Client):
 											#TODO identify the team associated with each item in the list
 											#This would allow mid-season trade stats to be identified
 											#For now just list each without a team label
-											for index in range(0, len(newSeasonBattingInfo['stats'])):
-												valueString = ' Batting Avg: %s\n' \
-															  ' HomeRuns: %s\n' \
-															  ' Slugging: %s\n' \
-															  ' OPS: %s\n' \
-															  ' RBI: %s' % (
-																  newSeasonBattingInfo['stats'][index]['stats']['avg'],
-																  newSeasonBattingInfo['stats'][index]['stats']['homeRuns'],
-																  newSeasonBattingInfo['stats'][index]['stats']['slg'],
-																  newSeasonBattingInfo['stats'][index]['stats']['ops'],
-																  newSeasonBattingInfo['stats'][index]['stats']['rbi'])
-												playerEmbed.add_field(name="Hitting Stats",
-																	  value=valueString)
+
+											#Patch to get some functionality back will only print the first result
+
+
+											#for index in range(0, len(statsLookupReturn['stats'])):
+											valueString = ' Batting Avg: %s\n' \
+														  ' HomeRuns: %s\n' \
+														  ' Slugging: %s\n' \
+														  ' OPS: %s\n' \
+														  ' RBI: %s' % (
+															  statsLookupReturn['stats']['avg'],
+															  statsLookupReturn['stats']['homeRuns'],
+															  statsLookupReturn['stats']['slg'],
+															  statsLookupReturn['stats']['ops'],
+															  statsLookupReturn['stats']['rbi'])
+											playerEmbed.add_field(name="Hitting Stats",
+																  value=valueString)
 
 											await message.channel.send(embed=playerEmbed)
 											'''
