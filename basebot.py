@@ -569,26 +569,26 @@ class BaseballBot(discord.Client):
 												"I need a team to check the score for, try again")
 											return
 
-										# Check if there was a date provided, if not use the current date
+										team_selected = None
+										team_to_search = ''
+
+										team_to_search = messageArray[2]
+
 										if len(messageArray) > 3:
-											targetDateTime = dateparser.parse(messageArray[3])
-											if targetDateTime is not None:
-												await message.channel.send('DEBUG: Getting scores for %s' % targetDateTime.strftime('%Y%m%d'))
-											else:
-												await message.channel.send("Sorry, I could not figure out the date ""\"%s\"" % messageArray[3])
-												return
-										else:
-											# Set the target day as today
-											targetDateTime = datetime.now()
+											for message_data in range(3, len(messageArray)):
+												team_to_search = team_to_search + ' ' + messageArray[message_data]
 
 										# Get the team
-										teamSelected = await self.commonFunctions.get_team(messageArray[2], message)
+										teamSelected = await self.commonFunctions.get_team(team_to_search, message)
+
+										# Set the target day as today
+										targetDateTime = datetime.now()
 
 										# Make sure a team was returned
 										if teamSelected is None:
-											await message.channel.send('I couldn\'t find a team with the name %s. Please try again.' % messageArray[2])
+											await message.channel.send('I couldn\'t find a team with the name %s. Please try again.' % team_to_search)
 											print('DEBUG: Failed to get the team in time in SCORE function')
-											print('DEBUG: Input was: ' + messageArray[2])
+											print('DEBUG: Input was: ' + team_to_search)
 											print('DEBUG: Message content was: ' + message.content)
 											return
 
