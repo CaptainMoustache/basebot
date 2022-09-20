@@ -1,6 +1,10 @@
 # basebot
 A baseball stats bot for discord
 
+9/20/22 - Discord has updated how it requires the handling of messages and message content and Basebot does not adhear to these new requirements.
+Basebot will cease operations on 10/1/2022.
+I'll look into a possible rewrite in the offseason but there is a slim chance of that happening.
+It's been fun :)
 
 This is a work in progress discord bot for getting baseball related information in discord.
 
